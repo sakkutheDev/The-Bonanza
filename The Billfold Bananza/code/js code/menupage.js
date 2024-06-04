@@ -249,7 +249,7 @@ const addCartToHTML = () => {
 
     // Set the content of the empty cart div
     emptyCartDiv.innerHTML = `
-    <img src="/code/images/card.png" class="empty-cart-icon">
+    <img src="./images/card.png" class="empty-cart-icon">
     `;
 
     // Append the empty cart div to the appropriate container (replace `listCartHTML` with your actual container)

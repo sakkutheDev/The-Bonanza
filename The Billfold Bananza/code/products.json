@@ -5,112 +5,112 @@
         "c_id":1,
         "name":"Fry'd Chicken with cre*m pai",
         "price": 589,
-        "image": "/code/images/12.jpg"
+        "image": "./images/12.jpg"
     },
     {
         "id": 1,
         "c_id":1,
         "name":"Spicy Chilly Chicken",
         "price": 300,
-        "image": "/code/images/item_2.jpg"
+        "image": "./images/item_2.jpg"
     },
     {
         "id": 12,
         "c_id":1,
         "name":"Hot & Smoky Pepper Chicken",
         "price": 269,
-        "image": "/code/images/4.jpg"
+        "image": "./images/4.jpg"
     },
     {
         "id": 9,
         "c_id":1,
         "name":"Some Kind of roll (Veg)",
         "price": 169,
-        "image": "/code/images/1.jpg"
+        "image": "./images/1.jpg"
     },
     {
         "id": 15,
         "c_id":1,
         "name":"Cheesy fry'd Lalipop (4 pics)",
         "price": 269,
-        "image": "/code/images/9.jpg"
+        "image": "./images/9.jpg"
     },
     {
         "id": 10,
         "c_id":1,
         "name":"Noodles With circle fish",
         "price": 299,
-        "image": "/code/images/2.jpg"
+        "image": "./images/2.jpg"
     },
     {
         "id": 2,
         "c_id":1,
         "name":"Chicken Lalipops",
         "price": 250,
-        "image": "/code/images/item_7.jpg"
+        "image": "./images/item_7.jpg"
     },
     {
         "id": 16,
         "c_id":1,
         "name":"Fry'd Fish with green Gobi",
         "price": 129,
-        "image": "/code/images/10.jpg"
+        "image": "./images/10.jpg"
     },
     {
         "id": 3,
         "c_id":1,
         "name":"Some japannies Item",
         "price": 290,
-        "image": "/code/images/item_20.jpg"
+        "image": "./images/item_20.jpg"
     },
     {
         "id": 11,
         "c_id":1,
         "name":"Salad with beef strips",
         "price": 359,
-        "image": "/code/images/3.webp"
+        "image": "./images/3.webp"
     },
     {
         "id": 4,
         "c_id":1,
         "name":"Cheesy  c*rn Macronie",
         "price": 400,
-        "image": "/code/images/item_3.jpg"
+        "image": "./images/item_3.jpg"
     },
     {
         "id": 5,
         "c_id":3,
         "name":"Half Grilled (Spicy)",
         "price": 279,
-        "image": "/code/images/item_6.jpg"
+        "image": "./images/item_6.jpg"
     },
     {
         "id": 6,
         "c_id":4,
         "name":" Kala Milk Shake (African)",
         "price": 100,
-        "image": "/code/images/item_8.jpg"
+        "image": "./images/item_8.jpg"
     },
     {
         "id": 7,
         "c_id":1,
         "name":" Hot and Spicy Noodles",
         "price": 150,
-        "image": "/code/images/item_24.jpg"
+        "image": "./images/item_24.jpg"
     },
     {
         "id": 8,
         "c_id":1,
         "name":"Western style Macronie",
         "price": 200,
-        "image": "/code/images/item_22.jpeg"
+        "image": "./images/item_22.jpeg"
     },
     {
         "id": 13,
         "c_id":5,
         "name":"Venila Choco Blast",
         "price": 240,
-        "image": "/code/images/6.jpg"
+        "image": "./images/6.jpg"
     }
     ,
     {
@@ -118,119 +118,119 @@
         "c_id":5,
         "name":"Stabery Banana Icecream",
         "price": 280,
-        "image": "/code/images/7.jpg"
+        "image": "./images/7.jpg"
     },
     {
         "id": 17,
         "c_id":1,
         "name":"Cheesy chicken with egg",
         "price": 289,
-        "image": "/code/images/11.jpg"
+        "image": "./images/11.jpg"
     },
     {
         "id": 19,
         "c_id":2,
         "name":"Kerala Style buhd",
         "price": 189,
-        "image": "/code/images/14.jpg"
+        "image": "./images/14.jpg"
     },
     {
         "id": 20,
         "c_id":2,
         "name":"Masale Doze (Donne Style)",
         "price": 99,
-        "image": "/code/images/15.jpg"
+        "image": "./images/15.jpg"
     },
     {
         "id": 21,
         "c_id":2,
         "name":"Village type tadde Idliyaa",
         "price": 89,
-        "image": "/code/images/16.png"
+        "image": "./images/16.png"
     },
     {
         "id": 22,
         "c_id":2,
         "name":"Rice Combo (kerala Style)",
         "price": 259,
-        "image": "/code/images/17.webp"
+        "image": "./images/17.webp"
     },
     {
         "id": 22,
         "c_id":2,
         "name":"Spicy Amboor Fish Curry",
         "price": 249,
-        "image": "/code/images/18.avif"
+        "image": "./images/18.avif"
     },
     {
         "id": 23,
         "c_id":6,
         "name":"Grilled Chicken burgur ",
         "price": 199,
-        "image": "/code/images/20.jpg"
+        "image": "./images/20.jpg"
     },
     {
         "id": 24,
         "c_id":6,
         "name":"Chicken Burgur Combo",
         "price": 389,
-        "image": "/code/images/21.avif"
+        "image": "./images/21.avif"
     },
     {
         "id": 25,
         "c_id":6,
         "name":"Hot and Steam Chicken Burgur",
         "price": 189,
-        "image": "/code/images/23.jpg"
+        "image": "./images/23.jpg"
     },
     {
         "id": 26,
         "c_id":6,
         "name":"Veg Crispy Burgur",
         "price": 139,
-        "image": "/code/images/25.webp"
+        "image": "./images/25.webp"
     },
     {
         "id": 27,
         "c_id":3,
         "name":"Full Grilled Chicken",
         "price": 599,
-        "image": "/code/images/31.jpg"
+        "image": "./images/31.jpg"
     },
     {
         "id": 28,
         "c_id":3,
         "name":"Chicken Breast (Grilled)",
         "price": 229,
-        "image": "/code/images/32.jpg"
+        "image": "./images/32.jpg"
     },
     {
         "id": 29,
         "c_id":3,
         "name":"Hot and Jucie Grill chicken",
         "price": 359,
-        "image": "/code/images/33.jpg"
+        "image": "./images/33.jpg"
     },
     {
         "id": 30,
         "c_id":3,
         "name":"Grilled Chicken Legs",
         "price": 429,
-        "image": "/code/images/34.jpg"
+        "image": "./images/34.jpg"
     },
     {
         "id": 32,
         "c_id":4,
         "name":"Watermellon jucies",
         "price": 89,
-        "image": "/code/images/41.jpeg"
+        "image": "./images/41.jpeg"
     },
     {
         "id": 31,
         "c_id":3,
         "name":"Creamy grilled Chicken",
         "price": 299,
-        "image": "/code/images/35.jpg"
+        "image": "./images/35.jpg"
     },
 
     {
@@ -238,14 +238,14 @@
         "c_id":4,
         "name":"Sweet and salt lime soda",
         "price": 99,
-        "image": "/code/images/47.webp"
+        "image": "./images/47.webp"
     },
     {
         "id": 35,
         "c_id":4,
         "name":"Black berry cool drink",
         "price": 209,
-        "image": "/code/images/46.jpg"
+        "image": "./images/46.jpg"
     },
 
     {
@@ -253,14 +253,14 @@
         "c_id":4,
         "name":"Cool Smooky Drink",
         "price": 219,
-        "image": "/code/images/43.jpg"
+        "image": "./images/43.jpg"
     },
     {
         "id": 33,
         "c_id":4,
         "name":"Lemonoid (non-alcohol) ",
         "price": 199,
-        "image": "/code/images/42.jpg"
+        "image": "./images/42.jpg"
     }
 
 
