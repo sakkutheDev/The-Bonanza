@@ -1,0 +1,299 @@
+<!--This is the Order Summary Page HTML code with Header part for the billfold bananza billing Webside Made By Saqlain Khan :) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!--Ensures correct display of text characters: Browsers need to know the encoding to interpret the codes correctly and display the intended characters.-->
+    <meta charset="UTF-8">
+    <!--it specifically deals with how a web page is displayed on various devices, particularly mobile devices.-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Summary</title>
+
+    <!--CSS File-->
+    <link rel="stylesheet" href="css code/updateitem.css">
+    <link rel="stylesheet" href="css code/header.css">
+    <link href='https://fonts.googleapis.com/css?family=Slackey' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <!--the navbar link-->
+    <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
+    <link rel="stylesheet" href="css code/navbar.css">
+    
+    <script defer src="js code/updateitem.js"></script>
+</head>
+<!-- C:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\header.css -->
+<body>
+    <!--Header Starts Here-->
+    <div class="header">
+        <div class="left_header">
+            <p><span class="color1">Bill</span><span class="color2">fold</span></p>
+            <a href="Menu_Page.html">
+                <button class="new_order_box">NEW ORDER</button>
+            </a>
+        </div>
+        <div class="right_header">
+            <img class="call_logo" src="images/call_logo.svg">
+            <img class="notification_logo" src="images/notification_logo.svg">
+            <img class="profile" src="images/profile.jpg">
+        </div>
+    </div>
+    <!--Header ends Here-->
+
+
+
+
+
+
+
+
+    <!--The Nav side bar starts here-->
+    <div class="sidebar">
+        <div class="logo-details">
+          
+          <div class="logo_name">More settings</div>
+          <i class='bx bx-menu' id="btn"></i>
+        </div>
+        <ul class="nav-list">
+          <!-- <li>
+            <i class='bx bx-search'></i>
+            <input type="text" placeholder="Search...">
+            <span class="tooltip">Search</span>
+          </li> -->
+          <li>
+            <a href="Order_Summary.html">
+              <i class='bx bx-cart-alt'></i>
+              <span class="links_name">Order Summary</span>
+            </a>
+            <span class="tooltip">Order Summary</span>
+          </li>
+          <li>
+            <a href="Sales_Summary.html">
+              <i class='bx bx-folder'></i>
+              <span class="links_name">Sales Summary</span>
+            </a>
+            <span class="tooltip">Sales Summary</span>
+          </li>
+          <li>
+            <a href="Add_Item.html">
+              <i class='bx bx-chat'></i>
+              <span class="links_name">Add items</span>
+            </a>
+            <span class="tooltip">Add items</span>
+          </li>
+          <li>
+            <a href="Update_Item.html">
+              <i class='bx bx-pie-chart-alt-2'  style="background-color:dimgrey;"></i>
+              <span class="links_name">Update/Delete Itesm</span>
+            </a>
+            <span class="tooltip">Update Items</span>
+          </li>
+          <li>
+            <a href="Info.html">
+              <i class='bx bx-user'></i>
+              <span class="links_name">Info</span>
+            </a>
+            <span class="tooltip">Info</span>
+          </li>
+          <li>
+            <a href="Login_Page.html">
+              <i class='bx bx-log-out'></i>
+              <span class="links_name">Log Out</span>
+            </a>
+            <span class="tooltip">logout</span>
+          </li>
+          <li class="profile">
+            <div class="profile-details">
+              <img src="images/dev.jpeg">
+              <div class="name_job">
+                <div class="name">Developer</div>
+                <div class="job">Saqlain Khan</div>
+              </div>
+            </div>
+            <i class='bx bx-user' id="log_out"></i>
+          </li>
+        </ul>
+      </div>
+
+
+      <P class="heading">Edit/Delete Menu Item</P>
+      
+      <!--The Update/delete div-->
+      <div class="main_div">
+          <div class="div_header">
+            <p class="header_txt">SI No.</p>
+            <p class="header_txt">Category Name</p>
+            <p class="header_txt">Item Name</p>
+            <p class="header_txt">Item Price</p>
+            <p class="header_txt">Edit/Delete</p>
+          </div>
+        <div class="d1">
+          <div class="header_items">
+            <input type="number" readonly placeholder="1" class="items_txt">
+            <input type="text" readonly placeholder="Indian Fried Chicken" class="items_txt">
+            <input type="text" readonly placeholder="Crunchy Chicken" class="items_txt">
+            <input type="number" readonly placeholder="299.00" class="items_txt">
+            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
+            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
+          </div>
+          <div class="header_items">
+            <input type="number" readonly placeholder="2" class="items_txt">
+            <input type="text" readonly placeholder="Hot & Spicy" class="items_txt">
+            <input type="text" readonly placeholder="Hot & Spicy wings 4 pics" class="items_txt">
+            <input type="number" readonly placeholder="279.00" class="items_txt">
+            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
+            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
+          </div>
+          <div class="header_items">
+            <input type="number" readonly placeholder="3" class="items_txt">
+            <input type="text" readonly placeholder="Biryani" class="items_txt">
+            <input type="text" readonly placeholder="Chicken Dum Biryani" class="items_txt">
+            <input type="number" readonly placeholder="189.00" class="items_txt">
+            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
+            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
+          </div>
+          <div class="header_items">
+            <input type="number" readonly placeholder="4" class="items_txt">
+            <input type="text" readonly placeholder="Grill Chicken" class="items_txt">
+            <input type="text" readonly placeholder="Full Grill Chicken" class="items_txt">
+            <input type="number" readonly placeholder="599.00" class="items_txt">
+            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
+            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
+          </div>
+          <div class="header_items">
+            <input type="number" readonly placeholder="5" class="items_txt">
+            <input type="text" readonly placeholder="Drinks" class="items_txt">
+            <input type="text" readonly placeholder="Lime Soda" class="items_txt">
+            <input type="number" readonly placeholder="80.00" class="items_txt">
+            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
+            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
+          </div>
+          <div class="header_items">
+            <input type="number" readonly placeholder="6" class="items_txt">
+            <input type="text" readonly placeholder="Crunchy Chicken" class="items_txt">
+            <input type="text" readonly placeholder="Chicken 10 pics" class="items_txt">
+            <input type="number" readonly placeholder="899.00" class="items_txt">
+            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
+            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
+          </div>
+          <div class="header_items">
+            <input type="number" readonly placeholder="7" class="items_txt">
+            <input type="text" readonly placeholder="Burgurs" class="items_txt">
+            <input type="text" readonly placeholder="Chicken Stunning Burgur" class="items_txt">
+            <input type="number" readonly placeholder="199.00" class="items_txt">
+            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
+            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
+          </div>
+          <div class="header_items">
+            <input type="number" readonly placeholder="8" class="items_txt">
+            <input type="text" readonly placeholder="Indian Fried Chicken" class="items_txt">
+            <input type="text" readonly placeholder="Chicken 2 pics" class="items_txt">
+            <input type="number" readonly placeholder="269.00" class="items_txt">
+            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
+            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
+          </div>
+          <div class="header_items">
+            <input type="number" readonly placeholder="9" class="items_txt">
+            <input type="text" readonly placeholder="Chicken Strips" class="items_txt">
+            <input type="text" readonly placeholder="Strips 10 pics" class="items_txt">
+            <input type="number" readonly placeholder="599.00" class="items_txt">
+            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
+            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
+          </div>
+          <div class="header_items">
+            <input type="number" readonly placeholder="10" class="items_txt">
+            <input type="text" readonly placeholder="Drinks" class="items_txt">
+            <input type="text" readonly placeholder="Sweet and Solt Soda" class="items_txt">
+            <input type="number" readonly placeholder="99.00" class="items_txt">
+            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
+            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
+          </div>
+          <div class="header_items">
+            <input type="number" readonly placeholder="11" class="items_txt">
+            <input type="text" readonly placeholder="Burgurs" class="items_txt">
+            <input type="text" readonly placeholder="Veg Crispy Burgur" class="items_txt">
+            <input type="number" readonly placeholder="159.00" class="items_txt">
+            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
+            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
+          </div>
+          <div class="header_items">
+            <input type="number" readonly placeholder="12" class="items_txt">
+            <input type="text" readonly placeholder="Wrap" class="items_txt">
+            <input type="text" readonly placeholder="Crispy Chicken Wrap" class="items_txt">
+            <input type="number" readonly placeholder="199.00" class="items_txt">
+            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
+            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
+          </div>
+          <div class="header_items">
+            <input type="number" readonly placeholder="13" class="items_txt">
+            <input type="text" readonly placeholder="Burgurs" class="items_txt">
+            <input type="text" readonly placeholder="Veg Crispy Burgur" class="items_txt">
+            <input type="number" readonly placeholder="139.00" class="items_txt">
+            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
+            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
+          </div>
+        </div>
+      </div>
+
+  
+  <div popover id="my-popover" class="p">
+    <center>Update Item</center>
+    <br>
+    <label class="pop_name">
+     Item Name :
+     <input type="text"  placeholder=" Eg. Veg Burgur" class="p_box">
+    </label>
+
+    <label class="pop_price">
+      Item Price :
+      <input type="number"  placeholder=" Eg. 399" class="p_box">
+     </label>
+
+
+     <label class="category_img_n" >
+      <input type="file" accept="image/*">
+    </label>
+
+     <label class="pop_price">
+     <button class="save" popovertarget="my-popover-update">Save</button>
+     </label>
+</div>
+</div>
+
+<div popover id="my-popover-update" class="p_update">
+  <center>
+  <img src="images/save.png">
+  </center>
+  <center>
+  Item Updated to the menu 
+  <br>Successfully</center>
+
+</div>
+
+<div popover id="my-popover-detele" class="p_update">
+  <center>
+  <img src="images/save.png">
+  </center>
+  <center>
+  Item Deleted from the Menu 
+  </center>
+
+</div>
+
+
+<div popover id="my-popover-delete-alert" class="p_update">
+  <br>
+  <center>
+  Are you sure? 
+  </center>
+  <center>
+    <button popovertarget ="my-popover-detele" class="delete">Delete</button>
+    </center>
+
+</div>
+
+
+</body>
+</html>
+
+
+
+

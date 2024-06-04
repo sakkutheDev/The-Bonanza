@@ -1,0 +1,808 @@
+body{
+    margin:0;
+    margin-left: 78px;
+}
+
+/* Google Font Link */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+.menu_div{
+    margin-top: 97.6px;
+    display: grid;
+    grid-template-columns: 200px 600px 1fr;
+
+}
+
+.category_items{
+    position: fixed;
+    background-color: #474747;
+    display: flex;
+    flex-direction: column;
+    height: 488px; 
+    gap: 0;
+    left: 78px;
+    width: 180px;
+    overflow: auto; 
+}
+
+
+.category_items::-webkit-scrollbar{
+  width: 0;
+}
+
+.category_items button{
+    background-color: #474747;
+    color: white;
+    font-size: 14px;
+  
+    border-left: none;
+    border-top: 0.5px solid #989898;
+    border-right: none;
+    font-family: poppins;
+    border-bottom: 0.5px solid #989898;
+    cursor: pointer;
+   
+    height: max-content;
+    padding: 20px 30px;
+
+ 
+   
+}
+
+.category_items button:hover{
+    background-color: #ee0101;
+    color: white;
+    
+    transition: 0.3s;
+}
+
+.category_item.active {
+    background-color: #cb0000;
+    color: white; /* Style the active button */
+}
+
+
+.empty-cart {
+margin:20px;
+margin-left: 90px;
+}
+
+.empty-cart-icon {
+  width: 300px; /* Adjust width as needed */
+  height: 250px; /* Adjust height as needed */
+  fill: #cccccc; /* Set icon color (light gray here) */
+}
+
+
+
+/*the new one*/
+
+.listProduct .item img{
+  width: 100%;
+  height: 100px;
+  border-radius: 40px 0  0px 0;
+  /* filter: drop-shadow(0 50px 20px rgba(247, 247, 247, 0.6)); */
+}
+
+.listProduct .item{
+  background-color: #474747;
+  padding: 0px;
+  color: white;
+  border-radius: 40px 0  40px 0;
+  min-height: 220px;
+  height: max-content;
+  box-shadow: 2px 2px 12px #cb4040, -2px -2px 12px #cb4040;
+}
+.listProduct .item h2{
+  font-weight: 500;
+  font-size: large;
+  color: white;
+}
+.listProduct .item .price{
+  letter-spacing: 7px;
+  font-size: small;
+}
+.listProduct .item button{
+  background-color: #cb0000;
+  color: #eee;
+  border: none;
+  padding: 5px 10px;
+  margin-top: 5px;
+  border-radius: 10px 0  10px 0;
+  transition: 0.5s;
+  margin-bottom: 8px;
+
+}
+
+
+.listProduct .item button:hover{
+  background-color: darkred;
+}
+
+.listProduct .item button:active{
+  transform: scale(0.9);
+  background-color: #cb0000;
+}
+
+/*end*/
+
+
+
+
+.product_empty{
+  margin-left: 100px;
+  width: 290px;
+  margin-top: 210px;
+
+}
+
+
+
+
+.listProduct{
+  /* background-color: rgba(152, 152, 152, 0.3); */
+  text-align: center;
+    height: 490px;
+    width: 570px;
+    gap: 30px;
+    display: grid;
+    grid-template-columns: repeat(3,150px);
+    margin-left: 180px;
+    padding: 20px;
+    padding-left: 30px;
+    position: fixed;
+    overflow: auto;
+    
+}
+
+.listProduct::-webkit-scrollbar{
+  width: 0;
+}
+
+
+
+
+
+.item_header{
+  left: 830px;
+    background-color: #c8c7c7;
+    height:30px;
+    width: 100%;
+    position: fixed;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin: 0 0;
+    .item{
+        margin: 0;
+        padding-top:5px ;
+        padding-left: 5px;
+    
+    }
+    .qty{
+        margin: 0;
+        margin-left: 240px;
+        padding-top:5px ;
+    }
+    .price{
+        margin:0;
+        margin-left: 80px;
+        padding-top:5px ;
+    }
+}
+
+
+.paymentpart{
+    background-color: #474747;
+    position: fixed;
+    bottom: 0;
+    left: 828px;
+    right: 0;
+    height: 150px;
+    
+}
+
+
+.dis_but{
+  
+  height:20px;
+  width:90px;
+  border-radius: 0px 0px 8px 8px;
+  border:none; 
+  position: absolute;
+  top:-20px;
+  right: 160px;
+  
+  rotate: 180deg;
+  
+  background-color: #474747;
+  color: white;
+  cursor: pointer;
+ 
+    } 
+
+
+
+.discount{
+  background-color: #474747;
+  position: fixed;
+  bottom: 0;
+  left: 828px;
+  right: 0;
+  height: 200px;
+  display: none;
+  
+  .discount_input{
+    width: 80px;
+    position: absolute;
+    top:20px;
+    right: 10px;
+    height: 24px;
+    text-align: right;
+    border-radius: 5px 5px 5px 5px;
+    border: 1px solid white;
+    padding-left: 5px;
+    
+
+  }
+
+
+  .text{
+    color: white;
+   padding: 20px;
+   font-size: 12px;
+   display: inline-block;
+   
+  }
+
+
+}
+
+
+.discount.show {
+  display: block;
+  height: 250px;
+}
+
+.dis_but.show{
+  top:-120px;
+  rotate: 360deg;
+  border-radius: 8px 8px 0px 0px ;
+  
+}
+
+.total_div{
+    margin: 0 0;
+    
+
+    .total{
+        color: white;
+        margin: 0;
+        padding-top:14px;
+        padding-left: 20px;
+        font-weight: 600;
+        font-family: poppins;
+        display: inline-block;
+        font-size: 20px;
+        
+    }
+    .amt{
+      color:#FF6B00;
+      text-align: right;
+      width:110px;
+      position: absolute;
+      top:10px;
+      right: 20px;
+      color: rgb(193, 11, 11);
+      display: inline;
+      border: none;
+      background: none;
+      font-size: 26px;
+      font-weight: 800;
+      font-family: poppins;
+
+   
+    }
+}
+
+.amt::placeholder{
+  color: rgb(193, 11, 11);
+
+
+}
+
+/* radio buttons  animation*/
+
+.radio-buttons-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+    background-color: #767676;
+    height: 30px;
+    padding-top:10px;
+    margin-top: 8px;
+  }
+  
+  .radio-button {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .radio-button__input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .radio-button__label {
+    display: inline-block;
+
+    padding-left: 30px;
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+  }
+  
+  .radio-button__custom {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+  }
+  
+  .radio-button__input:checked + .radio-button__label .radio-button__custom {
+    transform: translateY(-50%) scale(0.9);
+    /* transition: transform 0.2s ease-in-out; */
+    border: 5px solid #cb0000;
+    color: #000000;
+    box-shadow: 0 0 30px #cb0000;
+  }
+  
+
+  .radio-button__input:checked + .radio-button__label {
+    color: #ffffff;
+   
+  }
+  
+  .radio-button__label:hover .radio-button__custom {
+    transform: translateY(-50%) scale(1.1);
+    border-color: #ffffff;
+    
+  }
+
+
+
+  /* Print and clear button */
+
+  
+  .clear{
+    position: absolute;
+    left: 80px;
+    
+    margin-top: 18px;
+    
+    padding: 8px 22px;
+    border-radius: 10px;
+    border: none;
+    width: 100px;
+    color: #fff;
+    font-weight: bold;
+    font-family: poppins;
+    cursor: pointer;
+    background-color: #97949b;
+    transition: all 0.2s ease;
+  }
+
+  .print{
+    
+    position: absolute;
+    margin-top: 18px;
+    right: 50px;
+    padding: 8px 22px;
+    width: 150px;
+    font-weight: bold;
+    border-radius: 10px;
+    font-family: poppins;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    background-color: #cb0000;
+    transition: all 0.2s ease;
+  }
+
+      .clear:active,
+      .print:active {
+        transform: scale(0.90);
+      }
+      
+      .print:before,
+      .print:after {
+        position: absolute;
+        content: "";
+        width: 150%;
+        left: 50%;
+        height: 100%;
+        transform: translateX(-50%);
+        z-index: -1000;
+        background-repeat: no-repeat;
+      }
+      
+      .print:active:before {
+        top: -70%;
+        background-image: radial-gradient(circle, red 20%, transparent 20%),
+          radial-gradient(circle, transparent 20%, red 20%, transparent 30%),
+          radial-gradient(circle, red 20%, transparent 20%),
+          radial-gradient(circle, red 20%, transparent 20%),
+          radial-gradient(circle, transparent 10%, red 15%, transparent 20%),
+          radial-gradient(circle, red 20%, transparent 20%),
+          radial-gradient(circle, red 20%, transparent 20%),
+          radial-gradient(circle, red 20%, transparent 20%),
+          radial-gradient(circle, red 20%, transparent 20%);
+        background-size: 10% 10%, 20% 20%, 15% 15%, 20% 20%, 18% 18%, 10% 10%, 15% 15%,
+          10% 10%, 18% 18%;
+        background-position: 50% 120%;
+        animation: greentopBubbles 0.4s ease;
+      }
+      
+      @keyframes greentopBubbles {
+        0% {
+          background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%,
+            40% 90%, 55% 90%, 70% 90%;
+        }
+      
+        50% {
+          background-position: 0% 80%, 0% 20%, 10% 40%, 20% 0%, 30% 30%, 22% 50%,
+            50% 50%, 65% 20%, 90% 30%;
+        }
+      
+        100% {
+          background-position: 0% 70%, 0% 10%, 10% 30%, 20% -10%, 30% 20%, 22% 40%,
+            50% 40%, 65% 10%, 90% 20%;
+          background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+        }
+      }
+      
+      .print:active::after {
+        bottom: -70%;
+        background-image: radial-gradient(circle, red 20%, transparent 20%),
+          radial-gradient(circle, red 20%, transparent 20%),
+          radial-gradient(circle, transparent 10%, red 15%, transparent 20%),
+          radial-gradient(circle, red 20%, transparent 20%),
+          radial-gradient(circle, red 20%, transparent 20%),
+          radial-gradient(circle, red 20%, transparent 20%),
+          radial-gradient(circle, red 20%, transparent 20%);
+        background-size: 15% 15%, 20% 20%, 18% 18%, 20% 20%, 15% 15%, 20% 20%, 18% 18%;
+        background-position: 50% 0%;
+        animation: greenbottomBubbles 0.4s ease;
+      }
+      
+      @keyframes greenbottomBubbles {
+        0% {
+          background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%,
+            70% -10%, 70% 0%;
+        }
+      
+        50% {
+          background-position: 0% 80%, 20% 80%, 45% 60%, 60% 100%, 75% 70%, 95% 60%,
+            105% 0%;
+        }
+      
+        100% {
+          background-position: 0% 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%,
+            110% 10%;
+          background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
+        }
+      }
+
+      .print:hover{
+        background-color: #e82a2a;
+      }
+      .clear:hover{
+        background-color: #78747c;
+      }
+ 
+
+
+        /*the card */
+      /* .item_card{
+        position: fixed;
+        margin-left: 750px;
+        margin-top: 30px;
+      
+        height: 300px;
+        width: 100%;
+      }
+
+
+      .card1{
+        display: grid;
+        grid-template-columns: 10px 180px 190px 0px;
+        gap: 10px;
+        padding-bottom: 10px;
+        text-align: center;
+        align-items: center;
+        border-bottom: solid 1px gray;
+        padding-top: 10px;
+      }
+    
+      .item_card::-webkit-scrollbar{
+        width: 0;
+    }
+
+    .name{
+      font-size: 14px;
+      text-align: left;
+      padding-left: 20px;
+    }
+
+    .item_card{
+      overflow: auto;
+  }
+
+
+  .cancel {
+    background-color: rgb(193, 7, 7);
+    border: none;
+    color: white;
+    font-size: 16px;
+    height: 20px;
+    rotate: 140deg ;
+    width: 20px;
+    margin-top: 4px;
+    margin-left:5px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .card1 .quantity span{
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    border: solid 1px gray;
+    color: #555;
+    cursor: pointer;
+
+    
+}
+
+.card1 .quantity span:active{
+  background-color: #969393;
+  color: white;
+ 
+}
+
+
+.card1 .quantity span:nth-child(2){
+  background-color: transparent;
+  color: #010101;
+  cursor: auto;
+  width: 50px;
+  border-radius: 5px;
+} */
+
+
+.listCart{
+  
+  position: fixed;
+  margin-left: 750px;
+  margin-top: 30px;
+
+  height: 300px;
+  width: 100%;
+}
+
+.listCart .item img{
+  width: 60px;
+  border-radius: 50%;
+  height: 50px;
+}
+.listCart .item{
+  display: grid;
+  grid-template-columns: 70px 140px  150px 60px;
+  gap: 10px;
+  
+  text-align: center;
+  align-items: center;
+}
+.listCart .quantity span{
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+  border: solid 1px gray;
+  color: #000000;
+  cursor: pointer;
+}
+.listCart .quantity span:nth-child(2){
+  background-color: transparent;
+  color: #010101;
+  cursor: auto;
+  width: 50px;
+  border-radius: 5px;
+}
+.listCart .item:nth-child(odd){
+  background-color: rgba(236, 231, 231, 0.67);
+}
+.listCart{
+  overflow: auto;
+}
+.listCart::-webkit-scrollbar{
+  width: 0;
+}
+
+
+.Totaldis{
+  position: fixed;
+  font-size: 16px;
+  position: absolute;
+  
+  right: 10px;
+  background: white;
+  padding-right: 6px;
+  border-radius: 6px;
+  width: 80px;
+  text-align: right;
+  margin-top: 50px;
+ 
+}
+
+
+
+/* this is for print bill tamplet invoice , the report wala */
+
+
+
+.bill {
+  text-align: center;
+  width: 340px;
+  margin: 0 auto;
+  background-color: rgb(229, 237, 243);
+}
+
+.bill-header {
+  font-size: 18px;
+  padding: 0;
+  margin: 0;
+
+
+}
+.bill-id{
+  font-size: 13px;
+  display: inline;
+  padding-right:135px;
+  padding-left: 6px;
+  
+  
+  
+}
+
+.bill-date{
+  display: inline;
+  font-size: 12px;
+}
+
+.bill-time{
+
+  font-size: 12px;  
+  padding-left: 210px;
+  margin-top: 6px;
+}
+
+.bill-type{
+  font-size: 12px;  
+  text-align: left;
+  margin-top: 6px; 
+  margin-bottom: 10px;
+  margin-left: 8px;
+
+
+}
+
+.bill-payment-type{
+  font-size: 12px;  
+  text-align: left;
+  margin-top: 0px; 
+  margin-left: 8px;
+ 
+
+}
+
+
+.bill-items {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+}
+
+.bill-items td{
+  font-size: 12px;
+
+}
+
+
+.bill-items th,
+.bill-items td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+
+}
+
+.bill-items th:first-child,
+.bill-items td:first-child {
+  width: 75%;
+  
+}
+
+.bill-items th:last-child,
+.bill-items td:last-child {
+  width: 25%;
+}
+
+.bill-discount {
+  
+  text-align: left;
+  margin-left: 8px;
+  font-size: 12px;
+  margin-bottom: 6px;
+  
+
+  .bill-discount__text{
+      
+      display: inline;
+      margin-right: 200px;
+   
+  }
+
+  .bill-discount__amount{
+      text-align: right;
+      display: inline;
+  }
+}
+.bill-total{
+  margin-top: 10px;
+  margin-bottom:20px ;
+
+  .bill-total__text {
+      font-weight: bold; 
+      display: inline;
+      margin-right: 100px;
+     
+      font-size: 16px;
+   
+  }
+  
+   .bill-total__amount {
+      text-align: right;
+      display: inline;
+      margin-right: 10px;
+      font-weight: bold; 
+  
+  }
+}
+
+
+
+.bill-footer {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  margin-bottom: 20px
+}

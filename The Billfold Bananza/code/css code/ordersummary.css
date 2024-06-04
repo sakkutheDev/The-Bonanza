@@ -1,0 +1,275 @@
+body{
+  margin:0;
+  margin-left: 78px;
+  overflow: auto;
+}
+body::-webkit-scrollbar{
+  width: 0;
+}
+
+
+/* Google Font Link */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: "Poppins", sans-serif;
+}
+
+.summary_div{
+  margin-top: 70px;  
+}
+
+.heading{
+  color:black;
+  font-size:20px;
+  font-weight: bold;
+  margin-left: 15px;
+  
+}
+
+.y{
+  margin-left:780px;
+  margin-right: 30px;
+}
+
+.buton {
+  font-weight: bold;
+  color: #090909;
+  padding: 0.5em 1.4em;
+  font-size: 16px;
+  border-radius: 0.5em;
+  background: #e8e8e8;
+  cursor: pointer;
+  border: 1px solid #e8e8e8;
+  transition: all 0.3s;
+  box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+}
+
+.buton:hover {
+  border: 1px solid white;
+}
+
+.buton:active {
+  box-shadow: 4px 4px 12px #969393, -4px -4px 12px #969393;
+  transform: scale(0.90);
+}
+
+.line{
+  width:"100%";
+  size:2;
+  margin-top:20px;
+}
+.sub_heading{
+  width: 100%;
+  position: sticky;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin: 0 0;
+}
+.details{
+  padding: 10px;
+  padding-right: 0;
+  font-weight: bold;
+}
+.date{
+  padding: 10px;
+  padding-left: 5px;
+  color:#969393
+}
+
+.billfold{
+  padding: 10px;
+  padding-left: 350px;
+  font-size: 18px;
+}
+
+.orders_div{
+  margin-top:10px;
+  margin-left:10px;
+  display: grid;
+  grid-template-columns:repeat(3,400px);
+  
+
+}
+
+
+.d1{
+  position: sticky;
+  top: 40px;
+  background-color: white;
+}
+
+.order{
+  height:200px;
+  width:380px;
+  background-color: rgba(253, 221, 221, 0.42);
+  border-radius: 12px;
+  box-shadow: 0.1px 0.1px 8px #ff8b8b, -0.1px -0.1px 8px #ff8b8b;
+  margin-bottom: 10px;
+  
+}
+
+.order:hover{
+  box-shadow: 0.1px 0.1px 15px #ff8b8b, -0.1px -0.1px 15px #ff8b8b;
+}
+
+.o_top{
+  display: flex;
+}
+
+.order_no{
+  padding: 5px;
+  padding-bottom: 0;
+  font-size: 14px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.type{
+  font-size: 12px;
+  margin-left: 140px;
+  padding: 4px;
+  font-weight: 550;
+
+}
+
+.items{
+  
+  margin-top: 6px;
+  margin-left: 18px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.item_list{
+  margin-left: 30px;
+  font-size: 12px;
+  font-weight:200;
+
+}
+
+.o_bottom{
+  margin-top:20px ;
+  display: inline-block;
+
+}
+
+.item_detail{
+  font-weight: 600;
+  margin-left: 15px;
+  font-size: 12px;
+  font-weight:200;
+}
+
+.cancel_btn{
+  border: none;
+  background: none;
+  margin-left: 110px;
+  color: rgb(211, 0, 0);
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+
+.cancel_btn:active{
+transform: scale(0.90);
+}
+
+
+
+
+
+.p_update{
+  border: none;
+  margin-top:180px ;
+  height: 300px;
+  width: 400px;
+  align-items: center;
+  border-radius: 50px;
+  background-color: #e5dfdf;
+  padding-top: 80px;
+  margin-left: 480px;
+  font-size: 20px;
+  box-shadow: 4px 4px 12px #d29a9a, -4px -4px 12px #d29a9a;
+  transition: 2s;
+
+
+
+
+  transition: opacity 0.6s, transform 0.7s, display 0.6s allow-discrete;
+
+  opacity: 0;
+  transform: translateY(3rem);
+
+  &:popover-open {
+    opacity: 1;
+    transform: none;
+
+    @starting-style {
+      & {
+        opacity: 0;
+        transform: translateY(-1rem);
+      }
+    }
+  }
+}
+
+
+.p_alert{
+  border: none;
+  margin-top:180px ;
+  height: 300px;
+  width: 400px;
+  align-items: center;
+  border-radius: 50px;
+  background-color: #e5dfdf;
+  padding-top: 80px;
+  margin-left: 480px;
+  font-size: 20px;
+  box-shadow: 4px 4px 12px #d29a9a, -4px -4px 12px #d29a9a;
+  transition: 2s;
+
+
+
+
+  transition: opacity 0.2s, transform 0.2s, display 0.2\s allow-discrete;
+
+  opacity: 0;
+  transform: translateY(3rem);
+
+  &:popover-open {
+    opacity: 1;
+    transform: none;
+
+    @starting-style {
+      & {
+        opacity: 0;
+        transform: translateY(-1rem);
+      }
+    }
+  }
+}
+
+
+.delete{
+  font-weight: bold;
+  color: #f1f1f1;
+  
+  font-size: 16px;
+  border-radius: 0.5em;
+  background:rgb(190, 23, 23);
+  cursor: pointer;
+  border: 1px solid #e8e8e8;
+  transition: all 0.3s;
+  box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+
+  margin-top: 20px;
+  width: 150px;
+  height: 30px;
+  transition: 0.4s;
+}

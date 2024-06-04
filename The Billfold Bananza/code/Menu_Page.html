@@ -1,0 +1,219 @@
+<!--This is the Manu Page HTML code with Header part for the billfold bananza billing Webside Made By Saqlain Khan :) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!--Ensures correct display of text characters: Browsers need to know the encoding to interpret the codes correctly and display the intended characters.-->
+    <meta charset="UTF-8">
+    <!--it specifically deals with how a web page is displayed on various devices, particularly mobile devices.-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Page</title>
+
+    <!--CSS File-->
+    <link rel="stylesheet" href="css code/menupage.css">
+    <link rel="stylesheet" href="css code/header.css">
+    <link href='https://fonts.googleapis.com/css?family=Slackey' rel='stylesheet'>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <!--The Navbar link-->
+    <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
+    <link rel="stylesheet" href="css code/navbar.css">
+    
+    <script defer src="./js code/menupage.js"></script>
+</head>
+
+<body>
+    <!--Header Starts Here-->
+    <div class="header">
+        <div class="left_header">
+            <p><span class="color1">Bill</span><span class="color2">fold</span></p>
+            
+              <button class="new_order_box">NEW ORDER</button>
+            
+        </div>
+        <div class="right_header">
+            <img class="call_logo" src="images/call_logo.svg">
+            <img class="notification_logo" src="images/notification_logo.svg">
+            <img class="profile" src="images/profile.jpg">
+        </div>
+    </div>
+    <!--Header ends Here-->
+
+
+    <!--The Nav side bar starts here-->
+    <div class="sidebar">
+        <div class="logo-details">
+          
+          <div class="logo_name">More settings</div>
+          <i class='bx bx-menu' id="btn"></i>
+        </div>
+        <ul class="nav-list">
+          <!-- <li>
+            <i class='bx bx-search'></i>
+            <input type="text" placeholder="Search...">
+            <span class="tooltip">Search</span>
+          </li> -->
+          <li>
+            <a href="Order_Summary.html">
+              <i class='bx bx-cart-alt'></i>
+              <span class="links_name">Order Summary</span>
+            </a>
+            <span class="tooltip">Order Summary</span>
+          </li>
+          <li>
+            <a href="Sales_Summary.html">
+              <i class='bx bx-folder'></i>
+              <span class="links_name">Sales Summary</span>
+            </a>
+            <span class="tooltip">Sales Summary</span>
+          </li>
+          <li>
+            <a href="Add_Item.html">
+              <i class='bx bx-chat'></i>
+              <span class="links_name">Add items</span>
+            </a>
+            <span class="tooltip">Add items</span>
+          </li>
+          <li>
+            <a href="Update_Item.html">
+              <i class='bx bx-pie-chart-alt-2'></i>
+              <span class="links_name">Update/Delete Itesm</span>
+            </a>
+            <span class="tooltip">Update Items</span>
+          </li>
+          <li>
+            <a href="Info.html">
+              <i class='bx bx-user'></i>
+              <span class="links_name">Info</span>
+            </a>
+            <span class="tooltip">Info</span>
+          </li>
+          <li>
+            <a href="Login_Page.html">
+              <i class='bx bx-log-out'></i>
+              <span class="links_name">Log Out</span>
+            </a>
+            <span class="tooltip">logout</span>
+          </li>
+          <li class="profile">
+            <div class="profile-details">
+              <img src="images/dev.jpeg">
+              <div class="name_job">
+                <div class="name">Developer</div>
+                <div class="job">Saqlain Khan</div>
+              </div>
+            </div>
+            <i class='bx bx-user' id="log_out"></i>
+          </li>
+        </ul>
+      </div>
+      
+      
+
+
+
+    <!--Sub Header Starts here-->
+    <div class="sub_header">
+        <div class="sub_header_left">
+            <div class="search_items">
+                <input type="text" placeholder="Search Items...">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+        <div class="sub_header_right">
+            <button class="button dinein">DINE IN</button>
+            <button class="button pickup">PICKUP</button>
+        </div>
+    </div>
+    
+    <!--Sub Hearder ends here-->
+
+
+
+    <!--The gategory/menu/billing part starts here-->
+    <div class="menu_div">
+      
+        <div class="category_items">
+           
+        </div>
+
+      <!--the items of the menu-->
+      <div class="listProduct" id="item_container">
+
+      </div>
+
+
+        <div class="billing_items">
+            <div class="item_header">
+                <p class="item">ITEMS</p>
+                <p class="qty">QTY</p>
+                <p class="price">PRICE</p>
+            </div>
+
+
+
+          <!--the Cart items -->
+            <div class="listCart">
+              
+                
+            </div>
+            
+
+
+
+
+            
+            <div class="discount">
+              
+              <p class="text"><u>Discount :</u></p>
+              <input type="text" id="discountAmount" class="discount_input" placeholder="12.00%  " min="1.00" max="20.00" step="2.00">
+              
+                <!-- Add a span element to display the total discount -->
+                <span id="totalDiscountSpan" class="Totaldis"><p>- $</p>0</span>
+              
+              
+            </div>
+            <div class="paymentpart">
+              <button class="dis_but">▼</button>
+                <div class="total_div">
+                    <p class="total">Total</p>
+                    <span class="amt">0.00</span>
+                    <!-- <input type="number" class="amt" placeholder="0.00" readonly> -->
+                </div>
+                
+                <div class="radio-buttons-container">
+                    <div class="radio-button">
+                      <input name="radio-group" id="radio2"  class="radio-button__input" type="radio">
+                      <label for="radio2" class="radio-button__label">
+                        <span class="radio-button__custom"></span>
+                            
+                          Cash
+                      </label>
+                    </div> 
+                    <div class="radio-button">
+                      <input name="radio-group" id="radio1" class="radio-button__input" type="radio">
+                      <label for="radio1" class="radio-button__label">
+                        <span class="radio-button__custom"></span>
+                        
+                        Card
+                      </label>
+                    </div>
+                    <div class="radio-button">
+                      <input name="radio-group" id="radio3" class="radio-button__input" type="radio">
+                      <label for="radio3" class="radio-button__label">
+                        <span class="radio-button__custom"></span>
+                            
+                            UPI
+                      </label>
+                    </div>
+                </div>
+                <div class="print_button">
+                    <button id="clear-cart-button" class="clear">Clear</button>
+                    <button  id="printButton" class="print">Print Bill</button>
+                </div>
+            </div>
+          
+        </div>
+
+        
+    </div>
+</body>

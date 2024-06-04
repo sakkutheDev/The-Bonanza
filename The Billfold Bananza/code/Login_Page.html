@@ -1,0 +1,81 @@
+<!--This is the Login Page HTML code for the billfold bananza billing Webside Made By Saqlain Khan :) -->
+<!-- <?php include('server.php') ?> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!--Ensures correct display of text characters: Browsers need to know the encoding to interpret the codes correctly and display the intended characters.-->
+    <meta charset="UTF-8">
+    <!--it specifically deals with how a web page is displayed on various devices, particularly mobile devices.-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+
+    <!--CSS File-->
+    <link rel="stylesheet" href="css code/loginpage.css">
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"> -->
+  
+</head>
+<body class="body">
+    <div class="bg_dim_color" id="bg_dim_color">
+        <div class="welcome_section">
+            <div class="WelcomeTo">
+                Welcome <br/>To
+            </div>
+            <img class="main_logo" src="images/Main_logo.png">
+            <p class="billing_webside">A Restaurant Billing Website.</p>
+            <p class="login_phone">Contact : 080 975 969</p>
+            <p class="login_email">Gmail : thebillfoldbananza@gmail.com</p>
+        </div>
+        <div class="wrapper">
+            <div class="form-wrapper sign-in">
+                <form method="post" action="Login_Page.html">
+                    <h2>Login</h2>
+                    <div class="input-group">
+                        <input type="text" required>
+                        <label for="">Email or Username</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" required>
+                        <label for="">Password</label>
+                    </div>
+                    <div class="remember">
+                        <label><input type="checkbox"> Remember me</label>
+                    </div>
+                    <button class="button" onclick="window.location.href = 'Menu_Page.html'">Login</button>
+                    <div class="signUp-link">
+                        <p>Don't have an account? <a href="#" class="signUpBtn-link">Sign Up</a></p>
+                    </div>
+                </form>
+            </div>
+            <div class="form-wrapper sign-up">
+                <form>
+                    <h2>Sign Up</h2>
+                    <div class="input-group">
+                        <input type="text" required>
+                        <label for="">Username</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" required>
+                        <label for="">Email</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" required>
+                        <label for="">Password</label>
+                    </div>
+                    <div class="remember">
+                        <label><input type="checkbox"> I agree to the terms & conditions</label>
+                    </div>
+                    <a href="Menu page of BillFold/Menu_Page.html">
+                        <button class="button">Sign Up</button>
+                    </a>
+                    <div class="signUp-link">
+                        <p>Already have an account? <a href="#" class="signInBtn-link">login</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script src="js code/loginpage.js"></script>
+    </div>   
+</body>
+</html>

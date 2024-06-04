@@ -1,0 +1,65 @@
+Date : 2024-05-29 15:38:01
+Directory : c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code
+Total : 33 files,  3895 codes, 388 comments, 911 blanks, all 5194 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| CSS        |         10 |      2,052 |        219 |        478 |      2,749 |
+| HTML       |          8 |      1,278 |        109 |        266 |      1,653 |
+| JavaScript |          9 |        441 |         56 |        145 |        642 |
+| JSON       |          2 |        100 |          0 |          2 |        102 |
+| XML        |          4 |         24 |          4 |         20 |         48 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                               | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                  |         33 |      3,895 |        388 |        911 |      5,194 |
+| . (Files)                                                                                          |         10 |      1,378 |        109 |        268 |      1,755 |
+| css code                                                                                           |         10 |      2,052 |        219 |        478 |      2,749 |
+| images                                                                                             |          4 |         24 |          4 |         20 |         48 |
+| js code                                                                                            |          9 |        441 |         56 |        145 |        642 |
++----------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                           | language   | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\Add_Item.html                | HTML       |        148 |          9 |         31 |        188 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\Info.html                    | HTML       |        114 |         14 |         27 |        155 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\Login_Page.html              | HTML       |         71 |          7 |          3 |         81 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\Menu_Page.html               | HTML       |        162 |         21 |         44 |        227 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\Order_Summary.html           | HTML       |        312 |         15 |         77 |        404 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\Profile.html                 | HTML       |         88 |         14 |         21 |        123 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\Sales_Summary.html           | HTML       |        133 |         14 |         28 |        175 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\Update_Item.html             | HTML       |        250 |         15 |         35 |        300 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\css code\additem.css         | CSS        |        254 |          5 |         64 |        323 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\css code\header.css          | CSS        |        156 |          9 |         42 |        207 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\css code\info.css            | CSS        |         76 |          1 |         18 |         95 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\css code\loginpage.css       | CSS        |        204 |         87 |         40 |        331 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\css code\menupage.css        | CSS        |        533 |         86 |        152 |        771 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\css code\navbar.css          | CSS        |        232 |         24 |          8 |        264 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\css code\ordersummary.css    | CSS        |        216 |          1 |         58 |        275 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\css code\profile.css         | CSS        |         11 |          1 |          2 |         14 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\css code\salessummary.css    | CSS        |        151 |          1 |         34 |        186 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\css code\updateitem.css      | CSS        |        219 |          4 |         60 |        283 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\images\call_logo.svg         | XML        |          6 |          1 |          5 |         12 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\images\more_logo.svg         | XML        |          6 |          1 |          5 |         12 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\images\notification_logo.svg | XML        |          6 |          1 |          5 |         12 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\images\search_logo.svg       | XML        |          6 |          1 |          5 |         12 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\js code\additem.js           | JavaScript |         37 |          7 |          9 |         53 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\js code\info.js              | JavaScript |         14 |          2 |          3 |         19 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\js code\loginpage.js         | JavaScript |          9 |          1 |          3 |         13 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\js code\menupage.js          | JavaScript |        311 |         36 |        113 |        460 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\js code\navbar.js            | JavaScript |         14 |          2 |          3 |         19 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\js code\ordersummary.js      | JavaScript |         14 |          2 |          5 |         21 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\js code\profile.js           | JavaScript |         14 |          2 |          3 |         19 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\js code\salessummary.js      | JavaScript |         14 |          2 |          3 |         19 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\js code\updateitem.js        | JavaScript |         14 |          2 |          3 |         19 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\menu_items_details.json      | JSON       |         50 |          0 |          1 |         51 |
+| c:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\code\products.json                | JSON       |         50 |          0 |          1 |         51 |
+| Total                                                                                              |            |      3,895 |        388 |        911 |      5,194 |
++----------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

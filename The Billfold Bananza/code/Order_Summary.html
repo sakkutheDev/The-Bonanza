@@ -1,0 +1,403 @@
+<!--This is the Order Summary Page HTML code with Header part for the billfold bananza billing Webside Made By Saqlain Khan :) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!--Ensures correct display of text characters: Browsers need to know the encoding to interpret the codes correctly and display the intended characters.-->
+    <meta charset="UTF-8">
+    <!--it specifically deals with how a web page is displayed on various devices, particularly mobile devices.-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Summary</title>
+
+    <!--CSS File-->
+    <link rel="stylesheet" href="css code/ordersummary.css">
+    <link rel="stylesheet" href="css code/header.css">
+    <link href='https://fonts.googleapis.com/css?family=Slackey' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <!--the navbar link-->
+    <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
+    <link rel="stylesheet" href="css code/navbar.css">
+    
+    <script defer src="js code/ordersummary.js"></script>
+</head>
+<!-- C:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\header.css -->
+<body>
+    <!--Header Starts Here-->
+    <div class="header">
+        <div class="left_header">
+            <p><span class="color1">Bill</span><span class="color2">fold</span></p>
+            <a href="Menu_Page.html">
+                <button class="new_order_box">NEW ORDER</button>
+            </a>
+        </div>
+        <div class="right_header">
+            <img class="call_logo" src="images/call_logo.svg">
+            <img class="notification_logo" src="images/notification_logo.svg">
+            <img class="profile" src="images/profile.jpg">
+        </div>
+    </div>
+    <!--Header ends Here-->
+
+
+
+
+
+
+
+
+    <!--The Nav side bar starts here-->
+    <div class="sidebar">
+        <div class="logo-details">
+          
+          <div class="logo_name">More settings</div>
+          <i class='bx bx-menu' id="btn"></i>
+        </div>
+        <ul class="nav-list">
+          <!-- <li>
+            <i class='bx bx-search'></i>
+            <input type="text" placeholder="Search...">
+            <span class="tooltip">Search</span>
+          </li> -->
+          <li>
+            <a href="Order_Summary.html">
+              <i class='bx bx-cart-alt' style="background-color:dimgrey;"></i>
+              <span class="links_name">Order Summary</span>
+            </a>
+            <span class="tooltip">Order Summary</span>
+          </li>
+          <li>
+            <a href="Sales_Summary.html">
+              <i class='bx bx-folder' ></i>
+              <span class="links_name">Sales Summary</span>
+            </a>
+            <span class="tooltip">Sales Summary</span>
+          </li>
+          <li>
+            <a href="Add_Item.html">
+              <i class='bx bx-chat'></i>
+              <span class="links_name">Add items</span>
+            </a>
+            <span class="tooltip">Add items</span>
+          </li>
+          <li>
+            <a href="Update_Item.html">
+              <i class='bx bx-pie-chart-alt-2'></i>
+              <span class="links_name">Update/Delete Itesm</span>
+            </a>
+            <span class="tooltip">Update Items</span>
+          </li>
+          <li>
+            <a href="Info.html">
+              <i class='bx bx-user'></i>
+              <span class="links_name">Info</span>
+            </a>
+            <span class="tooltip">Info</span>
+          </li>
+          <li>
+            <a href="Login_Page.html">
+              <i class='bx bx-log-out'></i>
+              <span class="links_name">Log Out</span>
+            </a>
+            <span class="tooltip">logout</span>
+          </li>
+          <li class="profile">
+            <div class="profile-details">
+              <img src="images/dev.jpeg">
+              <div class="name_job">
+                <div class="name">Developer</div>
+                <div class="job">Saqlain Khan</div>
+              </div>
+            </div>
+            <i class='bx bx-user' id="log_out"></i>
+          </li>
+        </ul>
+      </div>
+      <!--Nav ends here-->
+
+
+      <div class="summary_div">
+        <div class="d1">
+        <p class="heading">Daily Order Summary</p>
+        <button class="buton y">Yesterday's Orders</button>
+        <button class="buton t">Today's Orders</button>
+        <hr class="line">
+      
+        <div class="sub_heading">
+          <p class="details">Order Details : </p>
+          <p class="date">01/01/2024</p>
+          <p class="billfold">Billfold</p>
+        </div>
+      </div>
+        <div class="orders_div">
+          <div class="order 1">
+              <div class="o_top">
+                <p class="order_no"><u>Order No. : 001</u></p>
+                <p class="type"><b>Order Type :</b> Pick Up</p>
+             </div> 
+             
+             <p class="items">Items</p>
+             <p class="item_list">>2-Loaded Fries</p>
+             <p class="item_list">>1-Fizz</p>
+             
+             <div class="o_bottom">
+                <p class="item_detail">Total items : 2</p>
+                <p class="item_detail">Total Amount : 421.00</p>
+                <p class="item_detail">Payment Type : UPI</p>
+                <p class="item_detail">Discount : 0.00%</p>
+            </div>
+            <button class="cancel_btn" popovertarget="my-popover-delete-alert"><u>Cancel Order.....</u></button>
+          </div>
+            
+          <div class="order 1">
+            <div class="o_top">
+              <p class="order_no"><u>Order No. : 002</u></p>
+              <p class="type"><b>Order Type :</b> Dine in</p>
+           </div> 
+           
+           <p class="items">Items</p>
+           <p class="item_list">>2-Chicken Stunning Burgur</p>
+           <p class="item_list">>1-Lime Soda</p>
+           
+           <div class="o_bottom">
+              <p class="item_detail">Total items : 2</p>
+              <p class="item_detail">Total Amount : 321.00</p>
+              <p class="item_detail">Payment Type : UPI</p>
+              <p class="item_detail">Discount : 0.00%</p>
+          </div>
+          <button class="cancel_btn" popovertarget="my-popover-delete-alert"><u>Cancel Order.....</u></button>
+        </div>
+          
+
+        <div class="order 1">
+          <div class="o_top">
+            <p class="order_no"><u>Order No. : 003</u></p>
+            <p class="type"><b>Order Type :</b> Pick Up</p>
+         </div> 
+         
+         <p class="items">Items</p>
+         <p class="item_list">>1-Fried rice</p>
+         <p class="item_list">>1-Water Bottle</p>
+         
+         <div class="o_bottom">
+            <p class="item_detail">Total items : 2</p>
+            <p class="item_detail">Total Amount : 421.00</p>
+            <p class="item_detail">Payment Type : UPI</p>
+            <p class="item_detail">Discount : 0.00%</p>
+        </div>
+        <button class="cancel_btn" popovertarget="my-popover-delete-alert"><u>Cancel Order.....</u></button>
+      </div>
+        
+
+      <div class="order 1">
+        <div class="o_top">
+          <p class="order_no"><u>Order No. : 004</u></p>
+          <p class="type"><b>Order Type :</b> Dine in</p>
+       </div> 
+       
+       <p class="items">Items</p>
+       <p class="item_list">>2-Chicken Biryani</p>
+       <p class="item_list">>1-Lime Soda</p>
+       
+       <div class="o_bottom">
+          <p class="item_detail">Total items : 2</p>
+          <p class="item_detail">Total Amount : 421.00</p>
+          <p class="item_detail">Payment Type : UPI</p>
+          <p class="item_detail">Discount : 0.00%</p>
+      </div>
+      <button class="cancel_btn" popovertarget="my-popover-delete-alert"><u>Cancel Order.....</u></button>
+    </div>
+
+
+    <div class="order 1">
+      <div class="o_top">
+        <p class="order_no"><u>Order No. : 004</u></p>
+        <p class="type"><b>Order Type :</b> Dine in</p>
+     </div> 
+     
+     <p class="items">Items</p>
+     <p class="item_list">>2-Chicken Biryani</p>
+     <p class="item_list">>1-Lime Soda</p>
+     
+     <div class="o_bottom">
+        <p class="item_detail">Total items : 2</p>
+        <p class="item_detail">Total Amount : 421.00</p>
+        <p class="item_detail">Payment Type : UPI</p>
+        <p class="item_detail">Discount : 0.00%</p>
+    </div>
+    <button class="cancel_btn" popovertarget="my-popover-delete-alert"><u>Cancel Order.....</u></button>
+  </div>
+
+
+
+  <div class="order 1">
+    <div class="o_top">
+      <p class="order_no"><u>Order No. : 004</u></p>
+      <p class="type"><b>Order Type :</b> Dine in</p>
+   </div> 
+   
+   <p class="items">Items</p>
+   <p class="item_list">>2-Chicken Biryani</p>
+   <p class="item_list">>1-Lime Soda</p>
+   
+   <div class="o_bottom">
+      <p class="item_detail">Total items : 2</p>
+      <p class="item_detail">Total Amount : 421.00</p>
+      <p class="item_detail">Payment Type : UPI</p>
+      <p class="item_detail">Discount : 0.00%</p>
+  </div>
+  <button class="cancel_btn" popovertarget="my-popover-delete-alert"><u>Cancel Order.....</u></button>
+</div>
+
+
+
+<div class="order 1">
+  <div class="o_top">
+    <p class="order_no"><u>Order No. : 004</u></p>
+    <p class="type"><b>Order Type :</b> Dine in</p>
+ </div> 
+ 
+ <p class="items">Items</p>
+ <p class="item_list">>2-Chicken Biryani</p>
+ <p class="item_list">>1-Lime Soda</p>
+ 
+ <div class="o_bottom">
+    <p class="item_detail">Total items : 2</p>
+    <p class="item_detail">Total Amount : 421.00</p>
+    <p class="item_detail">Payment Type : UPI</p>
+    <p class="item_detail">Discount : 0.00%</p>
+</div>
+<button class="cancel_btn" popovertarget="my-popover-delete-alert"><u>Cancel Order.....</u></button>
+</div>
+
+
+
+<div class="order 1">
+  <div class="o_top">
+    <p class="order_no"><u>Order No. : 004</u></p>
+    <p class="type"><b>Order Type :</b> Dine in</p>
+ </div> 
+ 
+ <p class="items">Items</p>
+ <p class="item_list">>2-Chicken Biryani</p>
+ <p class="item_list">>1-Lime Soda</p>
+ 
+ <div class="o_bottom">
+    <p class="item_detail">Total items : 2</p>
+    <p class="item_detail">Total Amount : 421.00</p>
+    <p class="item_detail">Payment Type : UPI</p>
+    <p class="item_detail">Discount : 0.00%</p>
+</div>
+<button class="cancel_btn" popovertarget="my-popover-delete-alert"><u>Cancel Order.....</u></button>
+</div>
+
+
+
+<div class="order 1">
+  <div class="o_top">
+    <p class="order_no"><u>Order No. : 004</u></p>
+    <p class="type"><b>Order Type :</b> Dine in</p>
+ </div> 
+ 
+ <p class="items">Items</p>
+ <p class="item_list">>2-Chicken Biryani</p>
+ <p class="item_list">>1-Lime Soda</p>
+ 
+ <div class="o_bottom">
+    <p class="item_detail">Total items : 2</p>
+    <p class="item_detail">Total Amount : 421.00</p>
+    <p class="item_detail">Payment Type : UPI</p>
+    <p class="item_detail">Discount : 0.00%</p>
+</div>
+<button class="cancel_btn" popovertarget="my-popover-delete-alert"><u>Cancel Order.....</u></button>
+</div>
+
+
+
+<div class="order 1">
+  <div class="o_top">
+    <p class="order_no"><u>Order No. : 004</u></p>
+    <p class="type"><b>Order Type :</b> Dine in</p>
+ </div> 
+ 
+ <p class="items">Items</p>
+ <p class="item_list">>2-Chicken Biryani</p>
+ <p class="item_list">>1-Lime Soda</p>
+ 
+ <div class="o_bottom">
+    <p class="item_detail">Total items : 2</p>
+    <p class="item_detail">Total Amount : 421.00</p>
+    <p class="item_detail">Payment Type : UPI</p>
+    <p class="item_detail">Discount : 0.00%</p>
+</div>
+<button class="cancel_btn" popovertarget="my-popover-delete-alert"><u>Cancel Order.....</u></button>
+</div>
+      
+
+    <div class="order 1">
+      <div class="o_top">
+        <p class="order_no"><u>Order No. : 005</u></p>
+        <p class="type"><b>Order Type :</b> Pick Up</p>
+     </div> 
+     
+     <p class="items">Items</p>
+     <p class="item_list">>1-Lime Soda</p>
+     
+     <div class="o_bottom">
+        <p class="item_detail">Total items : 1</p>
+        <p class="item_detail">Total Amount : 89.00</p>
+        <p class="item_detail">Payment Type : UPI</p>
+        <p class="item_detail">Discount : 0.00%</p>
+    </div>
+    <button class="cancel_btn" popovertarget="my-popover-delete-alert"><u>Cancel Order.....</u></button>
+  </div>
+    
+
+  <div class="order 1">
+    <div class="o_top">
+      <p class="order_no"><u>Order No. : 006</u></p>
+      <p class="type"><b>Order Type :</b> Pick Up</p>
+   </div> 
+   
+   <p class="items">Items</p>
+   <p class="item_list">>2-Rice</p>
+   <p class="item_list">>1-Burgur Veg</p>
+   
+   <div class="o_bottom">
+      <p class="item_detail">Total items : 2</p>
+      <p class="item_detail">Total Amount : 521.00</p>
+      <p class="item_detail">Payment Type : Cash</p>
+      <p class="item_detail">Discount : 12.00%</p>
+  </div>
+  <button class="cancel_btn" popovertarget="my-popover-delete-alert"><u>Cancel Order.....</u></button>
+</div>
+</div>
+
+<div popover id="my-popover-detele-done" class="p_update">
+  <center>
+  <img src="images/save.png">
+  </center>
+  <center>
+  Order have been removed/Cancelled
+  </center>
+
+</div>
+
+
+<div popover id="my-popover-delete-alert" class="p_alert">
+  <br>
+  <center>
+  Are you sure? 
+  </center>
+  <center>
+    <button popovertarget ="my-popover-detele-done" class="delete">Cancel Order</button>
+    </center>
+
+</div>
+
+</body>
+</html>
+
+
+
+
+

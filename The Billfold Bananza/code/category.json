@@ -1,0 +1,37 @@
+[
+    {
+        "categoryId": 1,
+        "c_name":"Special Items"
+    },
+    {
+        "categoryId": 2,
+        "c_name":"North-East foods"
+    },
+    {
+        "categoryId": 3,
+        "c_name":"Grilled Chickens"
+    },
+    {
+        "categoryId": 4,
+        "c_name":"Soft Drinks"
+    },
+    {
+        "categoryId": 5,
+        "c_name":"Ice Creams"
+    },
+    {
+        "categoryId": 6,
+        "c_name":"Burgurs"
+    },
+    {
+        "categoryId": 7,
+        "c_name":"Loaded Fries"
+    },
+    {
+        "categoryId": 8,
+        "c_name":"Extra"
+    }
+  
+  
+
+]
