@@ -2,6 +2,7 @@
 // Functionality to handle dine-in/pickup button selection and color change
 
 const buttons = document.querySelectorAll(".button");
+
 let isActiveButton = "dinein"; // Set "dinein" as default
 
 // Add "active" class to the first button initially (optional)
@@ -40,8 +41,6 @@ disBut.addEventListener('click', () => {
 });
 
 
-
-
 //code for discount validation
  const discountInput = document.querySelector('.discount_input');
 
@@ -54,9 +53,6 @@ disBut.addEventListener('click', () => {
     discountInput.value = newValue + '.00%';
     
   });
-
-
-
 
 
 //The Nav side bars js code :)
@@ -103,6 +99,11 @@ paymentLabels.forEach(label => {
 
 
 
+
+
+
+
+//Here is the real magic starts fleching the data from the database . oooh yeh excited
 
 
 
