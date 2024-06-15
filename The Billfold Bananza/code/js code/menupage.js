@@ -117,410 +117,327 @@ paymentLabels.forEach(label => {
 // this code here ,eat my head and at the same time this mf google ,chatGPT and this Bard-AI they are also just f with me :(
 
 // then finally it worked ,after 1 hole f weeks. That was alot of time for me to spend on this MF code :(
+  const categoryItemsContainer = document.querySelector('.category_items');
+  const itemContainer = document.getElementById('item_container');
+  const listProductHTML = document.querySelector('.listProduct');
+  const listCartHTML = document.querySelector('.listCart');
+  const cartTotalSpan = document.querySelector('.total_div span');
+  const discountAmountInput = document.querySelector('#discountAmount');
+  const totalDiscountSpan = document.querySelector('#totalDiscountSpan');
+  const clearButton = document.getElementById('clear-cart-button');
+  
+  let menu_items = [];
+  let cart = [];
+  
+  // Function to fetch data from the API
+  // Function to fetch data from the API
+  const fetchData = (url) => fetch(url).then(response => response.json());
 
-const categoryItemsContainer = document.querySelector('.category_items');
-const itemContainer = document.getElementById('item_container');
-const listProductHTML = document.querySelector('.listProduct');
-const listCartHTML = document.querySelector('.listCart');
-const cartTotalSpan = document.querySelector('.total_div span');
-const discountAmountInput = document.querySelector('#discountAmount');
-const totalDiscountSpan = document.querySelector('#totalDiscountSpan');
-const clearButton = document.getElementById('clear-cart-button');
 
-let products = [];
-let cart = [];
-
-// Function to fetch JSON data
-const fetchData = (url) => fetch(url).then(response => response.json());
-
-// Fetch category data and create category buttons
-fetchData('category.json')
+  // Fetch category data and create category buttons
+  fetchData('/categories')
   .then(categories => {
-    categoryItemsContainer.innerHTML = ''; // Clear existing content
+    categoryItemsContainer.innerHTML = '';
 
     categories.forEach(category => {
       const categoryButton = document.createElement('button');
-      categoryButton.classList.add('category_item'); // Add class
-      categoryButton.textContent = category.c_name; // Set category name
-      categoryButton.dataset.categoryId = category.categoryId; // Set data-attribute for category ID
+      categoryButton.classList.add('category_item');
+      categoryButton.textContent = category.cat_name;
+      categoryButton.dataset.categoryId = category.cat_id;
 
-      // Event listener for category selection
       categoryButton.addEventListener('click', () => {
-        // Remove active class from all buttons
         categoryItemsContainer.querySelectorAll('.category_item').forEach(otherButton => {
           otherButton.classList.remove('active');
         });
 
-        // Add active class to the clicked button
         categoryButton.classList.add('active');
-
-        // Handle category selection logic (filter products)
-        const selectedCategoryId = categoryButton.dataset.categoryId;
-        filterProducts(selectedCategoryId); // Call filterProducts function
+        filterMenuItems(categoryButton.dataset.categoryId);
       });
 
       categoryItemsContainer.appendChild(categoryButton);
     });
 
-    // Set the first category as selected by default (optional)
     const firstCategoryButton = categoryItemsContainer.querySelector('.category_item');
     if (firstCategoryButton) {
       firstCategoryButton.classList.add('active');
-      filterProducts(firstCategoryButton.dataset.categoryId); // Display products for the first category by default
+      filterMenuItems(firstCategoryButton.dataset.categoryId);
     }
   })
   .catch(error => {
     console.error("Error fetching categories:", error);
-    // Handle errors fetching the JSON file (e.g., display an error message)
   });
 
-// Function to filter and display products based on category ID
-const filterProducts = (selectedCategoryId) => {
-  fetchData('products.json')
-    .then(productsData => {
-      products = productsData; // Store products data globally
-      itemContainer.innerHTML = ''; // Clear existing products
-      console.log("Fetched products:", products); // Debug log
-      console.log("Selected category ID:", selectedCategoryId); // Debug log
-
-      const filteredProducts = products.filter(product => product.c_id == selectedCategoryId);
-      console.log("Filtered products:", filteredProducts); // Debug log
-
-      if (filteredProducts.length === 0) {
-        itemContainer.innerHTML = '<p class="product_empty">No Items Added in this category.</p>';
-      }
-
-      filteredProducts.forEach(product => {
-        const productDiv = document.createElement('div');
-        productDiv.classList.add('item');
-        productDiv.dataset.id = product.id; // Add data attribute for product ID
-        productDiv.innerHTML = `
-          <img src="${product.image}" alt="">
-          <h2>${product.name}</h2>
-          <div class="price">₹${product.price}</div>
-          <button class="addCart">Add</button>
-        `;
-        itemContainer.appendChild(productDiv);
-      });
-    })
-    .catch(error => {
-      console.error("Error fetching products:", error);
-      // Handle errors fetching the JSON file (e.g., display an error message)
-      
-    });
-};
-
-// Event listener for adding products to cart
-itemContainer.addEventListener('click', (event) => {
-  let positionClick = event.target;
-  if (positionClick.classList.contains('addCart')) {
-    let id_product = positionClick.parentElement.dataset.id;
-    addToCart(id_product);
-  }
-});
-
-const addToCart = (product_id) => {
-  let positionThisProductInCart = cart.findIndex((value) => value.product_id == product_id);
-  if (positionThisProductInCart < 0) {
-    cart.push({
-      product_id: product_id,
-      quantity: 1
-    });
-  } else {
-    cart[positionThisProductInCart].quantity += 1;
-  }
-  addCartToHTML();
-  addCartToMemory();
-}
-
-const addCartToMemory = () => {
-  localStorage.setItem('cart', JSON.stringify(cart));
-}
-
-const addCartToHTML = () => {
-  listCartHTML.innerHTML = '';
-  let totalQuantity = 0;
-  let totalDiscountValue = 0;
-  let totalPrice = 0;
-
-  if (cart.length === 0) {
-    // Create the empty cart div
-    let emptyCartDiv = document.createElement('div');
-    emptyCartDiv.classList.add('empty-cart'); // Add a class for styling
-
-    // Set the content of the empty cart div
-    emptyCartDiv.innerHTML = `
-    <img src="./images/card.png" class="empty-cart-icon">
-    `;
-
-    // Append the empty cart div to the appropriate container (replace `listCartHTML` with your actual container)
-    listCartHTML.appendChild(emptyCartDiv);
-  } else {
-    cart.forEach(item => {
-      totalQuantity += item.quantity;
-      totalPrice += item.quantity * products.find((value) => value.id == item.product_id).price;
-      let newItem = document.createElement('div');
-      newItem.classList.add('item');
-      newItem.dataset.id = item.product_id;
-
-      let positionProduct = products.findIndex((value) => value.id == item.product_id);
-      let info = products[positionProduct];
-      listCartHTML.appendChild(newItem);
-      newItem.innerHTML = `
-      <div class="image">
-          <img src="${info.image}">
-      </div>
-      <div class="name">
-      ${info.name}
-      </div>
-      
-      <div class="quantity">
-          <span class="minus"><</span>
-          <span>${item.quantity}</span>
-          <span class="plus">></span>
-      </div>
-      <div class="totalPrice">₹${info.price * item.quantity}.00</div>
-      `;
-    });
-  }
-
-  discountAmountInput.addEventListener('input', () => {
-    const discountPercentage = parseFloat(discountAmountInput.value);
-    totalDiscountValue = totalPrice * (discountPercentage / 100);
-    totalDiscountSpan.innerText = totalDiscountValue;
-    cartTotalSpan.innerText = totalPrice - totalDiscountValue;
-  });
-
-  cartTotalSpan.innerText = totalPrice;
-};
-
-
- // Attach click event listener to the clear button
- clearButton.addEventListener('click', () => {
-  // Clear cart items and update UI
-  cart.length = 0; // Empty the cart array
-  addCartToHTML(); // Recalculate and re-render cart items (clears existing ones)
   
-  addCartToMemory();
-});
-
-
-
-document.querySelector('.new_order_box').addEventListener('click', function() {
-  window.location.reload();
+  // Function to filter and display menu items based on category ID
+  const filterMenuItems = (selectedCategoryId) => {
+    fetchData('/menu_items')
+      .then(menuItemsData => {
+        menu_items = menuItemsData; // Store menu items data globally
+        itemContainer.innerHTML = ''; // Clear existing products
+        console.log("Fetched menu items:", menu_items); // Debug log
+        console.log("Selected category ID:", selectedCategoryId); // Debug log
+  
+        const filteredMenuItems = menu_items.filter(menu_item => menu_item.cat_id == selectedCategoryId);
+        console.log("Filtered menu items:", filteredMenuItems); // Debug log
+  
+        if (filteredMenuItems.length === 0) {
+          itemContainer.innerHTML = '<p class="product_empty">No Items Added in this category.</p>';
+        }
+  
+        filteredMenuItems.forEach(menu_item => {
+          const menuItemDiv = document.createElement('div');
+          menuItemDiv.classList.add('item');
+          menuItemDiv.dataset.id = menu_item.id; // Add data attribute for menu item ID
+          menuItemDiv.innerHTML = `
+            <img src="${menu_item.item_img}" alt="">
+            <h2>${menu_item.item_name}</h2>
+            <div class="price">₹${menu_item.item_price}</div>
+            <button class="addCart">Add</button>
+          `;
+          itemContainer.appendChild(menuItemDiv);
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching menu items:", error);
+        // Handle errors fetching the menu items
+      });
+  };
+  
+  // Event listener for adding menu items to cart
+  itemContainer.addEventListener('click', (event) => {
+    let positionClick = event.target;
+    if (positionClick.classList.contains('addCart')) {
+      let id_menu_item = positionClick.parentElement.dataset.id;
+      addToCart(id_menu_item);
+    }
+  });
+  
+  const addToCart = (menu_item_id) => {
+    let positionThisMenuItemInCart = cart.findIndex((value) => value.menu_item_id == menu_item_id);
+    if (positionThisMenuItemInCart < 0) {
+      cart.push({
+        menu_item_id: menu_item_id,
+        quantity: 1
+      });
+    } else {
+      cart[positionThisMenuItemInCart].quantity += 1;
+    }
+    addCartToHTML();
+    addCartToMemory();
+  }
+  
+  const addCartToMemory = () => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }
+  
+  const addCartToHTML = () => {
+    listCartHTML.innerHTML = '';
+    let totalQuantity = 0;
+    let totalDiscountValue = 0;
+    let totalPrice = 0;
+  
+    if (cart.length === 0) {
+      // Create the empty cart div
+      let emptyCartDiv = document.createElement('div');
+      emptyCartDiv.classList.add('empty-cart'); // Add a class for styling
+  
+      // Set the content of the empty cart div
+      emptyCartDiv.innerHTML = `
+      <img src="./images/card.png" class="empty-cart-icon">
+      `;
+  
+      // Append the empty cart div to the appropriate container (replace `listCartHTML` with your actual container)
+      listCartHTML.appendChild(emptyCartDiv);
+    } else {
+      cart.forEach(item => {
+        totalQuantity += item.quantity;
+        totalPrice += item.quantity * menu_items.find((value) => value.id == item.menu_item_id).item_price;
+        let newItem = document.createElement('div');
+        newItem.classList.add('item');
+        newItem.dataset.id = item.menu_item_id;
+  
+        let positionMenuItem = menu_items.findIndex((value) => value.id == item.menu_item_id);
+        let info = menu_items[positionMenuItem];
+        listCartHTML.appendChild(newItem);
+        newItem.innerHTML = `
+        <div class="image">
+            <img src="${info.item_img}">
+        </div>
+        <div class="name">
+        ${info.item_name}
+        </div>
+        
+        <div class="quantity">
+            <span class="minus"><</span>
+            <span>${item.quantity}</span>
+            <span class="plus">></span>
+        </div>
+        <div class="totalPrice">₹${info.item_price * item.quantity}.00</div>
+        `;
+      });
+    }
+  
+    discountAmountInput.addEventListener('input', () => {
+      const discountPercentage = parseFloat(discountAmountInput.value);
+      totalDiscountValue = totalPrice * (discountPercentage / 100);
+      totalDiscountSpan.innerText = totalDiscountValue;
+      cartTotalSpan.innerText = totalPrice - totalDiscountValue;
+    });
+  
+    cartTotalSpan.innerText = totalPrice;
+  };
+  
+  // Attach click event listener to the clear button
+  clearButton.addEventListener('click', () => {
     // Clear cart items and update UI
     cart.length = 0; // Empty the cart array
     addCartToHTML(); // Recalculate and re-render cart items (clears existing ones)
     
     addCartToMemory();
-  
-});
-
-
-
-
-// Print bill button functionality
-printButton.addEventListener('click', () => {
-  // Get cart details
-  
-  let totalQuantity = 0;
-  let itemizedBill = "";
-  let itemizedAmt = ""; // String to store item details
-
-  // Loop through cart items and build itemized bill content
-  cart.forEach((item) => {
-    const product = products.find((value) => value.id == item.product_id);
-    totalQuantity += item.quantity;
-  
-    // Build the itemized bill string with a newline at the end
-    const itemizedBillEntry = `>${item.quantity} x ${product.name}<br/>`;
-    itemizedBill += itemizedBillEntry;
-  
-    // Build the itemized price string with a newline at the end
-    const formattedPrice = product.price.toFixed(2);
-    const itemizedAmtEntry = `(₹) ${formattedPrice}<br>`;
-    itemizedAmt += itemizedAmtEntry;
   });
-
-
-  const dineInText = isActiveButton === "dinein" ? " (Dine In)" : " (Pickup)";
-  const paymentLine = `Payment Type : ${selectedPaymentText}`;
-
-  // Calculate total price for all items in the cart
-  let totalPrice = 0;
-  cart.forEach((item) => {
-    totalPrice += item.quantity * products.find((value) => value.id == item.product_id).price;
-  });
-
-  // Calculate discount value (only if a discount is entered)
-  let totalDiscountValue = 0;
-  if (discountAmountInput.value) {
-    totalDiscountValue = totalPrice * (parseFloat(discountAmountInput.value) / 100);
-  }
-
-  // Retrieve nextBillNumber from localStorage or initialize to 1
-  const storedNextBillNumber = localStorage.getItem('nextBillNumber');
-  let nextBillNumber = storedNextBillNumber ? parseInt(storedNextBillNumber, 10) : 1;
-
-  // Generate unique bill number
-  const dateString = new Date().toISOString().slice(0, 10);//time string banana *****************************************************
-  const billNumber = `${nextBillNumber.toString().padStart(4, "0")}`;
-
-  const now = new Date();
-const formattedTime = now.toLocaleTimeString();
-
-  // Update nextBillNumber and store in localStorage
-  nextBillNumber++;
-  localStorage.setItem('nextBillNumber', nextBillNumber);
-
-
-  // Create a printable bill content
-  let billContent = `
-  <!DOCTYPE html>
-  <html lang="en" >
-  <head>
-    <meta charset="UTF-8">
-    <title>The Receipt</title>
-    <link rel="stylesheet" href="css code/menupage.css">
   
-  </head>
-  <body>
-    <div class="bill">
-    <br>
-    ******************************************** <h1 class="bill-header">Order Receipt</h1>********************************************
-    <br>
-    <br>
-    <p class="bill-id">Bill no. ${billNumber}</p>
-    
-    <p class="bill-date">Date : ${dateString}</p>
-    <p class="bill-time">Time : ${formattedTime} </p>
-    <p class="bill-type">Order type : ${dineInText}</p>
-    <p class="bill-payment-type">${paymentLine}</p>
-    <hr>
-    
-    <table class="bill-items">
-        <thead>
-            <tr>
-                <th>Items</th>
-                <th>(₹) Price </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>${itemizedBill}</td>
-                <td>${itemizedAmt}</td>
-            </tr>  
-        </tbody>
-    </table>
-    <hr>
-    <div class="bill-discount">
-      <p class="bill-discount__text">Total Items : ${totalQuantity}</p>
+  document.querySelector('.new_order_box').addEventListener('click', function() {
+    window.location.reload();
+      // Clear cart items and update UI
+      cart.length = 0; // Empty the cart array
+      addCartToHTML(); // Recalculate and re-render cart items (clears existing ones)
       
-  </div>
-    <div class="bill-discount">
-      <p class="bill-discount__text"><u>Discount :</u></p>
-      <p class="bill-discount__amount">₹${totalDiscountValue.toFixed(2)}</p>
-  </div>
-    <div class="bill-total">
-        <p class="bill-total__text">TOTAL AMOUNT :</p>
-        <p class="bill-total__amount">₹${(totalPrice - totalDiscountValue).toFixed(2)}</p>
+      addCartToMemory();
+  });
+  
+  // Print bill button functionality
+  printButton.addEventListener('click', () => {
+    // Get cart details
+    let totalQuantity = 0;
+    let itemizedBill = "";
+    let itemizedAmt = ""; // String to store item details
+  
+    // Loop through cart items and build itemized bill content
+    cart.forEach((item) => {
+      const menu_item = menu_items.find((value) => value.id == item.menu_item_id);
+      totalQuantity += item.quantity;
+    
+      // Build the itemized bill string with a newline at the end
+      const itemizedBillEntry = `>${item.quantity} x ${menu_item.item_name}<br/>`;
+      itemizedBill += itemizedBillEntry;
+    
+      // Build the itemized price string with a newline at the end
+      const formattedPrice = menu_item.item_price.toFixed(2);
+      const itemizedAmtEntry = `(₹) ${formattedPrice}<br>`;
+      itemizedAmt += itemizedAmtEntry;
+    });
+  
+    const dineInText = isActiveButton === "dinein" ? " (Dine In)" : " (Pickup)";
+    const paymentLine = `Payment Type : ${selectedPaymentText}`;
+  
+    // Calculate total price for all items in the cart
+    let totalPrice = 0;
+    cart.forEach((item) => {
+      totalPrice += item.quantity * menu_items.find((value) => value.id == item.menu_item_id).item_price;
+    });
+  
+    // Calculate discount value (only if a discount is entered)
+    let totalDiscountValue = 0;
+    if (discountAmountInput.value) {
+      totalDiscountValue = totalPrice * (parseFloat(discountAmountInput.value) / 100);
+    }
+  
+    // Retrieve nextBillNumber from localStorage or initialize to 1
+    const storedNextBillNumber = localStorage.getItem('nextBillNumber');
+    let nextBillNumber = storedNextBillNumber ? parseInt(storedNextBillNumber, 10) : 1;
+  
+    // Generate unique bill number
+    const dateString = new Date().toISOString().slice(0, 10); // Time string
+    const billNumber = `${nextBillNumber.toString().padStart(4, "0")}`;
+  
+    const now = new Date();
+    const formattedTime = now.toLocaleTimeString();
+  
+    // Update nextBillNumber and store in localStorage
+    nextBillNumber++;
+    localStorage.setItem('nextBillNumber', nextBillNumber);
+  
+    // Create a printable bill content
+    let billContent = `
+   
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>The Receipt</title>
+      <link rel="stylesheet" href="css code/menupage.css">
+    </head>
+    <body>
+      <div class="bill">
+      <br>
+      ******************************************** <h1 class="bill-header">Order Receipt</h1>********************************************
+      <br>
+      <br>
+      <p class="bill-id">Bill no. ${billNumber}</p>
+      <p class="bill-date">Date : ${dateString}</p>
+      <p class="bill-time">Time : ${formattedTime} </p>
+      <p class="bill-type">Order type : ${dineInText}</p>
+      <p class="bill-payment-type">${paymentLine}</p>
+      <hr>
+      <table class="bill-items">
+          <thead>
+              <tr>
+                  <th>Items</th>
+                  <th>(₹) Price </th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td>${itemizedBill}</td>
+                  <td>${itemizedAmt}</td>
+              </tr>  
+          </tbody>
+      </table>
+      <hr>
+      <div class="bill-discount">
+        <p class="bill-discount__text">Total Items : ${totalQuantity}</p>
     </div>
+      <div class="bill-discount">
+        <p class="bill-discount__text"><u>Discount :</u></p>
+        <p class="bill-discount__amount">₹${totalDiscountValue.toFixed(2)}</p>
+    </div>
+      <div class="bill-total">
+          <p class="bill-total__text">TOTAL AMOUNT :</p>
+          <p class="bill-total__amount">₹${(totalPrice - totalDiscountValue).toFixed(2)}</p>
+      </div>
+      <p class="bill-footer">*****************THANK YOU!*****************</p>
+      <p class="bill-footer-2">Please visit again :)</p>
+      <br>
+    </div>
+    </body>
+    </html>
+    `;
   
-    <p class="bill-footer">*****************THANK YOU!*****************</p>
-    <p class="bill-footer-2">Please visit agian :)</p>
-    <br>
-
-</div>
-</body>
-</html>
-
-
-
-
-
-
-
-
-  `;
-
-  // Open a new print window and set its content
-  const printWindow = window.open();
-  printWindow.document.write(billContent);
-  printWindow.document.close();
-  printWindow.focus();
-  printWindow.print(); // Trigger print dialog
-
-
-  cart.length = 0; // Empty the cart array
-  addCartToHTML(); // Recalculate and re-render cart items (clears existing ones)
-  addCartToHTML();
-  addCartToMemory();
-
- 
-
-});
-
-// Call the addCartToHTML function to update the cart display
-
-
-
-
-
-
-
+    // Open a new print window and set its content
+    const printWindow = window.open();
+    printWindow.document.write(billContent);
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print(); // Trigger print dialog
   
-
-listCartHTML.addEventListener('click', (event) => {
-    let positionClick = event.target;
-    if(positionClick.classList.contains('minus') || positionClick.classList.contains('plus')){
-        let product_id = positionClick.parentElement.parentElement.dataset.id;
-        let type = 'minus';
-        if(positionClick.classList.contains('plus')){
-            type = 'plus';
-        }
-        changeQuantityCart(product_id, type);
-    }
-})
-const changeQuantityCart = (product_id, type) => {
-    let positionItemInCart = cart.findIndex((value) => value.product_id == product_id);
-    if(positionItemInCart >= 0){
-        let info = cart[positionItemInCart];
-        switch (type) {
-            case 'plus':
-                cart[positionItemInCart].quantity = cart[positionItemInCart].quantity + 1;
-                break;
-        
-            default:
-                let changeQuantity = cart[positionItemInCart].quantity - 1;
-                if (changeQuantity > 0) {
-                    cart[positionItemInCart].quantity = changeQuantity;
-                }else{
-                    cart.splice(positionItemInCart, 1);
-                }
-                break;
-        }
-    }
+    cart.length = 0; // Empty the cart array
+    addCartToHTML(); // Recalculate and re-render cart items (clears existing ones)
     addCartToHTML();
     addCartToMemory();
-}
-
-const initApp = () => {
-
-
-
-    // get data product
-    fetch('products.json')
-    .then(response => response.json())
-    .then(data => {
-        products = data;
-        
-
-        // get data cart from memory
-        if(localStorage.getItem('cart')){
-            cart = JSON.parse(localStorage.getItem('cart'));
-            addCartToHTML();
+  });
+  
+  // Initialize the app
+  const initApp = () => {
+    fetch('/menu_items')
+      .then(response => response.json())
+      .then(data => {
+        menu_items = data;
+        // Get data cart from memory
+        if (localStorage.getItem('cart')) {
+          cart = JSON.parse(localStorage.getItem('cart'));
+          addCartToHTML();
         }
-     
-    })
-}
-initApp();
+      });
+  };
+  
+  initApp();
+  
