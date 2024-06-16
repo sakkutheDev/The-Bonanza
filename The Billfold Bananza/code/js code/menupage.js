@@ -125,6 +125,7 @@ paymentLabels.forEach(label => {
   const discountAmountInput = document.querySelector('#discountAmount');
   const totalDiscountSpan = document.querySelector('#totalDiscountSpan');
   const clearButton = document.getElementById('clear-cart-button');
+ 
   
   let menu_items = [];
   let cart = [];
@@ -229,7 +230,6 @@ paymentLabels.forEach(label => {
   const addCartToMemory = () => {
     localStorage.setItem('cart', JSON.stringify(cart));
   }
-  
   const addCartToHTML = () => {
     listCartHTML.innerHTML = '';
     let totalQuantity = 0;
@@ -274,6 +274,24 @@ paymentLabels.forEach(label => {
         </div>
         <div class="totalPrice">₹${info.item_price * item.quantity}.00</div>
         `;
+  
+        // Add event listeners for the plus and minus buttons
+        newItem.querySelector('.plus').addEventListener('click', () => {
+          item.quantity += 1;
+          addCartToHTML();
+          addCartToMemory();
+        });
+  
+        newItem.querySelector('.minus').addEventListener('click', () => {
+          if (item.quantity > 1) {
+            item.quantity -= 1;
+          } else {
+            // Optionally, remove the item from the cart if quantity is 0
+            cart = cart.filter(cartItem => cartItem.menu_item_id !== item.menu_item_id);
+          }
+          addCartToHTML();
+          addCartToMemory();
+        });
       });
     }
   
@@ -304,125 +322,164 @@ paymentLabels.forEach(label => {
       
       addCartToMemory();
   });
-  
+ 
   // Print bill button functionality
-  printButton.addEventListener('click', () => {
-    // Get cart details
-    let totalQuantity = 0;
-    let itemizedBill = "";
-    let itemizedAmt = ""; // String to store item details
-  
-    // Loop through cart items and build itemized bill content
-    cart.forEach((item) => {
-      const menu_item = menu_items.find((value) => value.id == item.menu_item_id);
-      totalQuantity += item.quantity;
+  document.addEventListener('DOMContentLoaded', () => {
+    const printButton = document.getElementById('printButton');
     
-      // Build the itemized bill string with a newline at the end
-      const itemizedBillEntry = `>${item.quantity} x ${menu_item.item_name}<br/>`;
-      itemizedBill += itemizedBillEntry;
-    
-      // Build the itemized price string with a newline at the end
-      const formattedPrice = menu_item.item_price.toFixed(2);
-      const itemizedAmtEntry = `(₹) ${formattedPrice}<br>`;
-      itemizedAmt += itemizedAmtEntry;
-    });
-  
-    const dineInText = isActiveButton === "dinein" ? " (Dine In)" : " (Pickup)";
-    const paymentLine = `Payment Type : ${selectedPaymentText}`;
-  
-    // Calculate total price for all items in the cart
-    let totalPrice = 0;
-    cart.forEach((item) => {
-      totalPrice += item.quantity * menu_items.find((value) => value.id == item.menu_item_id).item_price;
-    });
-  
-    // Calculate discount value (only if a discount is entered)
-    let totalDiscountValue = 0;
-    if (discountAmountInput.value) {
-      totalDiscountValue = totalPrice * (parseFloat(discountAmountInput.value) / 100);
+    // Check if the printButton element exists
+    if (!printButton) {
+      console.error('Print button not found');
+      return;
     }
   
-    // Retrieve nextBillNumber from localStorage or initialize to 1
-    const storedNextBillNumber = localStorage.getItem('nextBillNumber');
-    let nextBillNumber = storedNextBillNumber ? parseInt(storedNextBillNumber, 10) : 1;
+    // Print bill button functionality
+    printButton.addEventListener('click', () => {
+      // Get cart details
+      let totalQuantity = 0;
+      let itemizedBill = "";
+      let itemizedAmt = ""; // String to store item details
+    
+      // Loop through cart items and build itemized bill content
+      cart.forEach((item) => {
+        const menu_item = menu_items.find((value) => value.id == item.menu_item_id);
+        totalQuantity += item.quantity;
+      
+        // Build the itemized bill string with a newline at the end
+        const itemizedBillEntry = `>${item.quantity} x ${menu_item.item_name}<br/>`;
+        itemizedBill += itemizedBillEntry;
+      
+        // Build the itemized price string with a newline at the end
+        const formattedPrice = menu_item.item_price.toFixed(2);
+        const itemizedAmtEntry = `(₹) ${formattedPrice}<br>`;
+        itemizedAmt += itemizedAmtEntry;
+      });
+    
+      const dineInText = isActiveButton === "dinein" ? " (Dine In)" : " (Pickup)";
+      const paymentLine = `Payment Type : ${selectedPaymentText}`;
+    
+      // Calculate total price for all items in the cart
+      let totalPrice = 0;
+      cart.forEach((item) => {
+        totalPrice += item.quantity * menu_items.find((value) => value.id == item.menu_item_id).item_price;
+      });
+    
+      // Calculate discount value (only if a discount is entered)
+      let totalDiscountValue = 0;
+      if (discountAmountInput.value) {
+        totalDiscountValue = totalPrice * (parseFloat(discountAmountInput.value) / 100);
+      }
+    
+      // Retrieve nextBillNumber from localStorage or initialize to 1
+      const storedNextBillNumber = localStorage.getItem('nextBillNumber');
+      let nextBillNumber = storedNextBillNumber ? parseInt(storedNextBillNumber, 10) : 1;
+    
+      // Generate unique bill number
+      const dateString = new Date().toISOString().slice(0, 10); // Time string
+      const billNumber = `${nextBillNumber.toString().padStart(4, "0")}`;
+    
+      const now = new Date();
+      const formattedTime = now.toLocaleTimeString();
+    
+      // Update nextBillNumber and store in localStorage
+      nextBillNumber++;
+      localStorage.setItem('nextBillNumber', nextBillNumber);
   
-    // Generate unique bill number
-    const dateString = new Date().toISOString().slice(0, 10); // Time string
-    const billNumber = `${nextBillNumber.toString().padStart(4, "0")}`;
+      
+     // Prepare data to send to the server
+     const billData = {
+      date_time: new Date().toISOString(),
+      bill_no: billNumber,
+      payment_type_id: paymentLine, // Assuming you have this variable set
+      discount: totalDiscountValue,
+      // cgst: cgstValue, // Set this to your actual CGST value
+      // sgst: sgstValue, // Set this to your actual SGST value
+      total_amount: totalPrice - totalDiscountValue,
+      order_type_id: dineInText, // Assuming you have this variable set
+      items: cart
+    };
   
-    const now = new Date();
-    const formattedTime = now.toLocaleTimeString();
+    // Send bill data to the server
+    fetch('/save_invoice', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(billData)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        // Print the bill as before
+        let billContent = `
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <title>The Receipt</title>
+          <link rel="stylesheet" href="css code/menupage.css">
+        </head>
+        <body>
+          <div class="bill">
+          <br>
+          ******************************************** <h1 class="bill-header">Order Receipt</h1>********************************************
+          <br>
+          <br>
+          <p class="bill-id">Bill no. ${billNumber}</p>
+          <p class="bill-date">Date : ${dateString}</p>
+          <p class="bill-time">Time : ${formattedTime} </p>
+          <p class="bill-type">Order type : ${dineInText}</p>
+          <p class="bill-payment-type">${paymentLine}</p>
+          <hr>
+          <table class="bill-items">
+              <thead>
+                  <tr>
+                      <th>Items</th>
+                      <th>(₹) Price </th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>${itemizedBill}</td>
+                      <td>${itemizedAmt}</td>
+                  </tr>  
+              </tbody>
+          </table>
+          <hr>
+          <div class="bill-discount">
+            <p class="bill-discount__text">Total Items : ${totalQuantity}</p>
+        </div>
+          <div class="bill-discount">
+            <p class="bill-discount__text"><u>Discount :</u></p>
+            <p class="bill-discount__amount">₹${totalDiscountValue.toFixed(2)}</p>
+        </div>
+          <div class="bill-total">
+              <p class="bill-total__text">TOTAL AMOUNT :</p>
+              <p class="bill-total__amount">₹${(totalPrice - totalDiscountValue).toFixed(2)}</p>
+          </div>
+          <p class="bill-footer">*****************THANK YOU!*****************</p>
+          <p class="bill-footer-2">Please visit again :)</p>
+          <br>
+        </div>
+        </body>
+        </html>
+        `;
   
-    // Update nextBillNumber and store in localStorage
-    nextBillNumber++;
-    localStorage.setItem('nextBillNumber', nextBillNumber);
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(billContent);
+        printWindow.document.close();
+        printWindow.focus();
+        printWindow.print(); // Trigger print dialog
   
-    // Create a printable bill content
-    let billContent = `
-   
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <title>The Receipt</title>
-      <link rel="stylesheet" href="css code/menupage.css">
-    </head>
-    <body>
-      <div class="bill">
-      <br>
-      ******************************************** <h1 class="bill-header">Order Receipt</h1>********************************************
-      <br>
-      <br>
-      <p class="bill-id">Bill no. ${billNumber}</p>
-      <p class="bill-date">Date : ${dateString}</p>
-      <p class="bill-time">Time : ${formattedTime} </p>
-      <p class="bill-type">Order type : ${dineInText}</p>
-      <p class="bill-payment-type">${paymentLine}</p>
-      <hr>
-      <table class="bill-items">
-          <thead>
-              <tr>
-                  <th>Items</th>
-                  <th>(₹) Price </th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr>
-                  <td>${itemizedBill}</td>
-                  <td>${itemizedAmt}</td>
-              </tr>  
-          </tbody>
-      </table>
-      <hr>
-      <div class="bill-discount">
-        <p class="bill-discount__text">Total Items : ${totalQuantity}</p>
-    </div>
-      <div class="bill-discount">
-        <p class="bill-discount__text"><u>Discount :</u></p>
-        <p class="bill-discount__amount">₹${totalDiscountValue.toFixed(2)}</p>
-    </div>
-      <div class="bill-total">
-          <p class="bill-total__text">TOTAL AMOUNT :</p>
-          <p class="bill-total__amount">₹${(totalPrice - totalDiscountValue).toFixed(2)}</p>
-      </div>
-      <p class="bill-footer">*****************THANK YOU!*****************</p>
-      <p class="bill-footer-2">Please visit again :)</p>
-      <br>
-    </div>
-    </body>
-    </html>
-    `;
-  
-    // Open a new print window and set its content
-    const printWindow = window.open();
-    printWindow.document.write(billContent);
-    printWindow.document.close();
-    printWindow.focus();
-    printWindow.print(); // Trigger print dialog
-  
-    cart.length = 0; // Empty the cart array
-    addCartToHTML(); // Recalculate and re-render cart items (clears existing ones)
-    addCartToHTML();
-    addCartToMemory();
+        cart.length = 0; // Empty the cart array
+        addCartToHTML(); // Recalculate and re-render cart items (clears existing ones)
+        addCartToMemory();
+      } else {
+        console.error('Error saving invoice:', data.error);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
   });
   
   // Initialize the app
@@ -440,4 +497,5 @@ paymentLabels.forEach(label => {
   };
   
   initApp();
+  });
   

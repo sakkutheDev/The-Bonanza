@@ -8,6 +8,8 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 5500;
 
+app.use(express.json()); // To parse JSON bodies
+
 // Database connection
 const connection = mysql.createConnection({
   host: process.env.DB_HOST || 'localhost',
@@ -29,7 +31,7 @@ app.use(express.static(path.join(__dirname,)));
 
 // Serve the specific Menu_Page.html file at the root URL
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'Menu_Page.html'));
+  res.sendFile(path.join(__dirname,  'Menu_Page.html'));
 });
 
 // Fetch categories
@@ -50,6 +52,56 @@ app.get('/menu_items', (req, res) => {
       console.error('Error fetching menu items:', err);
       res.status(500).json({ error: 'Error fetching menu items' });
     });
+});
+
+// Save invoice
+app.post('/save_invoice', (req, res) => {
+  const invoiceData = req.body;
+  const { date_time, bill_no, payment_type_id, discount, total_amount, order_type_id, items } = invoiceData;
+
+  connection.beginTransaction(err => {
+    if (err) {
+      console.error('Error starting transaction:', err);
+      return res.status(500).json({ success: false, error: 'Error starting transaction' });
+    }
+
+    // Insert invoice bill
+    const insertInvoiceBillQuery = 'INSERT INTO invoice_bill (date_time, bill_no, payment_type_id, discount, cgst, sgst, total_amount, order_type_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    connection.query(insertInvoiceBillQuery, [date_time, bill_no, payment_type_id, discount, total_amount, order_type_id], (err, results) => {
+      if (err) {
+        connection.rollback(() => {
+          console.error('Error inserting invoice bill:', err);
+          return res.status(500).json({ success: false, error: 'Error inserting invoice bill' });
+        });
+      }
+
+      const invoiceId = results.insertId;
+
+      // Insert invoice items
+      const insertInvoiceItemQuery = 'INSERT INTO invoice_item (invoice_id, menu_item_id, quantity) VALUES ?';
+      const invoiceItemsData = items.map(item => [invoiceId, item.menu_item_id, item.quantity]);
+
+      connection.query(insertInvoiceItemQuery, [invoiceItemsData], (err, results) => {
+        if (err) {
+          connection.rollback(() => {
+            console.error('Error inserting invoice items:', err);
+            return res.status(500).json({ success: false, error: 'Error inserting invoice items' });
+          });
+        }
+
+        connection.commit(err => {
+          if (err) {
+            connection.rollback(() => {
+              console.error('Error committing transaction:', err);
+              return res.status(500).json({ success: false, error: 'Error committing transaction' });
+            });
+          }
+
+          res.json({ success: true });
+        });
+      });
+    });
+  });
 });
 
 // Function to query the database with promises
