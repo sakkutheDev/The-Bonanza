@@ -75,22 +75,30 @@ function menuBtnChange() {
   }
 }
 
+const paymentTypeMap = {
+  'Cash': 2,
+  'Card': 3,
+  'UPI': 4
+  // Add other payment types as needed
+};
 
-// thsi code is to flech the data from category and products(i)
 const paymentLabels = document.querySelectorAll('.radio-button__label');
-let selectedPaymentText = ""; // Initialize for clarity
+let selectedPaymentId = 2; // Default to 'Cash' which maps to ID 1
+let selectedPaymentText = 'Cash'; // Default to 'Cash'
 
 const firstRadio = document.querySelector('.radio-button__input'); // Select the first radio button
-firstRadio.checked = true; 
+firstRadio.checked = true;
 const firstLabel = firstRadio.nextElementSibling; // Get the label associated with the first radio button
-selectedPaymentText = firstLabel.textContent.trim(); // Capture initial payment type (Cash)
-
+selectedPaymentId = paymentTypeMap[firstLabel.textContent.trim()]; // Capture initial payment type ID (Cash)
+selectedPaymentText = firstLabel.textContent.trim(); // Capture initial payment type text (Cash)
 
 paymentLabels.forEach(label => {
   const associatedRadio = label.previousElementSibling; // Get the radio button associated with the label
   associatedRadio.addEventListener('change', () => {
     if (associatedRadio.checked) {
-      selectedPaymentText = label.textContent.trim(); // Get and trim the text content of the label
+      const paymentText = label.textContent.trim(); // Get and trim the text content of the label
+      selectedPaymentId = paymentTypeMap[paymentText]; // Get the corresponding ID
+      selectedPaymentText = paymentText; // Update selected payment text
     }
   });
 });
@@ -326,7 +334,7 @@ paymentLabels.forEach(label => {
   // Print bill button functionality
   document.addEventListener('DOMContentLoaded', () => {
     const printButton = document.getElementById('printButton');
-    
+  
     // Check if the printButton element exists
     if (!printButton) {
       console.error('Print button not found');
@@ -334,84 +342,92 @@ paymentLabels.forEach(label => {
     }
   
     // Print bill button functionality
-    printButton.addEventListener('click', () => {
-      // Get cart details
-      let totalQuantity = 0;
-      let itemizedBill = "";
-      let itemizedAmt = ""; // String to store item details
-    
-      // Loop through cart items and build itemized bill content
-      cart.forEach((item) => {
-        const menu_item = menu_items.find((value) => value.id == item.menu_item_id);
-        totalQuantity += item.quantity;
-      
-        // Build the itemized bill string with a newline at the end
-        const itemizedBillEntry = `>${item.quantity} x ${menu_item.item_name}<br/>`;
-        itemizedBill += itemizedBillEntry;
-      
-        // Build the itemized price string with a newline at the end
-        const formattedPrice = menu_item.item_price.toFixed(2);
-        const itemizedAmtEntry = `(₹) ${formattedPrice}<br>`;
-        itemizedAmt += itemizedAmtEntry;
-      });
-    
-      const dineInText = isActiveButton === "dinein" ? " (Dine In)" : " (Pickup)";
-      const paymentLine = `Payment Type : ${selectedPaymentText}`;
-    
-      // Calculate total price for all items in the cart
-      let totalPrice = 0;
-      cart.forEach((item) => {
-        totalPrice += item.quantity * menu_items.find((value) => value.id == item.menu_item_id).item_price;
-      });
-    
-      // Calculate discount value (only if a discount is entered)
-      let totalDiscountValue = 0;
-      if (discountAmountInput.value) {
-        totalDiscountValue = totalPrice * (parseFloat(discountAmountInput.value) / 100);
-      }
-    
-      // Retrieve nextBillNumber from localStorage or initialize to 1
-      const storedNextBillNumber = localStorage.getItem('nextBillNumber');
-      let nextBillNumber = storedNextBillNumber ? parseInt(storedNextBillNumber, 10) : 1;
-    
-      // Generate unique bill number
-      const dateString = new Date().toISOString().slice(0, 10); // Time string
-      const billNumber = `${nextBillNumber.toString().padStart(4, "0")}`;
-    
-      const now = new Date();
-      const formattedTime = now.toLocaleTimeString();
-    
-      // Update nextBillNumber and store in localStorage
-      nextBillNumber++;
-      localStorage.setItem('nextBillNumber', nextBillNumber);
+printButton.addEventListener('click', () => {
+  // Get cart details
+  let totalQuantity = 0;
+  let itemizedBill = "";
+  let itemizedAmt = ""; // String to store item details
+
+  // Loop through cart items and build itemized bill content
+  cart.forEach((item) => {
+    const menu_item = menu_items.find((value) => value.id == item.menu_item_id);
+    totalQuantity += item.quantity;
+
+    // Build the itemized bill string with a newline at the end
+    const itemizedBillEntry = `>${item.quantity} x ${menu_item.item_name}<br/>`;
+    itemizedBill += itemizedBillEntry;
+
+    // Build the itemized price string with a newline at the end
+    const formattedPrice = menu_item.item_price.toFixed(2);
+    const itemizedAmtEntry = `(₹) ${formattedPrice}<br>`;
+    itemizedAmt += itemizedAmtEntry;
+  });
+
+  // Assume isActiveButton is set to "dinein" or "pickup"
+  const orderTypeId = isActiveButton === "dinein" ? 1 : 2; // 1 for Dine In, 2 for Pickup
   
-      
-     // Prepare data to send to the server
-     const billData = {
-      date_time: new Date().toISOString(),
-      bill_no: billNumber,
-      payment_type_id: paymentLine, // Assuming you have this variable set
-      discount: totalDiscountValue,
-      // cgst: cgstValue, // Set this to your actual CGST value
-      // sgst: sgstValue, // Set this to your actual SGST value
-      total_amount: totalPrice - totalDiscountValue,
-      order_type_id: dineInText, // Assuming you have this variable set
-      items: cart
-    };
-  
-    // Send bill data to the server
-    fetch('/save_invoice', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(billData)
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        // Print the bill as before
-        let billContent = `
+
+  // Calculate total price for all items in the cart
+  let totalPrice = 0;
+  cart.forEach((item) => {
+    totalPrice += item.quantity * menu_items.find((value) => value.id == item.menu_item_id).item_price;
+  });
+
+  // Calculate discount value (only if a discount is entered)
+  let totalDiscountValue = 0;
+  if (discountAmountInput.value) {
+    totalDiscountValue = totalPrice * (parseFloat(discountAmountInput.value) / 100);
+  }
+
+  // Retrieve nextBillNumber from localStorage or initialize to 1
+  const storedNextBillNumber = localStorage.getItem('nextBillNumber');
+  let nextBillNumber = storedNextBillNumber ? parseInt(storedNextBillNumber, 10) : 1;
+
+  // Generate unique bill number
+  const dateString = new Date().toISOString().slice(0, 10); // Date string
+  const billNumber = `${nextBillNumber.toString().padStart(4, "0")}`;
+
+  const now = new Date();
+  const formattedTime = now.toLocaleTimeString();
+  const formattedDateTime = now.toISOString().slice(0, 19).replace('T', ' '); // Format the datetime
+
+  // Update nextBillNumber and store in localStorage
+  nextBillNumber++;
+  localStorage.setItem('nextBillNumber', nextBillNumber);
+
+  // Prepare data to send to the server
+  const billData = {
+    date_time: formattedDateTime,
+    bill_no: billNumber,
+    payment_type_id: selectedPaymentId,
+    discount: totalDiscountValue,
+    total_amount: totalPrice - totalDiscountValue,
+    order_type_id: orderTypeId,
+    items: cart
+  };
+
+  // Fetch call to save the invoice
+  fetch('http://localhost:5500/save_invoice', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(billData)
+  })
+  .then(response => {
+    if (!response.ok) {
+      return response.json().then(errorInfo => {
+        console.error('Server responded with an error:', errorInfo);
+        throw new Error('Server error');
+      });
+    }
+    return response.json();
+  })
+  .then(data => {
+    if (data.success) {
+      console.log('Invoice saved successfully:', data);
+      // Your existing code for printing the bill
+      let billContent = `
         <html lang="en">
         <head>
           <meta charset="UTF-8">
@@ -427,8 +443,8 @@ paymentLabels.forEach(label => {
           <p class="bill-id">Bill no. ${billNumber}</p>
           <p class="bill-date">Date : ${dateString}</p>
           <p class="bill-time">Time : ${formattedTime} </p>
-          <p class="bill-type">Order type : ${dineInText}</p>
-          <p class="bill-payment-type">${paymentLine}</p>
+          <p class="bill-type">Order type : ${isActiveButton === "dinein" ? "Dine In" : "Pickup"}</p>
+          <p class="bill-payment-type">Payment Type: ${selectedPaymentText}</p>
           <hr>
           <table class="bill-items">
               <thead>
@@ -447,11 +463,11 @@ paymentLabels.forEach(label => {
           <hr>
           <div class="bill-discount">
             <p class="bill-discount__text">Total Items : ${totalQuantity}</p>
-        </div>
+          </div>
           <div class="bill-discount">
             <p class="bill-discount__text"><u>Discount :</u></p>
             <p class="bill-discount__amount">₹${totalDiscountValue.toFixed(2)}</p>
-        </div>
+          </div>
           <div class="bill-total">
               <p class="bill-total__text">TOTAL AMOUNT :</p>
               <p class="bill-total__amount">₹${(totalPrice - totalDiscountValue).toFixed(2)}</p>
@@ -462,40 +478,39 @@ paymentLabels.forEach(label => {
         </div>
         </body>
         </html>
-        `;
-  
-        const printWindow = window.open('', '_blank');
-        printWindow.document.write(billContent);
-        printWindow.document.close();
-        printWindow.focus();
-        printWindow.print(); // Trigger print dialog
-  
-        cart.length = 0; // Empty the cart array
-        addCartToHTML(); // Recalculate and re-render cart items (clears existing ones)
-        addCartToMemory();
-      } else {
-        console.error('Error saving invoice:', data.error);
+      `;
+
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(billContent);
+      printWindow.document.close();
+      printWindow.focus();
+      printWindow.print(); // Trigger print dialog
+
+      cart.length = 0; // Empty the cart array
+      addCartToHTML(); // Recalculate and re-render cart items (clears existing ones)
+      addCartToMemory();
+    } else {
+      console.error('Error saving invoice:', data.error);
+    }
+  })
+  .catch(error => {
+    console.error('Fetch error:', error);
+  });
+});
+
+// Initialize the app
+const initApp = () => {
+  fetch('/menu_items')
+    .then(response => response.json())
+    .then(data => {
+      menu_items = data;
+      // Get data cart from memory
+      if (localStorage.getItem('cart')) {
+        cart = JSON.parse(localStorage.getItem('cart'));
+        addCartToHTML();
       }
-    })
-    .catch(error => {
-      console.error('Error:', error);
     });
-  });
-  
-  // Initialize the app
-  const initApp = () => {
-    fetch('/menu_items')
-      .then(response => response.json())
-      .then(data => {
-        menu_items = data;
-        // Get data cart from memory
-        if (localStorage.getItem('cart')) {
-          cart = JSON.parse(localStorage.getItem('cart'));
-          addCartToHTML();
-        }
-      });
-  };
-  
-  initApp();
-  });
-  
+};
+
+initApp();
+});

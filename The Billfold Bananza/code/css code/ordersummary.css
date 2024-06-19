@@ -125,14 +125,17 @@ font-family: "Poppins", sans-serif;
   padding-bottom: 0;
   font-size: 14px;
   font-weight: bold;
-  display: inline-block;
+
+  width: 180px;
+
 }
 
 .type{
   font-size: 12px;
-  margin-left: 140px;
+  margin-left: 120px;
   padding: 4px;
   font-weight: 550;
+  width: 180px;
 
 }
 
@@ -148,8 +151,13 @@ font-family: "Poppins", sans-serif;
   margin-left: 30px;
   font-size: 12px;
   font-weight:200;
+  height: 40px;
+  overflow-y: auto;
 
 }
+/* .item_list::-webkit-scrollbar{
+  width:0;
+} */
 
 .o_bottom{
   margin-top:20px ;
@@ -167,12 +175,14 @@ font-family: "Poppins", sans-serif;
 .cancel_btn{
   border: none;
   background: none;
-  margin-left: 110px;
+  margin-top: 70px;
+  margin-left: 90px;
   color: rgb(211, 0, 0);
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
   transition: 0.5s;
+  
 }
 
 
@@ -219,6 +229,9 @@ transform: scale(0.90);
   }
 }
 
+.show-popover {
+  display: block; /* Show popover when class is applied */
+}
 
 .p_alert{
   border: none;
