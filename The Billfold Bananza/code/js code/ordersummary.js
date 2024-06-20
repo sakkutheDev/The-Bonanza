@@ -18,17 +18,26 @@ function menuBtnChange() {
 }
 
 
-// ordersummary.js
+
+
+//the actual fun starts here
 document.addEventListener('DOMContentLoaded', function() {
-  fetchOrders();
+  const fetchTodayOrdersBtn = document.querySelector('.buton.t');
+  const fetchYesterdayOrdersBtn = document.querySelector('.buton.y');
+  
+  fetchTodayOrdersBtn.addEventListener('click', () => fetchOrders('/today_orders'));
+  fetchYesterdayOrdersBtn.addEventListener('click', () => fetchOrders('/yesterday_orders'));
+
+  // Fetch today's orders by default
+  fetchOrders('/today_orders');
 });
 
-function fetchOrders() {
-  fetch('/get_orders')
+function fetchOrders(endpoint) {
+  fetch(endpoint)
     .then(response => response.json())
     .then(data => {
       if (data.success) {
-        displayOrders(data.orders);
+        displayOrders(data.orders, endpoint);
       } else {
         console.error('Failed to fetch orders:', data.error);
       }
@@ -37,9 +46,34 @@ function fetchOrders() {
       console.error('Fetch error:', error);
     });
 }
-function displayOrders(orders) {
+
+function displayOrders(orders, endpoint) {
   const orderSummaryContainer = document.getElementById('order-summary');
   orderSummaryContainer.innerHTML = ''; // Clear any existing content
+
+  const todayDateElement = document.getElementById('today_date');
+
+  if (orders.length > 0) {
+    // Assuming all orders are from the same day, get the date from the first order
+    const orderDate = new Date(orders[0].date_time); 
+    if (!isNaN(orderDate)) { // Check if the date is valid
+      const formattedDate = orderDate.toLocaleDateString('en-GB'); // Format the date as DD/MM/YYYY
+      todayDateElement.textContent = formattedDate;
+    } else {
+      console.error('Invalid date format in orders');
+      todayDateElement.textContent = 'Invalid date';
+    }
+  } else {
+    // Handle the case when no orders are present
+    if (endpoint.includes('yesterday')) {
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      const formattedYesterday = yesterday.toLocaleDateString('en-GB');
+      todayDateElement.textContent = formattedYesterday;
+    } else {
+      todayDateElement.textContent = 'Today';
+    }
+  }
 
   orders.forEach(order => {
     const orderDiv = document.createElement('div');
@@ -117,7 +151,7 @@ function deleteOrder(orderId) {
         // Optionally, update the UI to reflect the deletion
         showDeleteDonePopover();
         // Refresh the orders after deletion
-        fetchOrders();
+        fetchOrders('/today_orders'); // Assuming you want to refresh today's orders
       } else {
         console.error('Failed to delete order:', data.error);
       }
