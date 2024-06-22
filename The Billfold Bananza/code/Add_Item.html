@@ -120,18 +120,15 @@
               <span id="span">Add item to the existing menu</span>
               <i id="icon" class="fa-solid fa-chevron-down"></i>
           </div>
-            <ul id="list" class="dropdown-list">
-                <li class="dropdown-list-item">Indian Fried Chicken</li>
-                <li class="dropdown-list-item">Hot & Spicy wings</li>
-                <li class="dropdown-list-item">Grill Chicken</li>
-                <li class="dropdown-list-item">Biryani</li>
-                <li class="dropdown-list-item">Drinks</li>
-                <li class="dropdown-list-item">Burgurs</li>
-            </ul>
+              <ul id="list" class="dropdown-list">
+
+             
+              </ul>
           </div>
-        <label class="n_c_label">New category name :</label>
-        <input type="text" class="label_txt" placeholder="  Eg. Rice Bowls">
-        <button class="add_btn">+ Add category</button>
+          <label class="n_c_label">New category name :</label>
+          <input type="text" id="newCategoryInput" class="label_txt" placeholder="  Eg. Rice Bowls">
+          <button id="addCategoryBtn" class="add_btn">+ Add category</button>
+          
       </div>
       <hr class="line">
       <p class="details_label">Item Details</p>
@@ -140,19 +137,20 @@
         <div class="d1">
         <label class="category_label_n" >
           <span style="color: red;">*</span>Category name :
-          <input type="text" readonly placeholder=" Eg. Loaded Fries" class="label_txt_n">
+          <input type="text" readonly placeholder=" Eg. Loaded Fries" class="label_txt_n" id="categoryName">
+        
         </label>
 
 
         <label class="category_img_n" >
-          <input type="file" accept="image/*">
+          <input type="file" accept="image/*" id="itemImage">
         </label>
 
       </div>
 
         <label class="category_label_n1" >
           <span style="color: red;">*</span><u>Item Name :</u><br>
-          <input type="text"  placeholder=" Eg. Loaded Fries with cheese" class="label_txt_n1">
+          <input type="text" placeholder=" Eg. Loaded Fries with cheese" class="label_txt_n1" id="itemName">
         </label>
 
        <br>
@@ -164,11 +162,11 @@
 
         <label class="category_label_n3" >
           <span style="color: red;">*</span><u>Item Price :</u>
-          <input type="Number"  placeholder=" Eg. 299.00" class="label_txt_n3">
+          <input type="number" placeholder=" Eg. 299.00" class="label_txt_n3" id="itemPrice">
         </label>
 
         
-        <button class="print_btn" popovertarget="my-popover">Save</button>
+        <button class="print_btn" popovertarget="my-popover" onclick="saveMenuItem()">Save</button>
 
         <div popover id="my-popover" class="p">
               <center>

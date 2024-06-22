@@ -44,6 +44,24 @@ app.get('/categories', (req, res) => {
     });
 });
 
+// Endpoint to add a new category
+app.post('/add-category', (req, res) => {
+  const { cat_name } = req.body;
+
+  if (!cat_name) {
+    return res.status(400).json({ message: 'Category name is required' });
+  }
+
+  const query = 'INSERT INTO category (cat_name) VALUES (?)';
+  connection.query(query, [cat_name], (err, result) => {
+    if (err) {
+      console.error('Error inserting category:', err);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+    res.status(200).json({ message: 'Category added successfully' });
+  });
+});
+
 // Fetch menu items
 app.get('/menu_items', (req, res) => {
   queryDatabase('SELECT * FROM menu_item')
@@ -134,6 +152,7 @@ function queryDatabase(query) {
     });
   });
 }
+
 // Fetch today's canceled orders
 app.get('/today_canceled_orders', (req, res) => {
   const today = new Date().toISOString().split('T')[0];
@@ -214,6 +233,64 @@ app.delete('/delete_order/:id', (req, res) => {
     });
   });
 });
+
+
+
+// Route to fetch category ID
+app.post('/get-category-id', (req, res) => {
+  const categoryName = req.body.categoryName;
+
+  if (!categoryName) {
+    return res.status(400).json({ success: false, message: 'Category name is required.' });
+  }
+
+  const sql = 'SELECT cat_id FROM category WHERE cat_name = ?';
+  connection.query(sql, [categoryName], (err, results) => {
+    if (err) {
+      console.error('Error fetching category ID:', err);
+      return res.status(500).json({ success: false, message: 'Error fetching category ID.' });
+    }
+
+    if (results.length > 0) {
+      const categoryId = results[0].cat_id;
+      res.status(200).json({ success: true, categoryId });
+    } else {
+      res.status(404).json({ success: false, message: 'Category not found.' });
+    }
+  });
+});
+
+// Route to save menu item
+app.post('/add-menu-item', upload.single('itemImage'), (req, res) => {
+  const categoryId = req.body.categoryId;
+  const itemName = req.body.itemName;
+  const itemPrice = req.body.itemPrice;
+  const itemImage = req.file;
+
+  if (!categoryId || !itemName || !itemPrice || !itemImage) {
+    return res.status(400).json({ success: false, message: 'Category ID, item name, price, and image are required.' });
+  }
+
+  const newItem = {
+    cat_id: categoryId,
+    item_name: itemName,
+    item_price: itemPrice,
+    item_img: itemImage.filename // Save the filename in the database
+  };
+
+  const sql = 'INSERT INTO menu_item (cat_id, item_name, item_price, item_img) VALUES (?, ?, ?, ?)';
+  const values = [newItem.cat_id, newItem.item_name, newItem.item_price, newItem.item_img];
+
+  connection.query(sql, values, (err, result) => {
+    if (err) {
+      console.error('Error saving menu item:', err);
+      return res.status(500).json({ success: false, message: 'Error saving menu item.' });
+    }
+    res.status(200).json({ success: true, message: 'Menu item saved successfully.' });
+  });
+});
+
+
 
 // Save invoice (unchanged from your original code)
 app.post('/save_invoice', (req, res) => {

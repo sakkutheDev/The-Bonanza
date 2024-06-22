@@ -1,10 +1,11 @@
+/* Google Font Link */
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+  
 body{
     margin:0;
     margin-left: 78px;
   }
-  
-  /* Google Font Link */
-  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
   * {
   margin: 0;
   padding: 0;
@@ -162,8 +163,19 @@ body{
   padding-top: 20px;
   padding-left: 10px;
   font-weight: bold;
-  
+
 }
+
+
+.category_label_n input[type="text"] {
+  padding-left:15px;
+  font-size: 14px;
+  font-weight:500;
+ 
+  cursor:not-allowed;
+
+}
+
 
 .label_txt_n{
   height: 40px;
