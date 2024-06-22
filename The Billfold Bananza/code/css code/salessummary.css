@@ -98,7 +98,7 @@ body{
 
 .summary_details{
   
-  height: 330px;
+  height: 370px;
   background-color: rgba(255, 255, 255, 0.6);
   margin: 14px;
   margin-top: 0;
@@ -194,3 +194,8 @@ body{
   box-shadow: 4px 4px 12px #c46868, -4px -4px 12px #cd7373;
   transform: scale(0.90);
 }
+
+
+
+
+

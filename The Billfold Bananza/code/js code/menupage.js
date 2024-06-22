@@ -432,7 +432,146 @@ printButton.addEventListener('click', () => {
         <head>
           <meta charset="UTF-8">
           <title>The Receipt</title>
-          <link rel="stylesheet" href="css code/menupage.css">
+          <style>
+          
+
+.bill {
+  text-align: center;
+  width: 340px;
+  margin: 0 auto;
+  background-color: rgb(229, 237, 243);
+}
+
+.bill-header {
+  font-size: 18px;
+  padding: 0;
+  margin: 0;
+
+
+}
+.bill-id{
+  font-size: 13px;
+  display: inline;
+  padding-right:135px;
+  padding-left: 6px;
+  
+  
+  
+}
+
+.bill-date{
+  display: inline;
+  font-size: 12px;
+}
+
+.bill-time{
+
+  font-size: 12px;  
+  padding-left: 210px;
+  margin-top: 6px;
+}
+
+.bill-type{
+  font-size: 12px;  
+  text-align: left;
+  margin-top: 6px; 
+  margin-bottom: 10px;
+  margin-left: 8px;
+
+
+}
+
+.bill-payment-type{
+  font-size: 12px;  
+  text-align: left;
+  margin-top: 0px; 
+  margin-left: 8px;
+ 
+
+}
+
+
+.bill-items {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+}
+
+.bill-items td{
+  font-size: 12px;
+
+}
+
+
+.bill-items th,
+.bill-items td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+
+}
+
+.bill-items th:first-child,
+.bill-items td:first-child {
+  width: 75%;
+  
+}
+
+.bill-items th:last-child,
+.bill-items td:last-child {
+  width: 25%;
+}
+
+.bill-discount {
+  
+  text-align: left;
+  margin-left: 8px;
+  font-size: 12px;
+  margin-bottom: 6px;
+  
+
+  .bill-discount__text{
+      
+      display: inline;
+      margin-right: 200px;
+   
+  }
+
+  .bill-discount__amount{
+      text-align: right;
+      display: inline;
+  }
+}
+.bill-total{
+  margin-top: 10px;
+  margin-bottom:20px ;
+
+  .bill-total__text {
+      font-weight: bold; 
+      display: inline;
+      margin-right: 100px;
+     
+      font-size: 16px;
+   
+  }
+  
+   .bill-total__amount {
+      text-align: right;
+      display: inline;
+      margin-right: 10px;
+      font-weight: bold; 
+  
+  }
+}
+
+
+
+.bill-footer {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  margin-bottom: 20px
+}
+          </style>
         </head>
         <body>
           <div class="bill">

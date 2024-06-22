@@ -134,16 +134,31 @@ function queryDatabase(query) {
     });
   });
 }
+// Fetch today's canceled orders
+app.get('/today_canceled_orders', (req, res) => {
+  const today = new Date().toISOString().split('T')[0];
+  const sql = 'SELECT * FROM cancelled_order WHERE DATE(created_at) = ? AND order_cancelled = 1';
 
-// Fetch the count of canceled orders
-app.get('/canceled_orders_count', (req, res) => {
-  const sql = 'SELECT SUM(total_count) AS canceled_orders_count, SUM(total_amount) AS canceled_orders_amount FROM canceled_order WHERE order_cancelled = TRUE';
-  connection.query(sql, (err, results) => {
+  connection.query(sql, [today], (err, results) => {
     if (err) {
-      console.error('Error fetching canceled orders count:', err);
+      console.error('Error fetching today\'s canceled orders:', err);
       return res.status(500).json({ success: false, error: 'Database error' });
     }
-    res.json({ success: true, canceled_orders_count: results[0].canceled_orders_count, canceled_orders_amount: results[0].canceled_orders_amount });
+    res.json({ success: true, cancelledOrders: results });
+  });
+});
+
+// Fetch yesterday's canceled orders
+app.get('/yesterday_canceled_orders', (req, res) => {
+  const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+  const sql = 'SELECT * FROM cancelled_order WHERE DATE(created_at) = ? AND order_cancelled = 1';
+
+  connection.query(sql, [yesterday], (err, results) => {
+    if (err) {
+      console.error('Error fetching yesterday\'s canceled orders:', err);
+      return res.status(500).json({ success: false, error: 'Database error' });
+    }
+    res.json({ success: true, cancelledOrders: results });
   });
 });
 
