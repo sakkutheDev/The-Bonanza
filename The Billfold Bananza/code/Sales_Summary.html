@@ -82,7 +82,7 @@
           <li>
             <a href="Update_Item.html">
               <i class='bx bx-pie-chart-alt-2'></i>
-              <span class="links_name">Update/Delete Itesm</span>
+              <span class="links_name">Update/Delete Item</span>
             </a>
             <span class="tooltip">Update Items</span>
           </li>
@@ -114,61 +114,67 @@
       </div>
       
 
-      <div class="summary_div">
-        <p class="heading">Executive Sales Summary</p>
-        <button class="buton y">Yesterday's Orders</button>
-        <button class="buton t">Today's Orders</button>
-        <hr class="line">
-          <div class="sub_heading">
-            <p class="details">Sales Summary : </p>
-            <p class="date">01/01/2024</p>
-            <p class="billfold">Billfold</p>
-          </div>  
-      </div>
-      
-      <div class="summary_details">
-        <ul>
-          <li class="header_list">
-            <p class="header_txt">Order</p>
-            <p class="header_txt">Total(₹)</p>
-          </li>
-
-          <li class="sub_h">
-            <p class="h_l">Count :</p>
-            <input type="number" class="h_1_box" readonly placeholder="69"/>
-          </li>
-           <li class="sub_h">
-            <p class="h_l">Cash :</p>
-            <input type="number" class="h_1_box" readonly placeholder="61239.00"/>
-          </li>
-          
-          <li class="sub_h">
-            <p class="h_l">Card :</p>
-            <input type="number" class="h_1_box" readonly placeholder="8569.00"/>
-          </li>
-          <li class="sub_h">
-            <p class="h_l">UPI :     </p>
-            <input type="number" class="h_1_box" readonly placeholder="16129.00"/>
-          </li>
-
-          <li class="sub_h">
-            <p class="h_l">Discount Amount :  </p>
-            <input type="number" class="h_1_box" readonly placeholder="909.00"/>
-          </li>
-
-          <li class="sub_h">
-            <p class="total">Grand Total :</p>
-            <input type="number" class="total_box" readonly placeholder="161229.00"/>
-          </li>
-          <button class="print_btn">Print Report</button>
-        </ul>
-
-      
-
+      <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales Summary</title>
+    <script src="salessummary.js" defer></script>
+</head>
+<body>
+  <div class="summary_div">
+    <p class="heading">Executive Sales Summary</p>
+    <button class="buton y" id="yesterdayBtn">Yesterday's Orders</button>
+    <button class="buton t" id="todayBtn">Today's Orders</button>
+    <hr class="line">
+    <div class="sub_heading">
+      <p class="details">Sales Summary :</p>
+      <p class="date" id="today_date">01/01/2024</p>
+      <p class="billfold">Billfold</p>
+    </div>
+  </div>
+  <div class="summary_details">
+    <ul>
+      <li class="header_list">
+        <p class="header_txt">Order</p>
+        <p class="header_txt">Total(₹)</p>
+      </li>
+      <li class="sub_h">
+        <p class="h_l">Total Orders :</p>
+        <input type="number" id="total_orders" class="h_1_box" readonly />
+      </li>
+      <li class="sub_h">
+        <p class="h_l">Cash :</p>
+        <input type="number" id="total_cash_amount" class="h_1_box" readonly />
+      </li>
+      <li class="sub_h">
+        <p class="h_l">Card :</p>
+        <input type="number" id="total_card_amount" class="h_1_box" readonly />
+      </li>
+      <li class="sub_h">
+        <p class="h_l">UPI :</p>
+        <input type="number" id="total_upi_amount" class="h_1_box" readonly />
+      </li>
+      <li class="sub_h">
+        <p class="h_l">Discount Amount :</p>
+        <input type="number" id="total_discount_amount" class="h_1_box" readonly />
+      </li>
+      <li class="sub_h">
+        <p class="h_l">Orders Cancelled :</p>
+        <input type="number" id="total_canceled_orders" class="h_1_box" readonly />
+      </li>
+      <li class="sub_h">
+        <p class="total">Grand Total :</p>
+        <input type="number" id="grand_total" class="total_box" readonly />
+      </li>
+      <button class="print_btn" onclick="printReport()">Print Report</button>
+    </ul>
+  </div>
 </body>
 </html>
 
 
+        
 
 
 

@@ -24,11 +24,17 @@ body{
   font-size:20px;
   font-weight: bold;
   margin-left: 15px;
+  display: inline;
 }
 
 .y{
-  margin-left:780px;
-  margin-right: 30px;
+  margin-left:500px;
+  
+ 
+  
+}
+.t{
+  margin-left:730px;
 }
 
 .buton {
@@ -42,6 +48,10 @@ body{
   border: 1px solid #e8e8e8;
   transition: all 0.3s;
   box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+
+  position: absolute;
+
+  
 }
 
 .buton:hover {
@@ -56,7 +66,7 @@ body{
 .line{
   width:"100%";
   size:2;
-  margin-top:20px;
+  margin-top:30px;
 }
 
 .sub_heading{
@@ -88,9 +98,9 @@ body{
 
 .summary_details{
   
-  height: 290px;
+  height: 330px;
   background-color: rgba(255, 255, 255, 0.6);
-  margin: 20px;
+  margin: 14px;
   margin-top: 0;
   box-shadow: 2px 2px 15px #a59f9f, -2px -2px 15px #a59f9f;
   
