@@ -308,6 +308,7 @@ input[type="file"]::file-selector-button:active {
   font-size: 20px;
   box-shadow: 4px 4px 12px #d29a9a, -4px -4px 12px #d29a9a;
   transition: 2s;
+  display: none;
 
 
 

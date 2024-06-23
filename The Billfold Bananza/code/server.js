@@ -2,6 +2,8 @@ const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
 const dotenv = require('dotenv');
+const multer = require('multer');
+const fs = require('fs'); 
 
 dotenv.config();
 
@@ -25,6 +27,25 @@ connection.connect(err => {
   }
   console.log('Connected to the database.');
 });
+
+// Ensure the uploads directory exists
+const uploadDir = path.join(__dirname, 'uploads');
+
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+
+const upload = multer({ storage: storage });
 
 // Serve static files from the current directory
 app.use(express.static(path.join(__dirname)));
@@ -234,8 +255,6 @@ app.delete('/delete_order/:id', (req, res) => {
   });
 });
 
-
-
 // Route to fetch category ID
 app.post('/get-category-id', (req, res) => {
   const categoryName = req.body.categoryName;
@@ -260,6 +279,7 @@ app.post('/get-category-id', (req, res) => {
   });
 });
 
+
 // Route to save menu item
 app.post('/add-menu-item', upload.single('itemImage'), (req, res) => {
   const categoryId = req.body.categoryId;
@@ -271,11 +291,13 @@ app.post('/add-menu-item', upload.single('itemImage'), (req, res) => {
     return res.status(400).json({ success: false, message: 'Category ID, item name, price, and image are required.' });
   }
 
+  const imagePath = path.join('uploads', itemImage.filename);
+
   const newItem = {
     cat_id: categoryId,
     item_name: itemName,
     item_price: itemPrice,
-    item_img: itemImage.filename // Save the filename in the database
+    item_img: imagePath // Save the file path in the database
   };
 
   const sql = 'INSERT INTO menu_item (cat_id, item_name, item_price, item_img) VALUES (?, ?, ?, ?)';
@@ -289,8 +311,6 @@ app.post('/add-menu-item', upload.single('itemImage'), (req, res) => {
     res.status(200).json({ success: true, message: 'Menu item saved successfully.' });
   });
 });
-
-
 
 // Save invoice (unchanged from your original code)
 app.post('/save_invoice', (req, res) => {

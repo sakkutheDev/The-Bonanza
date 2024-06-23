@@ -85,6 +85,7 @@ window.onclick = function (e) {
   }
 };
 
+
 // Add event listener for the Add Category button
 document.getElementById('addCategoryBtn').addEventListener('click', async () => {
   const newCategoryInput = document.getElementById('newCategoryInput');
@@ -102,7 +103,7 @@ document.getElementById('addCategoryBtn').addEventListener('click', async () => 
 
       const result = await response.json();
       if (response.ok) {
-        alert(result.message);
+        // alert(result.message);
         newCategoryInput.value = ''; // Clear input field
         fetchCategories(); // Refresh the category list
 
@@ -121,3 +122,79 @@ document.getElementById('addCategoryBtn').addEventListener('click', async () => 
 });
 
 
+// for saving the manu items to the database 
+async function saveMenuItem() {
+  const categoryNameInput = document.getElementById('categoryName');
+  const itemNameInput = document.getElementById('itemName');
+  const itemPriceInput = document.getElementById('itemPrice');
+  const itemImageInput = document.getElementById('itemImage');
+
+  const categoryName = categoryNameInput.value.trim();
+  const itemName = itemNameInput.value.trim();
+  const itemPrice = itemPriceInput.value.trim();
+  const itemImage = itemImageInput.files[0];
+
+  // Check if all required fields are filled
+  if (!categoryName || !itemName || !itemPrice) {
+    alert('Category name, item name, and item price are required.');
+    return;
+  }
+
+  try {
+    // Fetch the category ID based on the category name
+    const categoryResponse = await fetch('/get-category-id', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ categoryName })
+    });
+
+    const categoryResult = await categoryResponse.json();
+
+    if (!categoryResult.success) {
+      alert('Category not found.');
+      return;
+    }
+
+    const categoryId = categoryResult.categoryId;
+
+    // Prepare form data for the menu item
+    const formData = new FormData();
+    formData.append('categoryId', categoryId);
+    formData.append('itemName', itemName);
+    formData.append('itemPrice', itemPrice);
+    formData.append('itemImage', itemImage);
+
+    // Save the menu item
+    const response = await fetch('/add-menu-item', {
+      method: 'POST',
+      body: formData
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      // Clear input fields
+      categoryNameInput.value = '';
+      itemNameInput.value = '';
+      itemPriceInput.value = '';
+      itemImageInput.value = null; // Clear the file input
+
+      // Show the popover after successful save
+      const popover = document.getElementById('my-popover');
+      popover.style.display = 'block';
+
+      // Reload the page after a short delay
+      setTimeout(() => {
+        popover.style.display = 'none'; // Hide popover before reload
+        location.reload();
+      }, 2000); // Reload after 2 seconds (adjust this as needed)
+    } else {
+      alert('Error saving menu item.');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Error saving menu item.');
+  }
+}
