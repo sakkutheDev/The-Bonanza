@@ -31,9 +31,19 @@
             </a>
         </div>
         <div class="right_header">
-            <img class="call_logo" src="images/call_logo.svg">
-            <img class="notification_logo" src="images/notification_logo.svg">
-            <img class="profile" src="images/profile.jpg">
+            <div class="call">
+            <img class="call_logo" src="images/call_logo.svg" alt="Call Logo">
+            <span class="tooltiptext">Customer care number :<br> +91 9008008772</span>
+            </div>
+           
+            <div class="call">
+              <img class="notification_logo" src="images/notification_logo.svg">
+              <span class="tooltiptext_n">No New Notifications..</span>
+              </div>
+            
+            <a href="Profile.html">
+              <img class="profile" src="images/profile.jpg">
+            </a>
         </div>
     </div>
     <!--Header ends Here-->
@@ -115,8 +125,41 @@
       
 
 
+<p class="heading">Restaurent Profile</p>
 
+<div class="main_div">
 
+  <div class="file-upload-form">
+  
+    <div class="profile_photo_div">
+      <img src="images/profile.jpg" alt="No photo added to this profile" class="profile_img">
+    </div>
+  
+    <label class="category_img_n" >
+      <input type="file" accept="image/*" id="itemImage">
+    </label>
 
+    <div class="profile_div">
+      <div class="d1">
+          <p class="res_name">Restaurent Name :</p>
+          <input type="text" class="res_name_box" placeholder="  Eg: 7 Star Restaurent">
+        </div>
 
+        <div class="d1">
+          <p class="res_name">Restaurent Address :</p>
+          <input type="textarea" class="res_name_box_a" placeholder="  Eg: #18 2nd cross Frazer town bangaluru 560056, karnataka ">
+        </div>
 
+        <div class="d1">
+          <p class="res_name">Restaurent Number :</p>
+          <input type="text" class="res_name_box" placeholder="  Eg: +91 8088654281">
+        </div>
+
+        <div class="d1">
+          <button class="print_btn">Update</button>
+        </div>
+
+  </div>
+</div>
+</body>
+</html>

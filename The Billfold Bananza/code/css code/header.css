@@ -83,7 +83,55 @@
 .call_logo{
     height: 25px;
     /* width: 30px; */
+   
     
+}
+
+
+.tooltiptext{
+    display: none;
+    position: fixed;
+    margin-top: -5px;
+    text-align: center;
+    height: 40px;
+    background-color: darkred;
+    margin-left: -250px;
+    color: white;
+    width: 220px;
+    border-radius: 40px;
+    font-size: 12px;
+    padding: 2px;
+    cursor: pointer;
+   
+}
+
+
+.call:hover .tooltiptext{
+    display: inline;
+    cursor: pointer;
+   
+}
+
+
+.tooltiptext_n{
+    display: none;
+    position: fixed;
+    margin-top: 3px;
+    text-align: center;
+    height: 35px;
+    background-color: darkred;
+    margin-left: -250px;
+    color: white;
+    width: 160px;
+    border-radius: 40px;
+    font-size: 12px;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.call:hover .tooltiptext_n{
+    display: inline;
+    cursor: pointer;
 }
 
 .notification_logo{
@@ -94,6 +142,7 @@
 .profile{
     height: 30px;
     border-radius: 18px;
+    width: 30px;
 
 }
 
@@ -205,3 +254,4 @@
     background-color: #BF0100;
     color: white;
   }
+

@@ -1,10 +1,12 @@
+/* Google Font Link */
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
 body{
     margin:0;
     margin-left: 78px;
   }
   
-  /* Google Font Link */
-  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
   * {
   margin: 0;
   padding: 0;
@@ -12,3 +14,147 @@ body{
   font-family: "Poppins", sans-serif;
   }
   
+  .heading{
+    margin-top: 60px;
+    margin-bottom: 20px;
+    text-align: center; 
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  .main_div{
+    height: 420px;
+    width: 1140px;
+    /* background-color: aqua; */
+   margin: 30px;
+   margin-top: 10px;
+   box-shadow: 2px 2px 15px #a59f9f, -2px -2px 15px #a59f9f;
+  }
+
+
+.profile_photo_div{
+  margin-top: 40px;
+  margin-left: 80px;
+  height: 250px;
+  border-radius: 125px;
+  width: 250px;
+  background-color: #a59f9f;
+  position: absolute;
+
+
+  .profile_img{
+    height: 250px;
+    border-radius: 125px;
+    width: 250px;
+    
+  }
+}
+
+
+
+
+.category_img_n{
+  margin-left: 120px;
+  margin-top: 320px;
+  position: absolute;
+ 
+ 
+  
+}
+
+/* file upload button */
+input[type="file"]::file-selector-button {
+  border-radius: 8px;
+  width: 150px;
+  height: 40px;
+  color: white;
+  cursor: pointer;
+  background-color:darkred;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  transition: background-color 200ms;
+  transition: 0.5s;
+}
+
+
+/* file upload button hover state */
+input[type="file"]::file-selector-button:hover {
+  background-color:  rgb(166, 162, 162);;
+}
+
+/* file upload button active state */
+input[type="file"]::file-selector-button:active {
+  background-color:  darkred;
+  transform: scale(0.9);
+  font-size: 18px;
+}
+
+.profile_div{
+  position: absolute;
+  margin-top: 50px;
+
+  height: 350px;
+  margin-left: 500px;
+  width: 600px;
+}
+
+.d1{
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.res_name{
+  height: 30px;
+  margin-top: 20px;
+  margin-left: 20px;
+  font-weight: 500;
+}
+.res_name_box{
+  margin-left: 20px;
+  height: 40px;
+ margin-top: 10px;
+  width: 350px;
+  border-radius: 10px;
+  border: solid 2px #a59f9f;
+
+}
+
+.res_name_box_a{
+  height:90px;
+  margin-left: 20px;
+ margin-top: 10px;
+  width: 350px;
+  border-radius: 10px;
+  border: solid 2px #a59f9f;
+}
+
+
+
+.print_btn{
+  font-weight: bold;
+  color: #f1f1f1;
+  padding: 0.5em 1.4em;
+  font-size: 16px;
+  border-radius: 0.5em;
+  background:rgb(160, 14, 14);
+  cursor: pointer;
+  border: 1px solid #e8e8e8;
+  transition: all 0.3s;
+  box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+  margin-left: 280px;
+  position: absolute;
+  margin-top: 30px;
+  width: 100px;
+  transition: 0.4s;
+}
+
+.print_btn:hover {
+  transform: scale(1.1);
+}
+
+.print_btn:active {
+  box-shadow: 4px 4px 12px #c46868, -4px -4px 12px #cd7373;
+  transform: scale(0.90);
+}
+
+
+

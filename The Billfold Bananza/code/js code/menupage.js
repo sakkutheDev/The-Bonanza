@@ -307,9 +307,9 @@ paymentLabels.forEach(label => {
   
     discountAmountInput.addEventListener('input', () => {
       const discountPercentage = parseFloat(discountAmountInput.value);
-      totalDiscountValue = totalPrice * (discountPercentage / 100);
+      const totalDiscountValue = (totalPrice * (discountPercentage / 100)).toFixed(2);
       totalDiscountSpan.innerText = totalDiscountValue;
-      cartTotalSpan.innerText = totalPrice - totalDiscountValue;
+      cartTotalSpan.innerText = (totalPrice - totalDiscountValue).toFixed(2);
     });
   
     cartTotalSpan.innerText = totalPrice;
