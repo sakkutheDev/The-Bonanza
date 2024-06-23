@@ -21,7 +21,7 @@
     <script defer src="js code/updateitem.js"></script>
 </head>
 <!-- C:\Users\User\Desktop\My_Final_year_project\The Billfold Bananza\header.css -->
-<body>
+<div>
     <!--Header Starts Here-->
     <div class="header">
         <div class="left_header">
@@ -123,140 +123,43 @@
             <p class="header_txt">Category Name</p>
             <p class="header_txt">Item Name</p>
             <p class="header_txt">Item Price</p>
+            <p class="header_txt">Off Menu/On Menu</p>
             <p class="header_txt">Edit/Delete</p>
           </div>
-        <div class="d1">
-          <div class="header_items">
-            <input type="number" readonly placeholder="1" class="items_txt">
-            <input type="text" readonly placeholder="Indian Fried Chicken" class="items_txt">
-            <input type="text" readonly placeholder="Crunchy Chicken" class="items_txt">
-            <input type="number" readonly placeholder="299.00" class="items_txt">
-            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
-            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
+        <div class="d1" id="menu-items-container">
+          <div class="header_items" >
+            <!-- Menu items will be dynamically inserted here -->
           </div>
-          <div class="header_items">
-            <input type="number" readonly placeholder="2" class="items_txt">
-            <input type="text" readonly placeholder="Hot & Spicy" class="items_txt">
-            <input type="text" readonly placeholder="Hot & Spicy wings 4 pics" class="items_txt">
-            <input type="number" readonly placeholder="279.00" class="items_txt">
-            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
-            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
-          </div>
-          <div class="header_items">
-            <input type="number" readonly placeholder="3" class="items_txt">
-            <input type="text" readonly placeholder="Biryani" class="items_txt">
-            <input type="text" readonly placeholder="Chicken Dum Biryani" class="items_txt">
-            <input type="number" readonly placeholder="189.00" class="items_txt">
-            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
-            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
-          </div>
-          <div class="header_items">
-            <input type="number" readonly placeholder="4" class="items_txt">
-            <input type="text" readonly placeholder="Grill Chicken" class="items_txt">
-            <input type="text" readonly placeholder="Full Grill Chicken" class="items_txt">
-            <input type="number" readonly placeholder="599.00" class="items_txt">
-            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
-            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
-          </div>
-          <div class="header_items">
-            <input type="number" readonly placeholder="5" class="items_txt">
-            <input type="text" readonly placeholder="Drinks" class="items_txt">
-            <input type="text" readonly placeholder="Lime Soda" class="items_txt">
-            <input type="number" readonly placeholder="80.00" class="items_txt">
-            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
-            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
-          </div>
-          <div class="header_items">
-            <input type="number" readonly placeholder="6" class="items_txt">
-            <input type="text" readonly placeholder="Crunchy Chicken" class="items_txt">
-            <input type="text" readonly placeholder="Chicken 10 pics" class="items_txt">
-            <input type="number" readonly placeholder="899.00" class="items_txt">
-            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
-            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
-          </div>
-          <div class="header_items">
-            <input type="number" readonly placeholder="7" class="items_txt">
-            <input type="text" readonly placeholder="Burgurs" class="items_txt">
-            <input type="text" readonly placeholder="Chicken Stunning Burgur" class="items_txt">
-            <input type="number" readonly placeholder="199.00" class="items_txt">
-            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
-            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
-          </div>
-          <div class="header_items">
-            <input type="number" readonly placeholder="8" class="items_txt">
-            <input type="text" readonly placeholder="Indian Fried Chicken" class="items_txt">
-            <input type="text" readonly placeholder="Chicken 2 pics" class="items_txt">
-            <input type="number" readonly placeholder="269.00" class="items_txt">
-            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
-            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
-          </div>
-          <div class="header_items">
-            <input type="number" readonly placeholder="9" class="items_txt">
-            <input type="text" readonly placeholder="Chicken Strips" class="items_txt">
-            <input type="text" readonly placeholder="Strips 10 pics" class="items_txt">
-            <input type="number" readonly placeholder="599.00" class="items_txt">
-            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
-            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
-          </div>
-          <div class="header_items">
-            <input type="number" readonly placeholder="10" class="items_txt">
-            <input type="text" readonly placeholder="Drinks" class="items_txt">
-            <input type="text" readonly placeholder="Sweet and Solt Soda" class="items_txt">
-            <input type="number" readonly placeholder="99.00" class="items_txt">
-            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
-            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
-          </div>
-          <div class="header_items">
-            <input type="number" readonly placeholder="11" class="items_txt">
-            <input type="text" readonly placeholder="Burgurs" class="items_txt">
-            <input type="text" readonly placeholder="Veg Crispy Burgur" class="items_txt">
-            <input type="number" readonly placeholder="159.00" class="items_txt">
-            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
-            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
-          </div>
-          <div class="header_items">
-            <input type="number" readonly placeholder="12" class="items_txt">
-            <input type="text" readonly placeholder="Wrap" class="items_txt">
-            <input type="text" readonly placeholder="Crispy Chicken Wrap" class="items_txt">
-            <input type="number" readonly placeholder="199.00" class="items_txt">
-            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
-            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
-          </div>
-          <div class="header_items">
-            <input type="number" readonly placeholder="13" class="items_txt">
-            <input type="text" readonly placeholder="Burgurs" class="items_txt">
-            <input type="text" readonly placeholder="Veg Crispy Burgur" class="items_txt">
-            <input type="number" readonly placeholder="139.00" class="items_txt">
-            <button class="update_btn"  popovertarget="my-popover"><u>Update</u></button>
-            <button class="delete_btn" popovertarget="my-popover-delete-alert"><u>Delete</u></button>
-          </div>
+         
         </div>
       </div>
 
   
-  <div popover id="my-popover" class="p">
-    <center>Update Item</center>
-    <br>
-    <label class="pop_name">
-     Item Name :
-     <input type="text"  placeholder=" Eg. Veg Burgur" class="p_box">
-    </label>
+    <!-- Update Item Popover -->
+    <div popover id="my-popover" class="p">
+      <center>Update Item</center>
+      <br>
+      <label class="pop_name">
+          Item Name :
+          <input id="update-item-name" type="text" placeholder="Eg. Veg Burger" class="p_box">
+      </label>
 
-    <label class="pop_price">
-      Item Price :
-      <input type="number"  placeholder=" Eg. 399" class="p_box">
-     </label>
+      <label class="pop_price">
+          Item Price :
+          <input id="update-item-price" type="number" placeholder="Eg. 399" class="p_box">
+      </label>
 
+      <label class="category_img_n">
+         
+          <input id="update-item-image" type="file" accept="image/*">
+      </label>
 
-     <label class="category_img_n" >
-      <input type="file" accept="image/*">
-    </label>
-
-     <label class="pop_price">
-     <button class="save" popovertarget="my-popover-update">Save</button>
-     </label>
+      <label class="pop_price">
+          <button class="save" onclick="saveItemUpdate()" popovertarget="my-popover-update" >Save</button>
+      </label>
+  </div>
 </div>
-</div>
+
 
 <div popover id="my-popover-update" class="p_update">
   <center>
@@ -281,13 +184,11 @@
 
 <div popover id="my-popover-delete-alert" class="p_update">
   <br>
+  <center>Are you sure?</center>
   <center>
-  Are you sure? 
+      <button class="delete" onclick="confirmDelete()" popovertarget="my-popover-detele">Delete</button>
+      <button class="delete" onclick="cancelDelete()">Cancel</button>
   </center>
-  <center>
-    <button popovertarget ="my-popover-detele" class="delete">Delete</button>
-    </center>
-
 </div>
 
 

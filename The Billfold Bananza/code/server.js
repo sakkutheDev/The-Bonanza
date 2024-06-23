@@ -360,6 +360,86 @@ app.post('/save_invoice', (req, res) => {
   });
 });
 
+
+app.get('/menu_items_with_category', (req, res) => {
+  const sql = `
+      SELECT mi.*, c.cat_name 
+      FROM menu_item mi 
+      JOIN category c ON mi.cat_id = c.cat_id
+  `;
+  connection.query(sql, (err, results) => {
+      if (err) {
+          console.error('Error fetching menu items with categories:', err);
+          return res.status(500).json({ error: 'Error fetching menu items with categories' });
+      }
+      res.json(results);
+  });
+});
+
+app.patch('/update_menu_status/:id', (req, res) => {
+  const itemId = req.params.id;
+  const { onmenu_offmenu } = req.body;
+
+  const sql = 'UPDATE menu_item SET onmenu_offmenu = ? WHERE id = ?';
+  connection.query(sql, [onmenu_offmenu, itemId], (err, result) => {
+      if (err) {
+          console.error('Error updating menu status:', err);
+          return res.status(500).json({ success: false, message: 'Error updating menu status.' });
+      }
+      res.json({ success: true, message: 'Menu status updated successfully.' });
+  });
+});
+
+app.post('/update_menu_item', upload.single('itemImage'), (req, res) => {
+  const itemId = req.body.itemId;
+  const itemName = req.body.itemName;
+  const itemPrice = req.body.itemPrice;
+  const itemImage = req.file;
+
+  let sql = 'UPDATE menu_item SET item_name = ?, item_price = ?';
+  const values = [itemName, itemPrice];
+
+  if (itemImage) {
+      const imagePath = path.join('uploads', itemImage.filename);
+      sql += ', item_img = ?';
+      values.push(imagePath);
+  }
+
+  sql += ' WHERE id = ?';
+  values.push(itemId);
+
+  connection.query(sql, values, (err, result) => {
+      if (err) {
+          console.error('Error updating menu item:', err);
+          return res.status(500).json({ success: false, message: 'Error updating menu item.' });
+      }
+      res.json({ success: true, message: 'Menu item updated successfully.' });
+  });
+});
+
+app.delete('/delete_menu_item/:id', (req, res) => {
+  const itemId = req.params.id;
+
+  const deleteInvoiceItemsQuery = 'DELETE FROM invoice_item WHERE menu_item_id = ?';
+  connection.query(deleteInvoiceItemsQuery, [itemId], (err, result) => {
+      if (err) {
+          console.error('Error deleting related invoice items:', err);
+          return res.status(500).json({ success: false, message: 'Error deleting related invoice items.' });
+      }
+
+      const deleteMenuItemQuery = 'DELETE FROM menu_item WHERE id = ?';
+      connection.query(deleteMenuItemQuery, [itemId], (err, result) => {
+          if (err) {
+              console.error('Error deleting menu item:', err);
+              return res.status(500).json({ success: false, message: 'Error deleting menu item.' });
+          }
+
+          res.json({ success: true, message: 'Menu item deleted successfully.' });
+      });
+  });
+});
+
+
 // Error handling middleware (if needed)
 app.use((err, req, res, next) => {
   console.error(err);

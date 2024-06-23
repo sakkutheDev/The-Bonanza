@@ -186,8 +186,10 @@ paymentLabels.forEach(label => {
         console.log("Fetched menu items:", menu_items); // Debug log
         console.log("Selected category ID:", selectedCategoryId); // Debug log
   
-        const filteredMenuItems = menu_items.filter(menu_item => menu_item.cat_id == selectedCategoryId);
-        console.log("Filtered menu items:", filteredMenuItems); // Debug log
+        const filteredMenuItems = menu_items.filter(menu_item => 
+          menu_item.cat_id == selectedCategoryId && menu_item.onmenu_offmenu
+      );
+      console.log("Filtered menu items:", filteredMenuItems); // Debug log
   
         if (filteredMenuItems.length === 0) {
           itemContainer.innerHTML = '<p class="product_empty">No Items Added in this category.</p>';
