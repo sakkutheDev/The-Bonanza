@@ -439,6 +439,51 @@ app.delete('/delete_menu_item/:id', (req, res) => {
   });
 });
 
+// Fetch profile details
+app.get('/get-profile', (req, res) => {
+  const sql = 'SELECT * FROM profile LIMIT 1'; // Assuming there's only one profile record
+
+  connection.query(sql, (err, results) => {
+    if (err) {
+      console.error('Error fetching profile:', err);
+      return res.status(500).json({ success: false, message: 'Error fetching profile' });
+    }
+
+    if (results.length > 0) {
+      res.json({ success: true, profile: results[0] });
+    } else {
+      res.json({ success: false, message: 'Profile not found' });
+    }
+  });
+});
+// Update profile
+app.post('/update-profile', upload.single('restaurant_image'), (req, res) => {
+  const { restaurant_name, restaurant_address, restaurant_number } = req.body;
+  let restaurant_image = null;
+
+  if (req.file) {
+    restaurant_image = path.join('uploads', req.file.filename);
+  }
+
+  const sql = restaurant_image
+    ? 'UPDATE profile SET restaurant_name = ?, restaurant_address = ?, restaurant_number = ?, restaurant_image = ? WHERE id = 1'
+    : 'UPDATE profile SET restaurant_name = ?, restaurant_address = ?, restaurant_number = ? WHERE id = 1';
+
+  const values = restaurant_image
+    ? [restaurant_name, restaurant_address, restaurant_number, restaurant_image]
+    : [restaurant_name, restaurant_address, restaurant_number];
+
+  connection.query(sql, values, (err, result) => {
+    if (err) {
+      console.error('Error updating profile:', err);
+      return res.status(500).json({ success: false, message: 'Error updating profile' });
+    }
+
+    res.json({ success: true, message: 'Profile updated successfully', profile: { restaurant_name, restaurant_address, restaurant_number, restaurant_image } });
+  });
+});
+
+
 
 // Error handling middleware (if needed)
 app.use((err, req, res, next) => {

@@ -578,7 +578,7 @@ printButton.addEventListener('click', () => {
         <body>
           <div class="bill">
           <br>
-          ******************************************** <h1 class="bill-header">Order Receipt</h1>********************************************
+          ******************************************* <h1 class="bill-header">Order Receipt</h1>*******************************************
           <br>
           <br>
           <p class="bill-id">Bill no. ${billNumber}</p>

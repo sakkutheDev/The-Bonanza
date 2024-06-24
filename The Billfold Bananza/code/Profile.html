@@ -42,7 +42,7 @@
               </div>
             
             <a href="Profile.html">
-              <img class="profile" src="images/profile.jpg">
+              <img src=""  class="profile" id="profile_img">
             </a>
         </div>
     </div>
@@ -125,39 +125,40 @@
       
 
 
-<p class="heading">Restaurent Profile</p>
+<p class="heading">Restaurant Profile</p>
 
 <div class="main_div">
 
   <div class="file-upload-form">
   
     <div class="profile_photo_div">
-      <img src="images/profile.jpg" alt="No photo added to this profile" class="profile_img">
-    </div>
-  
-    <label class="category_img_n" >
-      <input type="file" accept="image/*" id="itemImage">
-    </label>
+      <img src="" class="profile_img" id="profile_img2">
+  </div>
 
+  <label class="category_img_n">
+      <input type="file" accept="image/*" id="itemImage">
+  </label>
+  
     <div class="profile_div">
       <div class="d1">
-          <p class="res_name">Restaurent Name :</p>
-          <input type="text" class="res_name_box" placeholder="  Eg: 7 Star Restaurent">
-        </div>
-
-        <div class="d1">
-          <p class="res_name">Restaurent Address :</p>
-          <input type="textarea" class="res_name_box_a" placeholder="  Eg: #18 2nd cross Frazer town bangaluru 560056, karnataka ">
-        </div>
-
-        <div class="d1">
-          <p class="res_name">Restaurent Number :</p>
-          <input type="text" class="res_name_box" placeholder="  Eg: +91 8088654281">
-        </div>
-
-        <div class="d1">
-          <button class="print_btn">Update</button>
-        </div>
+        <p class="res_name">Restaurant Name :</p>
+        <input type="text" class="res_name_box" id="restaurant_name" placeholder="Eg: 7 Star Restaurant">
+      </div>
+  
+      <div class="d1">
+        <p class="res_name">Restaurant Address :</p>
+        <input type="textarea" class="res_name_box_a" id="restaurant_address" placeholder="Eg: #18 2nd cross Frazer town Bangalore 560056, Karnataka">
+      </div>
+  
+      <div class="d1">
+        <p class="res_name">Restaurant Number :</p>
+        <input type="text" class="res_name_box" id="restaurant_number" placeholder="Eg: +91 8088654281">
+      </div>
+  
+      <div class="d1">
+        <button class="print_btn" id="updateButton">Update</button>
+      </div>
+    </div>
 
   </div>
 </div>

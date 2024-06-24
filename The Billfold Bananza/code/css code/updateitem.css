@@ -314,7 +314,7 @@ input[type="file"]::file-selector-button:active {
 
 .switch-button .switch-outer {
   height: 100%;
-  background: #252532;
+  background: #56565f;
   width: 80px;
   border-radius: 165px;
   -webkit-box-shadow: inset 0px 5px 10px 0px #16151c, 0px 3px 6px -2px #403f4e;
