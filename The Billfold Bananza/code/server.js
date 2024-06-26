@@ -55,6 +55,57 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'Login_Page.html'));
 });
 
+
+
+
+
+// Handle login request
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+  const query = 'SELECT * FROM login WHERE username = ? AND password = ?';
+  connection.query(query, [username, password], (err, results) => {
+    if (err) {
+      console.error('Error logging in:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+
+    if (results.length > 0) {
+      const isNewUser = results[0].is_new_user; // Assuming there's a column 'is_new_user' in the database
+      res.status(200).json({ success: true, isNewUser: isNewUser, message: 'Login successful.' });
+    } else {
+      res.status(401).json({ success: false, message: 'Invalid username or password.' });
+    }
+  });
+});
+
+// Handle signup request
+app.post('/signup', (req, res) => {
+  const { username, password, confirm_password, terms } = req.body;
+
+  if (!username || !password || !confirm_password || !terms) {
+    return res.status(400).json({ success: false, message: 'All fields are required.' });
+  }
+
+  if (password !== confirm_password) {
+    return res.status(400).json({ success: false, message: 'Passwords do not match.' });
+  }
+
+  const query = 'INSERT INTO login (username, password, confirm_password) VALUES (?, ?, ?)';
+  connection.query(query, [username, password, confirm_password], (err, result) => {
+    if (err) {
+      console.error('Error inserting user:', err);
+      return res.status(500).json({ success: false, message: 'Internal server error.' });
+    }
+
+    res.status(200).json({ success: true, message: 'User registered successfully.' });
+  });
+});
+
+
+
+
+
 // Fetch categories
 app.get('/categories', (req, res) => {
   queryDatabase('SELECT * FROM category')
@@ -456,31 +507,38 @@ app.get('/get-profile', (req, res) => {
     }
   });
 });
-// Update profile
+
+
+// Update profile route
 app.post('/update-profile', upload.single('restaurant_image'), (req, res) => {
-  const { restaurant_name, restaurant_address, restaurant_number } = req.body;
-  let restaurant_image = null;
+    const { restaurant_name, restaurant_address, restaurant_number } = req.body;
+    let restaurant_image = null;
 
-  if (req.file) {
-    restaurant_image = path.join('uploads', req.file.filename);
-  }
-
-  const sql = restaurant_image
-    ? 'UPDATE profile SET restaurant_name = ?, restaurant_address = ?, restaurant_number = ?, restaurant_image = ? WHERE id = 1'
-    : 'UPDATE profile SET restaurant_name = ?, restaurant_address = ?, restaurant_number = ? WHERE id = 1';
-
-  const values = restaurant_image
-    ? [restaurant_name, restaurant_address, restaurant_number, restaurant_image]
-    : [restaurant_name, restaurant_address, restaurant_number];
-
-  connection.query(sql, values, (err, result) => {
-    if (err) {
-      console.error('Error updating profile:', err);
-      return res.status(500).json({ success: false, message: 'Error updating profile' });
+    if (req.file) {
+        restaurant_image = path.join('uploads', req.file.filename);
     }
 
-    res.json({ success: true, message: 'Profile updated successfully', profile: { restaurant_name, restaurant_address, restaurant_number, restaurant_image } });
-  });
+    // Use your SQL update query here
+    const sql = restaurant_image
+        ? 'UPDATE profile SET restaurant_name = ?, restaurant_address = ?, restaurant_number = ?, restaurant_image = ? WHERE id = 1'
+        : 'UPDATE profile SET restaurant_name = ?, restaurant_address = ?, restaurant_number = ? WHERE p_id = 1';
+
+    const values = restaurant_image
+        ? [restaurant_name, restaurant_address, restaurant_number, restaurant_image]
+        : [restaurant_name, restaurant_address, restaurant_number];
+
+    connection.query(sql, values, (err, result) => {
+        if (err) {
+            console.error('Error updating profile:', err);
+            return res.status(500).json({ success: false, message: 'Error updating profile' });
+        }
+
+        res.json({
+            success: true,
+            message: 'Profile updated successfully',
+            profile: { restaurant_name, restaurant_address, restaurant_number, restaurant_image }
+        });
+    });
 });
 
 

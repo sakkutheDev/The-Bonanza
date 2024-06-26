@@ -314,12 +314,12 @@ input[type="file"]::file-selector-button:active {
 
 .switch-button .switch-outer {
   height: 100%;
-  background: #56565f;
+  background: #dedede;
   width: 80px;
   border-radius: 165px;
   -webkit-box-shadow: inset 0px 5px 10px 0px #16151c, 0px 3px 6px -2px #403f4e;
-  box-shadow: inset 0px 5px 10px 0px #16151c, 0px 3px 6px -2px #403f4e;
-  border: 1px solid #32303e;
+  box-shadow: inset 0px 5px 10px 0px #ececec, 0px 3px 6px -2px #403f4e;
+  border: 1px solid #ececec;
   
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -349,7 +349,7 @@ input[type="file"]::file-selector-button:active {
   background: linear-gradient(#3b3a4e, #272733);
   border-radius: 100%;
   -webkit-box-shadow: inset 0px 5px 4px 0px #424151, 0px 4px 15px 0px #0f0e17;
-  box-shadow: inset 0px 5px 4px 0px #424151, 0px 4px 15px 0px #0f0e17;
+  box-shadow: inset 0px 5px 4px 0px #424151, 0px 4px 20px 0px #474747;
   position: relative;
   z-index: 2;
   -webkit-transition: left 0.3s ease-in;
