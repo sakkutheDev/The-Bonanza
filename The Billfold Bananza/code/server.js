@@ -63,7 +63,7 @@ app.get('/', (req, res) => {
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
 
-  const query = 'SELECT * FROM login WHERE username = ? AND password = ?';
+  const query = 'SELECT * FROM users WHERE username = ? AND password = ?';
   connection.query(query, [username, password], (err, results) => {
     if (err) {
       console.error('Error logging in:', err);
@@ -78,11 +78,11 @@ app.post('/login', (req, res) => {
     }
   });
 });
-
 // Handle signup request
 app.post('/signup', (req, res) => {
   const { username, password, confirm_password, terms } = req.body;
 
+  // Validate input fields
   if (!username || !password || !confirm_password || !terms) {
     return res.status(400).json({ success: false, message: 'All fields are required.' });
   }
@@ -91,16 +91,32 @@ app.post('/signup', (req, res) => {
     return res.status(400).json({ success: false, message: 'Passwords do not match.' });
   }
 
-  const query = 'INSERT INTO login (username, password, confirm_password) VALUES (?, ?, ?)';
-  connection.query(query, [username, password, confirm_password], (err, result) => {
+  // Check if the username already exists
+  const checkQuery = 'SELECT * FROM users WHERE username = ?';
+  connection.query(checkQuery, [username], (err, results) => {
     if (err) {
-      console.error('Error inserting user:', err);
+      console.error('Error checking username:', err);
       return res.status(500).json({ success: false, message: 'Internal server error.' });
     }
 
-    res.status(200).json({ success: true, message: 'User registered successfully.' });
+    if (results.length > 0) {
+      // Username already exists
+      return res.status(400).json({ success: false, message: 'Username already exists. Please choose a different username.' });
+    }
+
+    // If username is not taken, proceed to insert into database
+    const insertQuery = 'INSERT INTO users (username, password, confirm_password) VALUES (?, ?, ?)';
+    connection.query(insertQuery, [username, password, confirm_password], (err, result) => {
+      if (err) {
+        console.error('Error inserting user:', err);
+        return res.status(500).json({ success: false, message: 'Internal server error.' });
+      }
+
+      res.status(200).json({ success: true, message: 'User registered successfully.' });
+    });
   });
 });
+
 
 
 
