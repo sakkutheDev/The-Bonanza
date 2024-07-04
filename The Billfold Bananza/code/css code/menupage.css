@@ -520,84 +520,6 @@ margin-left: 90px;
  
 
 
-        /*the card */
-      /* .item_card{
-        position: fixed;
-        margin-left: 750px;
-        margin-top: 30px;
-      
-        height: 300px;
-        width: 100%;
-      }
-
-
-      .card1{
-        display: grid;
-        grid-template-columns: 10px 180px 190px 0px;
-        gap: 10px;
-        padding-bottom: 10px;
-        text-align: center;
-        align-items: center;
-        border-bottom: solid 1px gray;
-        padding-top: 10px;
-      }
-    
-      .item_card::-webkit-scrollbar{
-        width: 0;
-    }
-
-    .name{
-      font-size: 14px;
-      text-align: left;
-      padding-left: 20px;
-    }
-
-    .item_card{
-      overflow: auto;
-  }
-
-
-  .cancel {
-    background-color: rgb(193, 7, 7);
-    border: none;
-    color: white;
-    font-size: 16px;
-    height: 20px;
-    rotate: 140deg ;
-    width: 20px;
-    margin-top: 4px;
-    margin-left:5px;
-    border-radius: 50%;
-    cursor: pointer;
-  }
-
-  .card1 .quantity span{
-    display: inline-block;
-    width: 25px;
-    height: 25px;
-    border-radius: 5px;
-    border: solid 1px gray;
-    color: #555;
-    cursor: pointer;
-
-    
-}
-
-.card1 .quantity span:active{
-  background-color: #969393;
-  color: white;
- 
-}
-
-
-.card1 .quantity span:nth-child(2){
-  background-color: transparent;
-  color: #010101;
-  cursor: auto;
-  width: 50px;
-  border-radius: 5px;
-} */
-
 
 .listCart{
   
@@ -665,4 +587,6 @@ margin-left: 90px;
 }
 
 
+
+/* the search items one*/
 

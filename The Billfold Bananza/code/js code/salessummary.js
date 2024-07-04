@@ -1,25 +1,3 @@
-//The Nav side bars js code :)
-
-let sidebar = document.querySelector(".sidebar");
-let closeBtn = document.querySelector("#btn");
-let searchBtn = document.querySelector(".bx-search");
-closeBtn.addEventListener("click", () => {
-  sidebar.classList.toggle("open");
-  menuBtnChange(); //calling the function(optional)
-});
-
-// following are the code to change sidebar button(optional)
-function menuBtnChange() {
-  if (sidebar.classList.contains("open")) {
-    closeBtn.classList.replace("bx-menu", "bx-menu-alt-right"); //replacing the iocns class
-  } else {
-    closeBtn.classList.replace("bx-menu-alt-right", "bx-menu"); //replacing the iocns class
-  }
-}
-
-
-
-
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('yesterdayBtn').addEventListener('click', () => fetchSalesReport('yesterday'));
   document.getElementById('todayBtn').addEventListener('click', () => fetchSalesReport('today'));
@@ -144,6 +122,27 @@ function printReport() {
     Grand Total: ₹${document.getElementById('grand_total').value}
   `;
 
+
+  function fetchProfileDetails() {
+    return fetch('/get-profile')
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          return data.profile;
+        } else {
+          console.error('Profile not found:', data.message);
+          throw new Error('Profile not found');
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching profile:', error);
+        throw error;
+      });
+  }
+
+
+      // Fetch profile details and then print the bill
+      fetchProfileDetails().then(profile => {
   // Create a new window with the report content
   const printWindow = window.open('', '_blank');
   printWindow.document.open();
@@ -161,17 +160,36 @@ function printReport() {
                   background-color: rgb(229, 237, 243);
                 }
 
-                .bill-header {
-                  font-size: 18px;
-                  padding: 0;
-                  margin: 0;
+                .bill-header1 {
+                text-align:center;
+              font-size: 20px;
+              padding: 0;
+              margin: 0;
+              margin-bottom: 6px;
+            }
+            .bill-header2 {
+            text-align:center;
+              font-weight: 100;
+              color: rgb(72, 72, 72);
+              padding: 0;
+              margin: 0;
+              margin-bottom: 2px;
+            }
+            .bill-header {
+            text-align:center;
+              font-size: 16px;
+              padding: 0;
+              margin: 0;
+              font-weight: 200;
+              margin-bottom: 3px;
+            }
 
 
                 }
                 .report-date {
                   font-size: 15px;
                   display: inline;
-                  // padding-right: 200px;
+                  padding-right:10px;
                   font-weight: bold; 
                  }
 
@@ -219,10 +237,16 @@ function printReport() {
         </head>
         <body>
           <div class="bill">
-          <br>
-          ****************************************** <h1 class="bill-header">Sales Report</h1>******************************************
-          <br>
-          <br>
+            <br>
+            <h3 class="bill-header1">${profile.restaurant_name}</h3>
+            <h6 class="bill-header2">Address: ${profile.restaurant_address}</h6>
+            <h6 class="bill-header2">Number: ${profile.restaurant_number}</h6>
+            <br>
+            *******************************************
+            <h1 class="bill-header">Order Receipt</h1>
+            *******************************************
+            <br>
+            <br>
           <p class="report-date">Date :   ${document.getElementById('today_date').textContent}</p>
           <hr>
           <table class="bill-items">
@@ -285,3 +309,4 @@ function printReport() {
     };
   };
 }
+)}

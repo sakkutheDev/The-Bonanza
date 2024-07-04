@@ -55,25 +55,6 @@ disBut.addEventListener('click', () => {
   });
 
 
-//The Nav side bars js code :)
-
-let sidebar = document.querySelector(".sidebar");
-let closeBtn = document.querySelector("#btn");
-let searchBtn = document.querySelector(".bx-search");
-closeBtn.addEventListener("click", () => {
-  sidebar.classList.toggle("open");
-  menuBtnChange(); //calling the function(optional)
-});
-
-
-// following are the code to change sidebar button(optional)
-function menuBtnChange() {
-  if (sidebar.classList.contains("open")) {
-    closeBtn.classList.replace("bx-menu", "bx-menu-alt-right"); //replacing the iocns class
-  } else {
-    closeBtn.classList.replace("bx-menu-alt-right", "bx-menu"); //replacing the iocns class
-  }
-}
 
 const paymentTypeMap = {
   'Cash': 2,
@@ -134,17 +115,32 @@ paymentLabels.forEach(label => {
   const totalDiscountSpan = document.querySelector('#totalDiscountSpan');
   const clearButton = document.getElementById('clear-cart-button');
  
-  
   let menu_items = [];
   let cart = [];
   
   // Function to fetch data from the API
-  // Function to fetch data from the API
   const fetchData = (url) => fetch(url).then(response => response.json());
+  
+  // Function to filter menu items by category ID
 
+    const filteredMenuItems = menu_items.filter(item => item.cat_id === parseInt(categoryId));
+  
+    if (filteredMenuItems.length === 0) {
+      itemContainer.innerHTML = '<p class="product_empty">No Items Added to the Menu.</p>';
+    } else {
+      itemContainer.innerHTML = ''; // Clear the container before adding items
+      filteredMenuItems.forEach(item => {
+        // Create and append item elements to itemContainer
+        const itemElement = document.createElement('div');
+        itemElement.classList.add('menu_item');
+        itemElement.textContent = item.name; // Assuming each item has a 'name' property
+        itemContainer.appendChild(itemElement);
+      });
+    }
 
-  // Fetch category data and create category buttons
-  fetchData('/categories')
+// Fetch category data and create category buttons
+fetch('/categories')
+  .then(response => response.json())
   .then(categories => {
     categoryItemsContainer.innerHTML = '';
 
@@ -175,6 +171,7 @@ paymentLabels.forEach(label => {
   .catch(error => {
     console.error("Error fetching categories:", error);
   });
+
 
   
   // Function to filter and display menu items based on category ID
@@ -397,6 +394,24 @@ printButton.addEventListener('click', () => {
   nextBillNumber++;
   localStorage.setItem('nextBillNumber', nextBillNumber);
 
+
+  function fetchProfileDetails() {
+    return fetch('/get-profile')
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          return data.profile;
+        } else {
+          console.error('Profile not found:', data.message);
+          throw new Error('Profile not found');
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching profile:', error);
+        throw error;
+      });
+  }
+
   // Prepare data to send to the server
   const billData = {
     date_time: formattedDateTime,
@@ -428,195 +443,176 @@ printButton.addEventListener('click', () => {
   .then(data => {
     if (data.success) {
       console.log('Invoice saved successfully:', data);
-      // Your existing code for printing the bill
+          // Fetch profile details and then print the bill
+    fetchProfileDetails().then(profile => { // Opening bracket for fetchProfileDetails
+      // Generate the bill content using the profile details
       let billContent = `
         <html lang="en">
         <head>
           <meta charset="UTF-8">
           <title>The Receipt</title>
           <style>
-          
-
-.bill {
-  text-align: center;
-  width: 340px;
-  margin: 0 auto;
-  background-color: rgb(229, 237, 243);
-}
-
-.bill-header {
-  font-size: 18px;
-  padding: 0;
-  margin: 0;
-
-
-}
-.bill-id{
-  font-size: 13px;
-  display: inline;
-  padding-right:135px;
-  padding-left: 6px;
-  
-  
-  
-}
-
-.bill-date{
-  display: inline;
-  font-size: 12px;
-}
-
-.bill-time{
-
-  font-size: 12px;  
-  padding-left: 210px;
-  margin-top: 6px;
-}
-
-.bill-type{
-  font-size: 12px;  
-  text-align: left;
-  margin-top: 6px; 
-  margin-bottom: 10px;
-  margin-left: 8px;
-
-
-}
-
-.bill-payment-type{
-  font-size: 12px;  
-  text-align: left;
-  margin-top: 0px; 
-  margin-left: 8px;
- 
-
-}
-
-
-.bill-items {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 10px;
-}
-
-.bill-items td{
-  font-size: 12px;
-
-}
-
-
-.bill-items th,
-.bill-items td {
-  padding: 0.5rem;
-  border-bottom: 1px solid #ddd;
-  text-align: left;
-
-}
-
-.bill-items th:first-child,
-.bill-items td:first-child {
-  width: 75%;
-  
-}
-
-.bill-items th:last-child,
-.bill-items td:last-child {
-  width: 25%;
-}
-
-.bill-discount {
-  
-  text-align: left;
-  margin-left: 8px;
-  font-size: 12px;
-  margin-bottom: 6px;
-  
-
-  .bill-discount__text{
-      
-      display: inline;
-      margin-right: 200px;
-   
-  }
-
-  .bill-discount__amount{
-      text-align: right;
-      display: inline;
-  }
-}
-.bill-total{
-  margin-top: 10px;
-  margin-bottom:20px ;
-
-  .bill-total__text {
-      font-weight: bold; 
-      display: inline;
-      margin-right: 100px;
-     
-      font-size: 16px;
-   
-  }
-  
-   .bill-total__amount {
-      text-align: right;
-      display: inline;
-      margin-right: 10px;
-      font-weight: bold; 
-  
-  }
-}
-
-
-
-.bill-footer {
-  margin-top: 1rem;
-  font-size: 0.8rem;
-  margin-bottom: 20px
-}
+            .bill {
+              text-align: center;
+              width: 340px;
+              margin: 0 auto;
+              background-color: rgb(229, 237, 243);
+            }
+            .bill-header1 {
+              font-size: 20px;
+              padding: 0;
+              margin: 0;
+              margin-bottom: 6px;
+            }
+            .bill-header2 {
+              font-weight: 100;
+              color: rgb(72, 72, 72);
+              padding: 0;
+              margin: 0;
+              margin-bottom: 2px;
+            }
+            .bill-header {
+              font-size: 16px;
+              padding: 0;
+              margin: 0;
+              font-weight: 200;
+              margin-bottom: 3px;
+            }
+            .bill-id {
+              font-size: 13px;
+              display: inline;
+              padding-right: 135px;
+              padding-left: 6px;
+            }
+            .bill-date {
+              display: inline;
+              font-size: 12px;
+            }
+            .bill-time {
+              font-size: 12px;
+              padding-left: 210px;
+              margin-top: 6px;
+            }
+            .bill-type {
+              font-size: 12px;
+              text-align: left;
+              margin-top: 6px;
+              margin-bottom: 10px;
+              margin-left: 8px;
+            }
+            .bill-payment-type {
+              font-size: 12px;
+              text-align: left;
+              margin-top: 0px;
+              margin-left: 8px;
+            }
+            .bill-items {
+              width: 100%;
+              border-collapse: collapse;
+              margin-bottom: 10px;
+            }
+            .bill-items td {
+              font-size: 12px;
+            }
+            .bill-items th,
+            .bill-items td {
+              padding: 0.5rem;
+              border-bottom: 1px solid #ddd;
+              text-align: left;
+            }
+            .bill-items th:first-child,
+            .bill-items td:first-child {
+              width: 75%;
+            }
+            .bill-items th:last-child,
+            .bill-items td:last-child {
+              width: 25%;
+            }
+            .bill-discount {
+              text-align: left;
+              margin-left: 8px;
+              font-size: 12px;
+              margin-bottom: 6px;
+            }
+            .bill-discount__text {
+              display: inline;
+              margin-right: 200px;
+            }
+            .bill-discount__amount {
+              text-align: right;
+              display: inline;
+            }
+            .bill-total {
+              margin-top: 10px;
+              margin-bottom: 20px;
+            }
+            .bill-total__text {
+              font-weight: bold;
+              display: inline;
+              margin-right: 100px;
+              font-size: 16px;
+            }
+            .bill-total__amount {
+              text-align: right;
+              display: inline;
+              margin-right: 10px;
+              font-weight: bold;
+            }
+            .bill-footer {
+              margin-top: 1rem;
+              font-size: 0.8rem;
+              margin-bottom: 20px;
+            }
           </style>
         </head>
         <body>
           <div class="bill">
-          <br>
-          ******************************************* <h1 class="bill-header">Order Receipt</h1>*******************************************
-          <br>
-          <br>
-          <p class="bill-id">Bill no. ${billNumber}</p>
-          <p class="bill-date">Date : ${dateString}</p>
-          <p class="bill-time">Time : ${formattedTime} </p>
-          <p class="bill-type">Order type : ${isActiveButton === "dinein" ? "Dine In" : "Pickup"}</p>
-          <p class="bill-payment-type">Payment Type: ${selectedPaymentText}</p>
-          <hr>
-          <table class="bill-items">
+            <br>
+            <h3 class="bill-header1">${profile.restaurant_name}</h3>
+            <h6 class="bill-header2">Address: ${profile.restaurant_address}</h6>
+            <h6 class="bill-header2">Number: ${profile.restaurant_number}</h6>
+            <br>
+            *******************************************
+            <h1 class="bill-header">Order Receipt</h1>
+            *******************************************
+            <br>
+            <br>
+            <p class="bill-id">Bill no. ${billNumber}</p>
+            <p class="bill-date">Date: ${dateString}</p>
+            <p class="bill-time">Time: ${formattedTime}</p>
+            <p class="bill-type">Order type: ${isActiveButton === "dinein" ? "Dine In" : "Pickup"}</p>
+            <p class="bill-payment-type">Payment Type: ${selectedPaymentText}</p>
+            <hr>
+            <table class="bill-items">
               <thead>
-                  <tr>
-                      <th>Items</th>
-                      <th>(₹) Price </th>
-                  </tr>
+                <tr>
+                  <th>Items</th>
+                  <th>(₹) Price</th>
+                </tr>
               </thead>
               <tbody>
-                  <tr>
-                      <td>${itemizedBill}</td>
-                      <td>${itemizedAmt}</td>
-                  </tr>  
+                <tr>
+                  <td>${itemizedBill}</td>
+                  <td>${itemizedAmt}</td>
+                </tr>  
               </tbody>
-          </table>
-          <hr>
-          <div class="bill-discount">
-            <p class="bill-discount__text">Total Items : ${totalQuantity}</p>
-          </div>
-          <div class="bill-discount">
-            <p class="bill-discount__text"><u>Discount :</u></p>
-            <p class="bill-discount__amount">₹${totalDiscountValue.toFixed(2)}</p>
-          </div>
-          <div class="bill-total">
-              <p class="bill-total__text">TOTAL AMOUNT :</p>
+            </table>
+            <hr>
+            <div class="bill-discount">
+              <p class="bill-discount__text">Total Items: ${totalQuantity}</p>
+            </div>
+            <div class="bill-discount">
+              <p class="bill-discount__text"><u>Discount:</u></p>
+              <p class="bill-discount__amount">₹${totalDiscountValue.toFixed(2)}</p>
+            </div>
+            <div class="bill-total">
+              <p class="bill-total__text">TOTAL AMOUNT:</p>
               <p class="bill-total__amount">₹${(totalPrice - totalDiscountValue).toFixed(2)}</p>
+            </div>
+            <p class="bill-footer">*****************THANK YOU!*****************</p>
+            <p class="bill-footer-2">Please visit again :)</p>
+            <br>
           </div>
-          <p class="bill-footer">*****************THANK YOU!*****************</p>
-          <p class="bill-footer-2">Please visit again :)</p>
-          <br>
-        </div>
         </body>
         </html>
       `;
@@ -630,10 +626,11 @@ printButton.addEventListener('click', () => {
       cart.length = 0; // Empty the cart array
       addCartToHTML(); // Recalculate and re-render cart items (clears existing ones)
       addCartToMemory();
-    } else {
-      console.error('Error saving invoice:', data.error);
-    }
-  })
+    }); // Closing bracket for fetchProfileDetails
+  } else {
+    console.error('Error saving invoice:', data.error);
+  }
+}) 
   .catch(error => {
     console.error('Fetch error:', error);
   });

@@ -131,22 +131,31 @@ app.post('/signup', (req, res) => {
 
 
 
-// Fetch categories for a specific user
+// Fetch categories with items for a specific user
 app.get('/categories', (req, res) => {
   if (!req.session.userId) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
-  const query = 'SELECT * FROM category WHERE user_id = ?';
-  connection.query(query, [req.session.userId], (err, results) => {
+  const sql = `
+    SELECT category.cat_id, category.cat_name, COUNT(menu_item.id) AS item_count
+    FROM category
+    LEFT JOIN menu_item ON category.cat_id = menu_item.cat_id
+    WHERE category.user_id = ?
+    GROUP BY category.cat_id, category.cat_name
+    HAVING item_count > 0
+  `;
+  
+  connection.query(sql, [req.session.userId], (err, results) => {
     if (err) {
       console.error('Error fetching categories:', err);
-      return res.status(500).json({ error: 'Error fetching categories' });
+      return res.status(500).json({ success: false, message: 'Error fetching categories' });
     }
 
     res.json(results);
   });
 });
+
 
 
 
@@ -171,6 +180,7 @@ app.post('/add-category', (req, res) => {
     res.status(200).json({ message: 'Category added successfully' });
   });
 });
+
 // Fetch menu items for a specific user
 app.get('/menu_items', (req, res) => {
   if (!req.session.userId) {
@@ -627,6 +637,8 @@ app.get('/get-profile', (req, res) => {
     }
   });
 });
+
+
 
 
   // Update profile route
