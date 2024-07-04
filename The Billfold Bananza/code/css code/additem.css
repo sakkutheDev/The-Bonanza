@@ -24,6 +24,31 @@ body{
 
   }
 
+  .profile_photo_div{
+
+    height: 160px;
+    border-radius: 80px;
+    width: 160px;
+    background-color: #a59f9f;
+    position: absolute;
+    bottom: 80px;
+    margin-left: 880px;
+
+  
+  
+  }
+
+  .profile_img{
+    height: 160px;
+    border-radius: 80px;
+    width: 160px;
+  
+   
+    
+  }
+  
+
+
 
   /* this code is for the categary select*/
 
@@ -279,7 +304,7 @@ input[type="file"]::file-selector-button:active {
   border: 1px solid #e8e8e8;
   transition: all 0.3s;
   box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
-  margin-left: 180px;
+  margin-left: 220px;
   position: absolute;
   margin-top: 40px;
   width: 100px;

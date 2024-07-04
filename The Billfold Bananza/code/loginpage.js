@@ -10,8 +10,6 @@ signInBtnLink.addEventListener('click', () => {
 });                                                                                                                                                                                         
 
 
-
-
 document.addEventListener("DOMContentLoaded", function() {
   // Handle login form submission
   const loginForm = document.querySelector('.form-wrapper.sign-in form');
@@ -43,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
     .then(data => {
       if (data.success) {
         if (data.isNewUser) {
-          window.location.href = './Main_Profile.html'; // Redirect new users to profile page
+          window.location.href = './Add_Profile.html'; // Redirect new users to profile page
         } else {
           window.location.href = './Menu_Page.html'; // Redirect existing users to menu page
         }

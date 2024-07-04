@@ -17,10 +17,6 @@ function menuBtnChange() {
   }
 }
 
-
-
-
-//the actual fun starts here
 document.addEventListener('DOMContentLoaded', function() {
   const fetchTodayOrdersBtn = document.querySelector('.buton.t');
   const fetchYesterdayOrdersBtn = document.querySelector('.buton.y');
@@ -114,12 +110,22 @@ function displayOrders(orders, endpoint) {
     // Append to the summary container
     orderSummaryContainer.appendChild(orderDiv);
 
+    // Check if the order is from yesterday
+    const orderTime = new Date(order.date_time);
+    const currentTime = new Date();
+    const isYesterday = orderTime.toDateString() === new Date(currentTime.setDate(currentTime.getDate() - 1)).toDateString();
+
     // Add event listener to the cancel button
     const cancelButton = orderDiv.querySelector('.cancel_btn');
-    cancelButton.addEventListener('click', () => {
-      const orderId = cancelButton.getAttribute('data-order-id');
-      showDeleteConfirmation(orderId);
-    });
+    if (isYesterday) {
+      // Hide the cancel button if the order is from yesterday
+      cancelButton.style.display = 'none';
+    } else {
+      cancelButton.addEventListener('click', () => {
+        const orderId = cancelButton.getAttribute('data-order-id');
+        showDeleteConfirmation(orderId);
+      });
+    }
   });
 }
 
@@ -186,3 +192,4 @@ const paymentTypeMapReverse = {
   3: 'Card',
   4: 'UPI'
 };
+

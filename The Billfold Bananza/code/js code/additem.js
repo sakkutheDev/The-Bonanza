@@ -16,6 +16,18 @@ function menuBtnChange() {
     closeBtn.classList.replace("bx-menu-alt-right", "bx-menu"); //replacing the iocns class
   }
 }
+document.getElementById('itemImage').addEventListener('change', function(event) {
+  const file = event.target.files[0];
+  if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+          const img = document.getElementById('profile_img3');
+          img.src = e.target.result;
+          img.style.display = 'block';
+      }
+      reader.readAsDataURL(file);
+  }
+});
 
 // Select elements
 let dropdownBtn = document.getElementById("drop-text");

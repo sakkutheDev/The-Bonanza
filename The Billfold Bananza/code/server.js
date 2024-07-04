@@ -66,8 +66,6 @@ app.use('/uploads', express.static(uploadDir)); // Serve uploads directory
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'Login_Page.html'));
 });
-
-
 // Handle login request
 app.post('/login', (req, res) => {
   const { username, password } = req.body;
@@ -80,14 +78,15 @@ app.post('/login', (req, res) => {
     }
 
     if (results.length > 0) {
-      req.session.userId = results[0].id; // Assuming 'id' is the primary key in your 'users' table
-      const isNewUser = results[0].is_new_user; // Assuming there's a column 'is_new_user' in the database
+      req.session.userId = results[0].id;
+      const isNewUser = results[0].Is_NewUser;
       res.status(200).json({ success: true, isNewUser: isNewUser, message: 'Login successful.' });
     } else {
       res.status(401).json({ success: false, message: 'Invalid username or password.' });
     }
   });
 });
+
 
 
 // Handle signup request
@@ -630,44 +629,85 @@ app.get('/get-profile', (req, res) => {
 });
 
 
-// Update profile route
-app.post('/update-profile', upload.single('restaurant_image'), (req, res) => {
+  // Update profile route
+  app.post('/update-profile', upload.single('restaurant_image'), (req, res) => {
+    if (!req.session.userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const { restaurant_name, restaurant_address, restaurant_number } = req.body;
+    let restaurant_image = null;
+
+    if (req.file) {
+      restaurant_image = path.join('uploads', req.file.filename);
+    }
+
+    // Use your SQL update query here
+    let sql = '';
+    let values = [];
+
+    if (restaurant_image) {
+      sql = 'UPDATE profile SET restaurant_name = ?, restaurant_address = ?, restaurant_number = ?, restaurant_image = ? WHERE user_id = ?';
+      values = [restaurant_name, restaurant_address, restaurant_number, restaurant_image, req.session.userId];
+    } else {
+      sql = 'UPDATE profile SET restaurant_name = ?, restaurant_address = ?, restaurant_number = ? WHERE user_id = ?';
+      values = [restaurant_name, restaurant_address, restaurant_number, req.session.userId];
+    }
+
+    connection.query(sql, values, (err, result) => {
+      if (err) {
+        console.error('Error updating profile:', err);
+        return res.status(500).json({ success: false, message: 'Error updating profile' });
+      }
+
+      res.json({
+        success: true,
+        message: 'Profile updated successfully',
+        profile: { restaurant_name, restaurant_address, restaurant_number, restaurant_image }
+      });
+    });
+  });
+
+  // Add profile route
+app.post('/add-profile', upload.single('restaurant_image'), (req, res) => {
   if (!req.session.userId) {
-    return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: 'Unauthorized' });
   }
 
   const { restaurant_name, restaurant_address, restaurant_number } = req.body;
   let restaurant_image = null;
 
   if (req.file) {
-    restaurant_image = path.join('uploads', req.file.filename);
+      restaurant_image = path.join('uploads', req.file.filename);
   }
 
-  // Use your SQL update query here
-  let sql = '';
-  let values = [];
+  // SQL query to insert profile
+  const sqlInsertProfile = 'INSERT INTO profile (restaurant_name, restaurant_address, restaurant_number, restaurant_image, user_id) VALUES (?, ?, ?, ?, ?)';
+  const valuesInsertProfile = [restaurant_name, restaurant_address, restaurant_number, restaurant_image, req.session.userId];
 
-  if (restaurant_image) {
-    sql = 'UPDATE profile SET restaurant_name = ?, restaurant_address = ?, restaurant_number = ?, restaurant_image = ? WHERE user_id = ?';
-    values = [restaurant_name, restaurant_address, restaurant_number, restaurant_image, req.session.userId];
-  } else {
-    sql = 'UPDATE profile SET restaurant_name = ?, restaurant_address = ?, restaurant_number = ? WHERE user_id = ?';
-    values = [restaurant_name, restaurant_address, restaurant_number, req.session.userId];
-  }
+  connection.query(sqlInsertProfile, valuesInsertProfile, (err, result) => {
+      if (err) {
+          console.error('Error adding profile:', err);
+          return res.status(500).json({ success: false, message: 'Error adding profile' });
+      }
 
-  connection.query(sql, values, (err, result) => {
-    if (err) {
-      console.error('Error updating profile:', err);
-      return res.status(500).json({ success: false, message: 'Error updating profile' });
-    }
+      // Update Is_NewUser field in the users table
+      const sqlUpdateUser = 'UPDATE users SET Is_NewUser = false WHERE id = ?';
+      connection.query(sqlUpdateUser, [req.session.userId], (err) => {
+          if (err) {
+              console.error('Error updating user:', err);
+              return res.status(500).json({ success: false, message: 'Error updating user' });
+          }
 
-    res.json({
-      success: true,
-      message: 'Profile updated successfully',
-      profile: { restaurant_name, restaurant_address, restaurant_number, restaurant_image }
-    });
+          res.json({
+              success: true,
+              message: 'Profile added successfully',
+              profile: { restaurant_name, restaurant_address, restaurant_number, restaurant_image }
+          });
+      });
   });
 });
+
 
 
 // Fetch orders between dates
