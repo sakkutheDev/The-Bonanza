@@ -3,14 +3,25 @@ const mysql = require('mysql');
 const path = require('path');
 const dotenv = require('dotenv');
 const multer = require('multer');
-const fs = require('fs'); 
+const fs = require('fs');
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5500;
 
-app.use(express.json()); // To parse JSON bodies
+// Session configuration
+const session = require('express-session');
+
+app.use(session({
+  secret: 'S83RXYp0WplL966MyxUt93KHgoP3rruF5XovcmSaK/I=',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // Note: secure should be true in production with HTTPS
+}));
+
+// Middleware to parse JSON bodies
+app.use(express.json());
 
 // Database connection
 const connection = mysql.createConnection({
@@ -47,16 +58,14 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Serve static files from the current directory
+// Serve static files from specific directories
 app.use(express.static(path.join(__dirname)));
+app.use('/uploads', express.static(uploadDir)); // Serve uploads directory
 
 // Serve the specific Login_Page.html file at the root URL
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'Login_Page.html'));
 });
-
-
-
 
 
 // Handle login request
@@ -71,6 +80,7 @@ app.post('/login', (req, res) => {
     }
 
     if (results.length > 0) {
+      req.session.userId = results[0].id; // Assuming 'id' is the primary key in your 'users' table
       const isNewUser = results[0].is_new_user; // Assuming there's a column 'is_new_user' in the database
       res.status(200).json({ success: true, isNewUser: isNewUser, message: 'Login successful.' });
     } else {
@@ -78,6 +88,8 @@ app.post('/login', (req, res) => {
     }
   });
 });
+
+
 // Handle signup request
 app.post('/signup', (req, res) => {
   const { username, password, confirm_password, terms } = req.body;
@@ -120,28 +132,39 @@ app.post('/signup', (req, res) => {
 
 
 
-
-
-// Fetch categories
+// Fetch categories for a specific user
 app.get('/categories', (req, res) => {
-  queryDatabase('SELECT * FROM category')
-    .then(results => res.json(results))
-    .catch(err => {
+  if (!req.session.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  const query = 'SELECT * FROM category WHERE user_id = ?';
+  connection.query(query, [req.session.userId], (err, results) => {
+    if (err) {
       console.error('Error fetching categories:', err);
-      res.status(500).json({ error: 'Error fetching categories' });
-    });
+      return res.status(500).json({ error: 'Error fetching categories' });
+    }
+
+    res.json(results);
+  });
 });
+
+
 
 // Endpoint to add a new category
 app.post('/add-category', (req, res) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
   const { cat_name } = req.body;
 
   if (!cat_name) {
     return res.status(400).json({ message: 'Category name is required' });
   }
 
-  const query = 'INSERT INTO category (cat_name) VALUES (?)';
-  connection.query(query, [cat_name], (err, result) => {
+  const query = 'INSERT INTO category (cat_name, user_id) VALUES (?, ?)';
+  connection.query(query, [cat_name, req.session.userId], (err, result) => {
     if (err) {
       console.error('Error inserting category:', err);
       return res.status(500).json({ message: 'Internal Server Error' });
@@ -149,29 +172,39 @@ app.post('/add-category', (req, res) => {
     res.status(200).json({ message: 'Category added successfully' });
   });
 });
-
-// Fetch menu items
+// Fetch menu items for a specific user
 app.get('/menu_items', (req, res) => {
-  queryDatabase('SELECT * FROM menu_item')
-    .then(results => res.json(results))
-    .catch(err => {
+  if (!req.session.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  const query = 'SELECT * FROM menu_item WHERE user_id = ?';
+  connection.query(query, [req.session.userId], (err, results) => {
+    if (err) {
       console.error('Error fetching menu items:', err);
-      res.status(500).json({ error: 'Error fetching menu items' });
-    });
+      return res.status(500).json({ error: 'Error fetching menu items' });
+    }
+
+    res.json(results);
+  });
 });
 
-// Fetch today's orders
+// Fetch today's orders for a specific user
 app.get('/today_orders', (req, res) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
   const today = new Date().toISOString().split('T')[0];
   const sql = `
     SELECT ib.*, ii.menu_item_id, ii.quantity, mi.item_name
     FROM invoice_bill ib
     LEFT JOIN invoice_item ii ON ib.id = ii.invoice_id
     LEFT JOIN menu_item mi ON ii.menu_item_id = mi.id
-    WHERE DATE(ib.date_time) = ?
+    WHERE DATE(ib.date_time) = ? AND ib.user_id = ?
   `;
 
-  connection.query(sql, [today], (err, results) => {
+  connection.query(sql, [today, req.session.userId], (err, results) => {
     if (err) {
       console.error('Error fetching today\'s orders:', err);
       return res.status(500).json({ success: false, error: 'Database error' });
@@ -181,18 +214,22 @@ app.get('/today_orders', (req, res) => {
   });
 });
 
-// Fetch yesterday's orders
+// Fetch yesterday's orders for a specific user
 app.get('/yesterday_orders', (req, res) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
   const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
   const sql = `
     SELECT ib.*, ii.menu_item_id, ii.quantity, mi.item_name
     FROM invoice_bill ib
     LEFT JOIN invoice_item ii ON ib.id = ii.invoice_id
     LEFT JOIN menu_item mi ON ii.menu_item_id = mi.id
-    WHERE DATE(ib.date_time) = ?
+    WHERE DATE(ib.date_time) = ? AND ib.user_id = ?
   `;
 
-  connection.query(sql, [yesterday], (err, results) => {
+  connection.query(sql, [yesterday, req.session.userId], (err, results) => {
     if (err) {
       console.error('Error fetching yesterday\'s orders:', err);
       return res.status(500).json({ success: false, error: 'Database error' });
@@ -228,25 +265,36 @@ function formatOrders(results) {
   });
   return Object.values(orders);
 }
-
 // Function to query the database with promises
-function queryDatabase(query) {
+function queryDatabase(query, userId = null) {
   return new Promise((resolve, reject) => {
-    connection.query(query, (err, results) => {
-      if (err) {
-        return reject(err);
-      }
-      resolve(results);
-    });
+    if (userId) {
+      connection.query(query, [userId], (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(results);
+      });
+    } else {
+      connection.query(query, (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(results);
+      });
+    }
   });
 }
-
-// Fetch today's canceled orders
+// Fetch today's canceled orders for a specific user
 app.get('/today_canceled_orders', (req, res) => {
-  const today = new Date().toISOString().split('T')[0];
-  const sql = 'SELECT * FROM cancelled_order WHERE DATE(created_at) = ? AND order_cancelled = 1';
+  if (!req.session.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
 
-  connection.query(sql, [today], (err, results) => {
+  const today = new Date().toISOString().split('T')[0];
+  const sql = 'SELECT * FROM cancelled_order WHERE DATE(created_at) = ? AND order_cancelled = 1 AND user_id = ?';
+
+  connection.query(sql, [today, req.session.userId], (err, results) => {
     if (err) {
       console.error('Error fetching today\'s canceled orders:', err);
       return res.status(500).json({ success: false, error: 'Database error' });
@@ -255,12 +303,16 @@ app.get('/today_canceled_orders', (req, res) => {
   });
 });
 
-// Fetch yesterday's canceled orders
+// Fetch yesterday's canceled orders for a specific user
 app.get('/yesterday_canceled_orders', (req, res) => {
-  const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-  const sql = 'SELECT * FROM cancelled_order WHERE DATE(created_at) = ? AND order_cancelled = 1';
+  if (!req.session.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
 
-  connection.query(sql, [yesterday], (err, results) => {
+  const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+  const sql = 'SELECT * FROM cancelled_order WHERE DATE(created_at) = ? AND order_cancelled = 1 AND user_id = ?';
+
+  connection.query(sql, [yesterday, req.session.userId], (err, results) => {
     if (err) {
       console.error('Error fetching yesterday\'s canceled orders:', err);
       return res.status(500).json({ success: false, error: 'Database error' });
@@ -273,8 +325,13 @@ app.get('/yesterday_canceled_orders', (req, res) => {
 app.delete('/delete_order/:id', (req, res) => {
   const orderId = req.params.id;
 
+  // Check if the user is authenticated
+  if (!req.session.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
   // Get the total amount of the order to be canceled
-  const getOrderQuery = 'SELECT total_amount FROM invoice_bill WHERE id = ?';
+  const getOrderQuery = 'SELECT total_amount, user_id FROM invoice_bill WHERE id = ?';
   connection.query(getOrderQuery, [orderId], (err, orderResults) => {
     if (err) {
       console.error('Error fetching order details:', err);
@@ -286,6 +343,12 @@ app.delete('/delete_order/:id', (req, res) => {
     }
 
     const totalAmount = orderResults[0].total_amount;
+    const orderUserId = orderResults[0].user_id;
+
+    // Check if the logged-in user has permission to delete this order
+    if (req.session.userId !== orderUserId) {
+      return res.status(403).json({ error: 'You are not authorized to delete this order' });
+    }
 
     // First, delete related invoice_item entries
     const deleteInvoiceItemsQuery = 'DELETE FROM invoice_item WHERE invoice_id = ?';
@@ -305,11 +368,11 @@ app.delete('/delete_order/:id', (req, res) => {
 
         // Update the canceled_order table
         const updateCanceledOrderQuery = `
-          INSERT INTO cancelled_order (order_cancelled, total_count, total_amount)
-          VALUES (TRUE, 1, ?)
+          INSERT INTO cancelled_order (order_cancelled, total_count, total_amount, user_id)
+          VALUES (TRUE, 1, ?, ?)
           ON DUPLICATE KEY UPDATE total_count = total_count + 1, total_amount = total_amount + VALUES(total_amount)
         `;
-        connection.query(updateCanceledOrderQuery, [totalAmount], (err, results) => {
+        connection.query(updateCanceledOrderQuery, [totalAmount, req.session.userId], (err, results) => {
           if (err) {
             console.error('Error updating canceled order:', err);
             return res.status(500).json({ success: false, error: 'Error updating canceled order' });
@@ -321,17 +384,21 @@ app.delete('/delete_order/:id', (req, res) => {
     });
   });
 });
-
 // Route to fetch category ID
 app.post('/get-category-id', (req, res) => {
   const categoryName = req.body.categoryName;
+
+  // Check if the user is authenticated
+  if (!req.session.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
 
   if (!categoryName) {
     return res.status(400).json({ success: false, message: 'Category name is required.' });
   }
 
-  const sql = 'SELECT cat_id FROM category WHERE cat_name = ?';
-  connection.query(sql, [categoryName], (err, results) => {
+  const sql = 'SELECT cat_id FROM category WHERE cat_name = ? AND user_id = ?';
+  connection.query(sql, [categoryName, req.session.userId], (err, results) => {
     if (err) {
       console.error('Error fetching category ID:', err);
       return res.status(500).json({ success: false, message: 'Error fetching category ID.' });
@@ -345,14 +412,17 @@ app.post('/get-category-id', (req, res) => {
     }
   });
 });
-
-
 // Route to save menu item
 app.post('/add-menu-item', upload.single('itemImage'), (req, res) => {
   const categoryId = req.body.categoryId;
   const itemName = req.body.itemName;
   const itemPrice = req.body.itemPrice;
   const itemImage = req.file;
+
+  // Check if the user is authenticated
+  if (!req.session.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
 
   if (!categoryId || !itemName || !itemPrice || !itemImage) {
     return res.status(400).json({ success: false, message: 'Category ID, item name, price, and image are required.' });
@@ -364,11 +434,12 @@ app.post('/add-menu-item', upload.single('itemImage'), (req, res) => {
     cat_id: categoryId,
     item_name: itemName,
     item_price: itemPrice,
-    item_img: imagePath // Save the file path in the database
+    item_img: imagePath, // Save the file path in the database
+    user_id: req.session.userId // Associate menu item with the logged-in user
   };
 
-  const sql = 'INSERT INTO menu_item (cat_id, item_name, item_price, item_img) VALUES (?, ?, ?, ?)';
-  const values = [newItem.cat_id, newItem.item_name, newItem.item_price, newItem.item_img];
+  const sql = 'INSERT INTO menu_item (cat_id, item_name, item_price, item_img, user_id) VALUES (?, ?, ?, ?, ?)';
+  const values = [newItem.cat_id, newItem.item_name, newItem.item_price, newItem.item_img, newItem.user_id];
 
   connection.query(sql, values, (err, result) => {
     if (err) {
@@ -378,11 +449,15 @@ app.post('/add-menu-item', upload.single('itemImage'), (req, res) => {
     res.status(200).json({ success: true, message: 'Menu item saved successfully.' });
   });
 });
-
-// Save invoice (unchanged from your original code)
+// Save invoice
 app.post('/save_invoice', (req, res) => {
   const invoiceData = req.body;
   const { date_time, bill_no, payment_type_id, discount, total_amount, order_type_id, items } = invoiceData;
+
+  // Check if the user is authenticated
+  if (!req.session.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
 
   connection.beginTransaction(err => {
     if (err) {
@@ -390,8 +465,10 @@ app.post('/save_invoice', (req, res) => {
       return res.status(500).json({ success: false, error: 'Error starting transaction' });
     }
 
-    const insertInvoiceBillQuery = 'INSERT INTO invoice_bill (date_time, bill_no, payment_type_id, discount, total_amount, order_type_id) VALUES (?, ?, ?, ?, ?, ?)';
-    connection.query(insertInvoiceBillQuery, [date_time, bill_no, payment_type_id, discount, total_amount, order_type_id], (err, results) => {
+    const insertInvoiceBillQuery = 'INSERT INTO invoice_bill (date_time, bill_no, payment_type_id, discount, total_amount, order_type_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    const invoiceBillValues = [date_time, bill_no, payment_type_id, discount, total_amount, order_type_id, req.session.userId];
+
+    connection.query(insertInvoiceBillQuery, invoiceBillValues, (err, results) => {
       if (err) {
         return connection.rollback(() => {
           console.error('Error inserting invoice bill:', err);
@@ -427,19 +504,23 @@ app.post('/save_invoice', (req, res) => {
   });
 });
 
-
 app.get('/menu_items_with_category', (req, res) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
   const sql = `
-      SELECT mi.*, c.cat_name 
-      FROM menu_item mi 
-      JOIN category c ON mi.cat_id = c.cat_id
+    SELECT mi.*, c.cat_name 
+    FROM menu_item mi 
+    JOIN category c ON mi.cat_id = c.cat_id
+    WHERE mi.user_id = ?
   `;
-  connection.query(sql, (err, results) => {
-      if (err) {
-          console.error('Error fetching menu items with categories:', err);
-          return res.status(500).json({ error: 'Error fetching menu items with categories' });
-      }
-      res.json(results);
+  connection.query(sql, [req.session.userId], (err, results) => {
+    if (err) {
+      console.error('Error fetching menu items with categories:', err);
+      return res.status(500).json({ error: 'Error fetching menu items with categories' });
+    }
+    res.json(results);
   });
 });
 
@@ -447,70 +528,94 @@ app.patch('/update_menu_status/:id', (req, res) => {
   const itemId = req.params.id;
   const { onmenu_offmenu } = req.body;
 
-  const sql = 'UPDATE menu_item SET onmenu_offmenu = ? WHERE id = ?';
-  connection.query(sql, [onmenu_offmenu, itemId], (err, result) => {
-      if (err) {
-          console.error('Error updating menu status:', err);
-          return res.status(500).json({ success: false, message: 'Error updating menu status.' });
-      }
-      res.json({ success: true, message: 'Menu status updated successfully.' });
+  if (!req.session.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  const sql = 'UPDATE menu_item SET onmenu_offmenu = ? WHERE id = ? AND user_id = ?';
+  connection.query(sql, [onmenu_offmenu, itemId, req.session.userId], (err, result) => {
+    if (err) {
+      console.error('Error updating menu status:', err);
+      return res.status(500).json({ success: false, message: 'Error updating menu status.' });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ success: false, message: 'Menu item not found or unauthorized.' });
+    }
+    res.json({ success: true, message: 'Menu status updated successfully.' });
   });
 });
-
 app.post('/update_menu_item', upload.single('itemImage'), (req, res) => {
   const itemId = req.body.itemId;
   const itemName = req.body.itemName;
   const itemPrice = req.body.itemPrice;
   const itemImage = req.file;
 
+  if (!req.session.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
   let sql = 'UPDATE menu_item SET item_name = ?, item_price = ?';
   const values = [itemName, itemPrice];
 
   if (itemImage) {
-      const imagePath = path.join('uploads', itemImage.filename);
-      sql += ', item_img = ?';
-      values.push(imagePath);
+    const imagePath = path.join('uploads', itemImage.filename);
+    sql += ', item_img = ?';
+    values.push(imagePath);
   }
 
-  sql += ' WHERE id = ?';
-  values.push(itemId);
+  sql += ' WHERE id = ? AND user_id = ?';
+  values.push(itemId, req.session.userId);
 
   connection.query(sql, values, (err, result) => {
-      if (err) {
-          console.error('Error updating menu item:', err);
-          return res.status(500).json({ success: false, message: 'Error updating menu item.' });
-      }
-      res.json({ success: true, message: 'Menu item updated successfully.' });
+    if (err) {
+      console.error('Error updating menu item:', err);
+      return res.status(500).json({ success: false, message: 'Error updating menu item.' });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ success: false, message: 'Menu item not found or unauthorized.' });
+    }
+    res.json({ success: true, message: 'Menu item updated successfully.' });
   });
 });
 
 app.delete('/delete_menu_item/:id', (req, res) => {
   const itemId = req.params.id;
 
+  if (!req.session.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
   const deleteInvoiceItemsQuery = 'DELETE FROM invoice_item WHERE menu_item_id = ?';
   connection.query(deleteInvoiceItemsQuery, [itemId], (err, result) => {
+    if (err) {
+      console.error('Error deleting related invoice items:', err);
+      return res.status(500).json({ success: false, message: 'Error deleting related invoice items.' });
+    }
+
+    const deleteMenuItemQuery = 'DELETE FROM menu_item WHERE id = ? AND user_id = ?';
+    connection.query(deleteMenuItemQuery, [itemId, req.session.userId], (err, result) => {
       if (err) {
-          console.error('Error deleting related invoice items:', err);
-          return res.status(500).json({ success: false, message: 'Error deleting related invoice items.' });
+        console.error('Error deleting menu item:', err);
+        return res.status(500).json({ success: false, message: 'Error deleting menu item.' });
       }
 
-      const deleteMenuItemQuery = 'DELETE FROM menu_item WHERE id = ?';
-      connection.query(deleteMenuItemQuery, [itemId], (err, result) => {
-          if (err) {
-              console.error('Error deleting menu item:', err);
-              return res.status(500).json({ success: false, message: 'Error deleting menu item.' });
-          }
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ success: false, message: 'Menu item not found or unauthorized.' });
+      }
 
-          res.json({ success: true, message: 'Menu item deleted successfully.' });
-      });
+      res.json({ success: true, message: 'Menu item deleted successfully.' });
+    });
   });
 });
 
 // Fetch profile details
 app.get('/get-profile', (req, res) => {
-  const sql = 'SELECT * FROM profile LIMIT 1'; // Assuming there's only one profile record
+  if (!req.session.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
 
-  connection.query(sql, (err, results) => {
+  const sql = 'SELECT * FROM profile WHERE user_id = ?'; // Assuming 'user_id' is the column in your 'profile' table
+  connection.query(sql, [req.session.userId], (err, results) => {
     if (err) {
       console.error('Error fetching profile:', err);
       return res.status(500).json({ success: false, message: 'Error fetching profile' });
@@ -527,42 +632,106 @@ app.get('/get-profile', (req, res) => {
 
 // Update profile route
 app.post('/update-profile', upload.single('restaurant_image'), (req, res) => {
-    const { restaurant_name, restaurant_address, restaurant_number } = req.body;
-    let restaurant_image = null;
+  if (!req.session.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
 
-    if (req.file) {
-        restaurant_image = path.join('uploads', req.file.filename);
+  const { restaurant_name, restaurant_address, restaurant_number } = req.body;
+  let restaurant_image = null;
+
+  if (req.file) {
+    restaurant_image = path.join('uploads', req.file.filename);
+  }
+
+  // Use your SQL update query here
+  let sql = '';
+  let values = [];
+
+  if (restaurant_image) {
+    sql = 'UPDATE profile SET restaurant_name = ?, restaurant_address = ?, restaurant_number = ?, restaurant_image = ? WHERE user_id = ?';
+    values = [restaurant_name, restaurant_address, restaurant_number, restaurant_image, req.session.userId];
+  } else {
+    sql = 'UPDATE profile SET restaurant_name = ?, restaurant_address = ?, restaurant_number = ? WHERE user_id = ?';
+    values = [restaurant_name, restaurant_address, restaurant_number, req.session.userId];
+  }
+
+  connection.query(sql, values, (err, result) => {
+    if (err) {
+      console.error('Error updating profile:', err);
+      return res.status(500).json({ success: false, message: 'Error updating profile' });
     }
 
-    // Use your SQL update query here
-    const sql = restaurant_image
-        ? 'UPDATE profile SET restaurant_name = ?, restaurant_address = ?, restaurant_number = ?, restaurant_image = ? WHERE id = 1'
-        : 'UPDATE profile SET restaurant_name = ?, restaurant_address = ?, restaurant_number = ? WHERE p_id = 1';
-
-    const values = restaurant_image
-        ? [restaurant_name, restaurant_address, restaurant_number, restaurant_image]
-        : [restaurant_name, restaurant_address, restaurant_number];
-
-    connection.query(sql, values, (err, result) => {
-        if (err) {
-            console.error('Error updating profile:', err);
-            return res.status(500).json({ success: false, message: 'Error updating profile' });
-        }
-
-        res.json({
-            success: true,
-            message: 'Profile updated successfully',
-            profile: { restaurant_name, restaurant_address, restaurant_number, restaurant_image }
-        });
+    res.json({
+      success: true,
+      message: 'Profile updated successfully',
+      profile: { restaurant_name, restaurant_address, restaurant_number, restaurant_image }
     });
+  });
+});
+
+
+// Fetch orders between dates
+app.get('/orders', (req, res) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  const { start_date, end_date } = req.query;
+
+  const sql = `
+    SELECT ib.*, ii.menu_item_id, ii.quantity, mi.item_name
+    FROM invoice_bill ib
+    LEFT JOIN invoice_item ii ON ib.id = ii.invoice_id
+    LEFT JOIN menu_item mi ON ii.menu_item_id = mi.id
+    WHERE DATE(ib.date_time) BETWEEN ? AND ? AND ib.user_id = ?
+  `;
+
+  connection.query(sql, [start_date, end_date, req.session.userId], (err, results) => {
+    if (err) {
+      console.error('Error fetching orders:', err);
+      return res.status(500).json({ success: false, error: 'Database error' });
+    }
+    const orders = formatOrders(results);
+    res.json({ success: true, orders });
+  });
+});
+
+// Fetch canceled orders between dates
+app.get('/canceled_orders', (req, res) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  const { start_date, end_date } = req.query;
+
+  const sql = `
+    SELECT *
+    FROM cancelled_order
+    WHERE DATE(created_at) BETWEEN ? AND ? AND order_cancelled = 1 AND user_id = ?
+  `;
+
+  connection.query(sql, [start_date, end_date, req.session.userId], (err, results) => {
+    if (err) {
+      console.error('Error fetching canceled orders:', err);
+      return res.status(500).json({ success: false, error: 'Database error' });
+    }
+    res.json({ success: true, cancelledOrders: results });
+  });
 });
 
 
 
-// Error handling middleware (if needed)
+// Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(500).json({ success: false, error: 'Internal server error' });
+  if (!res.headersSent) {
+    res.status(500).json({ success: false, error: 'Internal server error' });
+  }
+});
+
+// Error handling for routes that might throw exceptions
+app.use((req, res, next) => {
+  res.status(404).json({ success: false, error: 'Not found' });
 });
 
 // Start the server

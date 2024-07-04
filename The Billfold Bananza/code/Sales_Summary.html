@@ -122,19 +122,35 @@
         </ul>
       </div>
       
-
+     
 
   <div class="summary_div">
     <p class="heading">Executive Sales Report</p>
+    <div class="table_div">
+      <label for="start_date" class="from_to">From :</label>
+      <input type="date" id="start_date" name="start" class="datee"/>  - 
+    </div>   
+    
+    <div class="table_div2">
+      <label for="end_date" class="from_to">To :</label>
+      <input type="date" id="end_date" name="end" class="datee"/>
+      <button class="go" onclick="generateReport()">Generate</button>
+    </div>
+    
+
+    
+    
     <button class="buton y" id="yesterdayBtn">Yesterday's Orders</button>
     <button class="buton t" id="todayBtn">Today's Orders</button>
     <hr class="line">
     <div class="sub_heading">
+      
       <p class="details">Sales Summary :</p>
       <p class="date" id="today_date">01/01/2024</p>
       <p class="billfold">Billfold</p>
     </div>
   </div>
+  <button class="print_btn" onclick="printReport()">Print Report</button>
   <div class="summary_details">
     <ul>
       <li class="header_list">
@@ -173,7 +189,7 @@
         <p class="total">Grand Total :</p>
         <input type="number" id="grand_total" class="total_box" readonly />
       </li>
-      <button class="print_btn" onclick="printReport()">Print Report</button>
+      
     </ul>
   </div>
 </body>

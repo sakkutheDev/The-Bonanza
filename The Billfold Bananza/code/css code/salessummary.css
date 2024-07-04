@@ -16,25 +16,26 @@ body{
 
   
 .summary_div{
-  margin-top: 70px;  
+  margin-top: 50px;  
 }
 
 .heading{
   color:black;
-  font-size:20px;
+  font-size:18px;
   font-weight: bold;
   margin-left: 15px;
+ 
   display: inline;
 }
 
 .y{
-  margin-left:500px;
+  margin-left:550px;
   
  
   
 }
 .t{
-  margin-left:730px;
+  margin-left:780px;
 }
 
 .buton {
@@ -48,7 +49,7 @@ body{
   border: 1px solid #e8e8e8;
   transition: all 0.3s;
   box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
-
+  margin-top: 20px;
   position: absolute;
 
   
@@ -66,7 +67,7 @@ body{
 .line{
   width:"100%";
   size:2;
-  margin-top:30px;
+  margin-top:60px;
 }
 
 .sub_heading{
@@ -80,11 +81,11 @@ body{
 .details{
   padding: 10px;
   padding-right: 0;
-  margin-top: 20px;
+  margin-top: 10px;
   font-weight: bold;
 }
 .date{
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 10px;
   padding-left: 5px;
   color:#969393
@@ -92,7 +93,7 @@ body{
 
 .billfold{
   padding: 10px;
-  padding-left: 350px;
+  padding-left: 330px;
   font-size: 18px;
 }
 
@@ -101,7 +102,7 @@ body{
   height: 370px;
   background-color: rgba(255, 255, 255, 0.6);
   margin: 14px;
-  margin-top: 0;
+  margin-top: 10px;
   box-shadow: 2px 2px 15px #a59f9f, -2px -2px 15px #a59f9f;
   
 }
@@ -181,8 +182,9 @@ body{
   border: 1px solid #e8e8e8;
   transition: all 0.3s;
   box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
-  margin-left: 980px;
-  margin-top: 15px;
+  margin-left: 1050px;
+  position: absolute;
+  bottom: 397px;
   transition: 0.4s;
 }
 
@@ -199,3 +201,59 @@ body{
 
 
 
+
+.table_div{
+  margin-top: 8px;
+  margin-left: 40px;
+  position: absolute;
+}
+
+
+
+.table_div2{
+  margin-top: 8px;
+  position: absolute;
+  margin-left: 180px;
+}
+
+.from_to{
+  font-size: 12px;
+  display: block;
+  color: #605f5f;
+  font-weight: bold;
+ 
+
+
+}
+
+.datee{
+  border-radius: 4px;
+  font-size: 12px;
+  color: #7c7878;
+  border: solid 1.5px #8a8787;
+}
+
+.go {
+  --hover-shadows: 4px 4px 12px #c46868, -4px -4px 12px #cd7373;
+  --accent: #474747;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  border: none;
+  font-size: 12px;
+  border-radius: 1.1em;
+  background-color: darkred;
+  cursor: pointer;
+  color: white;
+  margin-left: 6px;
+  padding: 5px 10px;
+  transition: box-shadow ease-in-out 0.3s, background-color ease-in-out 0.1s,
+    letter-spacing ease-in-out 0.1s, transform ease-in-out 0.1s;
+  
+}
+
+
+.go:active {
+  box-shadow: var(--hover-shadows), var(--accent) 0px 0px 30px 5px;
+  background-color: var(--accent);
+  transform: scale(0.95);
+}

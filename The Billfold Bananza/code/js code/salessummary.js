@@ -20,8 +20,6 @@ function menuBtnChange() {
 
 
 
-
-
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('yesterdayBtn').addEventListener('click', () => fetchSalesReport('yesterday'));
   document.getElementById('todayBtn').addEventListener('click', () => fetchSalesReport('today'));
@@ -29,6 +27,35 @@ document.addEventListener('DOMContentLoaded', () => {
   // Load today's sales report by default
   fetchSalesReport('today');
 });
+
+function generateReport() {
+  const startDate = document.getElementById('start_date').value;
+  const endDate = document.getElementById('end_date').value;
+
+  if (startDate && endDate) {
+    fetchSalesReportByDateRange(startDate, endDate);
+  } else {
+    alert('Please select both start and end dates.');
+  }
+}
+
+function fetchSalesReportByDateRange(startDate, endDate) {
+  const ordersUrl = `/orders?start_date=${startDate}&end_date=${endDate}`;
+  const canceledOrdersUrl = `/canceled_orders?start_date=${startDate}&end_date=${endDate}`;
+
+  Promise.all([
+    fetch(ordersUrl).then(response => response.json()),
+    fetch(canceledOrdersUrl).then(response => response.json())
+  ])
+  .then(([ordersData, canceledOrdersData]) => {
+    if (ordersData.success && canceledOrdersData.success) {
+      displayReport(ordersData.orders, canceledOrdersData.cancelledOrders, startDate, endDate);
+    } else {
+      console.error('Error fetching sales report:', ordersData.error || canceledOrdersData.error);
+    }
+  })
+  .catch(error => console.error('Error fetching sales report:', error));
+}
 
 function fetchSalesReport(day) {
   const ordersUrl = day === 'yesterday' ? '/yesterday_orders' : '/today_orders';
@@ -48,7 +75,7 @@ function fetchSalesReport(day) {
   .catch(error => console.error('Error fetching sales report:', error));
 }
 
-function displayReport(orders, cancelledOrders, day) {
+function displayReport(orders, cancelledOrders, startDate, endDate) {
   let totalOrders = 0;
   let totalCashAmount = 0;
   let totalCardAmount = 0;
@@ -80,22 +107,26 @@ function displayReport(orders, cancelledOrders, day) {
   const grandTotalElem = document.getElementById('grand_total');
   const dateElement = document.getElementById('today_date');
 
-if (totalOrdersElem) totalOrdersElem.value = totalOrders;
-if (totalCashAmountElem) totalCashAmountElem.value = totalCashAmount.toFixed(2);
-if (totalCardAmountElem) totalCardAmountElem.value = totalCardAmount.toFixed(2);
-if (totalUpiAmountElem) totalUpiAmountElem.value = totalUpiAmount.toFixed(2);
-if (totalDiscountAmountElem) totalDiscountAmountElem.value = totalDiscountAmount.toFixed(2);
-if (totalCanceledOrdersElem) totalCanceledOrdersElem.value = cancelledOrders.length; // Assuming this should be fixed to 0 decimal places
-if (totalCanceledOrdersAmountElem) totalCanceledOrdersAmountElem.value = cancelledOrders.reduce((sum, order) => sum + order.total_amount, 0).toFixed(2);
-if (grandTotalElem) grandTotalElem.value = grandTotal.toFixed(2);
+  if (totalOrdersElem) totalOrdersElem.value = totalOrders;
+  if (totalCashAmountElem) totalCashAmountElem.value = totalCashAmount.toFixed(2);
+  if (totalCardAmountElem) totalCardAmountElem.value = totalCardAmount.toFixed(2);
+  if (totalUpiAmountElem) totalUpiAmountElem.value = totalUpiAmount.toFixed(2);
+  if (totalDiscountAmountElem) totalDiscountAmountElem.value = totalDiscountAmount.toFixed(2);
+  if (totalCanceledOrdersElem) totalCanceledOrdersElem.value = cancelledOrders.length;
+  if (totalCanceledOrdersAmountElem) totalCanceledOrdersAmountElem.value = cancelledOrders.reduce((sum, order) => sum + order.total_amount, 0).toFixed(2);
+  if (grandTotalElem) grandTotalElem.value = grandTotal.toFixed(2);
 
-
-  // Update the date based on the report day
-  const currentDate = new Date();
-  if (day === 'yesterday') {
-    currentDate.setDate(currentDate.getDate() - 1);
+  if (dateElement) {
+    if (startDate && endDate) {
+      dateElement.textContent = `From  ${new Date(startDate).toLocaleDateString('en-GB')}  to  ${new Date(endDate).toLocaleDateString('en-GB')}`;
+    } else {
+      const currentDate = new Date();
+      if (startDate === 'yesterday') {
+        currentDate.setDate(currentDate.getDate() - 1);
+      }
+      dateElement.textContent = currentDate.toLocaleDateString('en-GB');
+    }
   }
-  if (dateElement) dateElement.textContent = currentDate.toLocaleDateString('en-GB');
 }
 
 function printReport() {
@@ -124,7 +155,7 @@ function printReport() {
           <style>
           
                 .bill {
-                  text-align: center;
+                  
                   width: 340px;
                   margin: 0 auto;
                   background-color: rgb(229, 237, 243);
@@ -137,13 +168,12 @@ function printReport() {
 
 
                 }
-                .report-date{
+                .report-date {
                   font-size: 15px;
                   display: inline;
-                  padding-right:200px;
-                
-
-                }
+                  // padding-right: 200px;
+                  font-weight: bold; 
+                 }
 
 
                 .bill-items {
@@ -193,7 +223,7 @@ function printReport() {
           ****************************************** <h1 class="bill-header">Sales Report</h1>******************************************
           <br>
           <br>
-          <p class="report-date">Date : ${document.getElementById('today_date').textContent}</p>
+          <p class="report-date">Date :   ${document.getElementById('today_date').textContent}</p>
           <hr>
           <table class="bill-items">
               <thead>
@@ -255,4 +285,3 @@ function printReport() {
     };
   };
 }
-
